@@ -27,3 +27,12 @@ npm run dev        # http://localhost:3000
 Other scripts: `npm run lint`, `npm run typecheck`, `npm run build`, `npm run format`.
 
 More setup (Supabase, env vars, deploy) is added by the tasks in `TASKS.md` as they land.
+
+## Testing
+
+```bash
+npm test            # Vitest unit/integration tests
+npm run test:e2e    # Playwright (builds and serves the app in SOURCES_MODE=mock)
+```
+
+If Playwright can't find its browser, set `PW_CHROMIUM_PATH` to a Chromium binary.

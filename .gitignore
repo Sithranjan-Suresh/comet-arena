@@ -51,3 +51,7 @@ supabase/.temp
 
 # eval outputs
 /eval/out/
+
+# playwright
+/test-results/
+/playwright-report/
