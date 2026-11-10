@@ -44,7 +44,7 @@ function setup(item: Partial<ReviewItem> = {}) {
     enqueueReview: vi.fn(async () => "r"),
   };
   const state = { open: true };
-  const hide = vi.fn(async (_id: string) => {});
+  const hide = vi.fn<ReviewDeps["hideCompetition"]>(async () => {});
   const deps: ReviewDeps = {
     getItem: async () => ({
       id: ID,

@@ -32,3 +32,5 @@ jobs:
       - name: Eval harness (mock set) must not regress
         run: npm run eval:validate && npm run eval -- --no-baseline && npm run eval:gate && npm run eval:dedupe
       - run: npm run build
+      - name: Secrets must not reach the client bundle
+        run: npm run check:bundle
