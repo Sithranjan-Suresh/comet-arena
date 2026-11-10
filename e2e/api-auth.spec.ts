@@ -15,6 +15,22 @@ const PROTECTED: [
   ["DELETE", "/api/me", { confirm: "DELETE" }],
   ["POST", "/api/submit", { url: "https://example.com/post" }],
   ["GET", "/api/schedule"],
+  [
+    "POST",
+    "/api/free-agents",
+    { competition_id: "00000000-0000-4000-8000-0000000000c1", roles: ["dev"] },
+  ],
+  ["PATCH", "/api/free-agents/00000000-0000-4000-8000-0000000000c1", { status: "closed" }],
+  [
+    "POST",
+    "/api/team-openings",
+    {
+      competition_id: "00000000-0000-4000-8000-0000000000c1",
+      team_name: "T",
+      roles_needed: ["dev"],
+    },
+  ],
+  ["PATCH", "/api/team-openings/00000000-0000-4000-8000-0000000000c1", { status: "closed" }],
 ];
 
 for (const [method, path, body] of PROTECTED) {
