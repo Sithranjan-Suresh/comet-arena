@@ -255,7 +255,7 @@
         "location": null,
         "register_url": "https://example.com/hack-for-good",
         "confidence": 0.9,
-        "missing_fields": []
+        "missing_fields": ["year"]
       }
     },
     {
