@@ -65,6 +65,21 @@ describe("instagram Business Discovery adapter (recorded fixtures)", () => {
     expect((await mk(f).fetchRecentPosts("a")).status).toBe("ok");
   });
 
+  it("a 20 s timeout aborts the request, is retried with backoff, and surfaces as a timeout (the run retries tomorrow)", async () => {
+    const f = vi.fn(
+      (_u: string, init: { signal: AbortSignal }) =>
+        new Promise((_r, rej) =>
+          init.signal.addEventListener("abort", () =>
+            rej(Object.assign(new Error("a"), { name: "AbortError" })),
+          ),
+        ),
+    );
+    await expect(mk(f, { timeoutMs: 10, retries: 1 }).fetchRecentPosts("a")).rejects.toMatchObject({
+      kind: "timeout",
+    });
+    expect(f).toHaveBeenCalledTimes(2);
+  });
+
   it("an expired token fails fast without retrying", async () => {
     const f = vi.fn(async () => res({ error: { code: 190, message: "expired" } }, 400));
     await expect(mk(f).fetchRecentPosts("a")).rejects.toThrow(/token/);

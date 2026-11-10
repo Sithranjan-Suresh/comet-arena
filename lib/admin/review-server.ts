@@ -28,6 +28,10 @@ export function createReviewDeps(db: SupabaseClient<Database>): ReviewDeps {
       return (data ?? []).length === 1;
     },
     store: supabasePublishStore(db),
+    async hideCompetition(id) {
+      const { error } = await db.from("competitions").update({ status: "rejected" }).eq("id", id);
+      if (error) throw error;
+    },
     embedder: getSources().embedder,
     async lookupSlug(competitionId) {
       const { data } = await db

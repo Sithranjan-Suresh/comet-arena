@@ -7,6 +7,7 @@ interface Payload {
   extraction?: ReviewCardItem["extraction"];
   source?: { source_url?: string | null; flyer_url?: string | null };
   candidates?: { id: string }[];
+  post_hoc?: { new_id: string; new_title: string; similarity: number };
 }
 
 export default async function AdminReview() {
@@ -34,7 +35,7 @@ export default async function AdminReview() {
 
   const items: ReviewCardItem[] = rows.flatMap((r) => {
     const p = r.payload as Payload | null;
-    if (!p?.extraction) return [];
+    if (!p?.extraction && !p?.post_hoc) return [];
     const candidateIds = [
       ...new Set(
         [r.candidate_competition_id, ...(p.candidates ?? []).map((c) => c.id)].filter(
@@ -46,7 +47,19 @@ export default async function AdminReview() {
       {
         id: r.id,
         kind: r.kind,
-        extraction: p.extraction,
+        extraction: p.extraction ?? {
+          title: p.post_hoc?.new_title ?? null,
+          host: null,
+          description: null,
+          prize: null,
+          location: null,
+          register_url: null,
+          confidence: 1,
+          stages: [],
+        },
+        postHoc: p.post_hoc
+          ? { newTitle: p.post_hoc.new_title, similarity: p.post_hoc.similarity }
+          : null,
         sourceUrl: p.source?.source_url ?? null,
         flyerUrl: p.source?.flyer_url ?? null,
         candidates: candidateIds.flatMap((id) => (byId.get(id) ? [byId.get(id)!] : [])),

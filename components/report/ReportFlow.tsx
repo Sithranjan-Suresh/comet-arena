@@ -56,6 +56,22 @@ export function ReportFlow() {
     );
   }
 
+  if (state.step === "double_check") {
+    return (
+      <div role="status" className="bg-turf text-chalk space-y-4 rounded-xl p-6">
+        <h2 className="text-3xl font-bold">We&apos;ll double-check this one</h2>
+        <p className="text-chalk-muted">{state.message}</p>
+        <Button
+          variant="ghost"
+          className="text-chalk hover:bg-turf-light"
+          onClick={() => dispatch({ type: "reset" })}
+        >
+          Report another
+        </Button>
+      </div>
+    );
+  }
+
   if (state.step === "done") {
     return (
       <div role="status" className="bg-turf text-chalk space-y-4 rounded-xl p-6">

@@ -25,7 +25,8 @@ export type FlowState =
       submitting: boolean;
     }
   | { step: "queued"; message: string }
-  | { step: "done"; slug: string; outcome: "published" | "merged" };
+  | { step: "done"; slug: string; outcome: "published" | "merged" }
+  | { step: "double_check"; message: string };
 
 export type FlowAction =
   | { type: "submit_started" }
@@ -101,6 +102,7 @@ export function flowReducer(state: FlowState, action: FlowAction): FlowState {
       if (state.step !== "review") return state;
       const r = action.result;
       if (r.kind === "done") return { step: "done", slug: r.slug, outcome: r.outcome };
+      if (r.kind === "queued") return { step: "double_check", message: r.message };
       if (r.kind === "invalid")
         return {
           ...state,

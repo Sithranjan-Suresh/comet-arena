@@ -112,6 +112,23 @@ describe("ReportFlow", () => {
     expect(postConfirm).toHaveBeenCalledWith("s1", expect.objectContaining({ merge_into: null }));
   });
 
+  it("a low-confidence read ends with 'We'll double-check this one' and no Game Day link", async () => {
+    postSubmission.mockResolvedValue(ready());
+    postConfirm.mockResolvedValue({
+      kind: "queued",
+      message: "It goes live once an admin has looked it over.",
+    });
+    render(<ReportFlow />);
+    await submitLink();
+    await userEvent.click(await screen.findByRole("button", { name: "Publish" }));
+    expect(
+      await screen.findByRole("heading", { name: "We'll double-check this one" }),
+    ).toBeInTheDocument();
+    expect(screen.getByText("It goes live once an admin has looked it over.")).toBeInTheDocument();
+    expect(screen.queryByRole("link", { name: "See the Game Day page" })).not.toBeInTheDocument();
+    await userEvent.click(screen.getByRole("button", { name: "Report another" }));
+  });
+
   it("shows a server rejection on the input step so the student can try another link", async () => {
     postSubmission.mockResolvedValue({
       kind: "error",

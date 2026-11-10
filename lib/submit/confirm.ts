@@ -14,6 +14,8 @@ export interface SubmissionRecord {
   status: "pending" | "published" | "queued" | "rejected" | "merged";
   competition_id: string | null;
   merged_into: string | null;
+  /** What the model extracted (so low confidence can route to review). Null for manual entry. */
+  extracted?: { confidence?: number } | null;
 }
 
 export interface ConfirmDeps {
@@ -24,15 +26,26 @@ export interface ConfirmDeps {
   lookupSlug(competitionId: string): Promise<string | null>;
   markDone(
     id: string,
-    patch: { status: "published" | "merged"; competition_id?: string; merged_into?: string },
+    patch: {
+      status: "published" | "merged" | "queued";
+      competition_id?: string;
+      merged_into?: string;
+    },
   ): Promise<void>;
   /** Public URL of a stored flyer (storage:bucket/path -> https URL), or null. */
   flyerUrl(imagePath: string | null): string | null;
   now?: Date;
 }
 
+/** Shown when a low-confidence read goes to the review queue instead of publishing (product_spec §5). */
+export const DOUBLE_CHECK_MESSAGE =
+  "We'll double-check this one. It goes live as soon as an admin has looked it over.";
+/** Below this the model itself was unsure, so a person reviews the listing before it is public. */
+export const REVIEW_BELOW = 0.8;
+
 export type ConfirmResult =
   | { status: 200; body: { competition_slug: string; outcome: "published" | "merged" } }
+  | { status: 200; body: { outcome: "queued"; message: string } }
   | { status: 404 | 409; body: { error: string; message: string } }
   | { status: 422; body: { error: "invalid_input"; issues: { path: string; message: string }[] } };
 
@@ -126,6 +139,30 @@ export async function confirmSubmission(
       `${extraction.title} | ${extraction.host ?? ""} | | ${[...extraction.categories].sort().join(", ")}`,
     )
     .catch(() => null);
+
+  // The model was unsure of this flyer: even after the student's edits, an admin looks before it goes public.
+  // (Merging into an existing listing only adds a confirmation, so it never needs review.)
+  const modelConfidence = sub.extracted?.confidence;
+  if (!input.merge_into && typeof modelConfidence === "number" && modelConfidence < REVIEW_BELOW) {
+    await deps.store.enqueueReview({
+      kind: "low_confidence",
+      candidate_competition_id: null,
+      payload: {
+        extraction: { ...extraction, confidence: modelConfidence },
+        source: {
+          source: "submission",
+          source_url: sub.raw_url,
+          external_id: `submission:${sub.id}`,
+          posted_at: now.toISOString(),
+          flyer_url: deps.flyerUrl(sub.image_path),
+          created_by: userId,
+        },
+        meta: null,
+      },
+    });
+    await deps.markDone(sub.id, { status: "queued" });
+    return { status: 200, body: { outcome: "queued", message: DOUBLE_CHECK_MESSAGE } };
+  }
 
   let dedupe: DedupeResult;
   if (input.merge_into) {

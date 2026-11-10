@@ -44,6 +44,7 @@ function setup(item: Partial<ReviewItem> = {}) {
     enqueueReview: vi.fn(async () => "r"),
   };
   const state = { open: true };
+  const hide = vi.fn(async (_id: string) => {});
   const deps: ReviewDeps = {
     getItem: async () => ({
       id: ID,
@@ -59,10 +60,11 @@ function setup(item: Partial<ReviewItem> = {}) {
       return true;
     }),
     store: store as unknown as PublishStore,
+    hideCompetition: hide,
     embedder: { embed: async () => [0.1, 0.2] },
     lookupSlug: async (id) => (id === TARGET ? "target-slug" : null),
   };
-  return { deps, store, state };
+  return { deps, store, state, hide };
 }
 
 describe("resolveReviewItem", () => {
@@ -149,5 +151,43 @@ describe("resolveReviewItem", () => {
   it("refuses to approve an item with no dated round", async () => {
     const { deps } = setup({ payload: { extraction: { ...lowConf, stages: [] }, source } });
     expect((await resolveReviewItem(ID, { action: "approve" }, deps)).status).toBe(422);
+  });
+});
+
+describe("post-hoc duplicates (listings published while embeddings were down)", () => {
+  const postHoc = {
+    post_hoc: {
+      new_id: "40000000-0000-4000-8000-000000000004",
+      new_title: "Newer",
+      similarity: 0.9,
+    },
+  };
+
+  it("Hide the newer one takes the new listing out of circulation and resolves the item", async () => {
+    const { deps, hide } = setup({ kind: "possible_duplicate", payload: postHoc });
+    const r = await resolveReviewItem(ID, { action: "hide_new" }, deps);
+    expect(r.status).toBe(200);
+    expect(hide).toHaveBeenCalledWith(postHoc.post_hoc.new_id);
+    expect(deps.resolve).toHaveBeenCalledWith(ID, { action: "hide_new" });
+  });
+
+  it("Keep both resolves without hiding anything", async () => {
+    const { deps, hide } = setup({ kind: "possible_duplicate", payload: postHoc });
+    expect((await resolveReviewItem(ID, { action: "reject" }, deps)).status).toBe(200);
+    expect(hide).not.toHaveBeenCalled();
+  });
+
+  it("publishing actions are refused (the listing is already public) and hide_new is refused elsewhere", async () => {
+    const { deps, store } = setup({ kind: "possible_duplicate", payload: postHoc });
+    for (const action of [
+      { action: "approve" },
+      { action: "merge", merge_into: TARGET },
+      { action: "edit", edits: { title: "Fixed Title" } },
+    ])
+      expect((await resolveReviewItem(ID, action, deps)).status).toBe(422);
+    expect(store.publishCompetition).not.toHaveBeenCalled();
+    const normal = setup();
+    expect((await resolveReviewItem(ID, { action: "hide_new" }, normal.deps)).status).toBe(422);
+    expect(normal.hide).not.toHaveBeenCalled();
   });
 });

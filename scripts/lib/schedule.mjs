@@ -71,6 +71,14 @@ export const JOBS = [
     secrets: [...DB, ...EXTRACT, ...MAIL],
   },
   {
+    name: "rededupe",
+    npmScript: "job:rededupe",
+    description: "Dedupe listings published while embeddings were down",
+    hour: 6,
+    timeoutMinutes: 15,
+    secrets: [...DB, "EMBEDDINGS_API_KEY", "RESEND_API_KEY", "EMAIL_FROM", "ADMIN_EMAIL"],
+  },
+  {
     name: "classify-accounts",
     npmScript: "job:classify-accounts",
     description: "Retest personal Instagram handles",

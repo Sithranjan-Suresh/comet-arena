@@ -114,6 +114,9 @@ describe("flowReducer", () => {
       }),
     ).toEqual({ step: "done", slug: "ais-case", outcome: "published" });
     expect(
+      flowReducer(review, { type: "confirm_result", result: { kind: "queued", message: "later" } }),
+    ).toEqual({ step: "double_check", message: "later" });
+    expect(
       flowReducer(review, {
         type: "confirm_result",
         result: { kind: "invalid", errors: { title: "Add a title" } },
@@ -237,6 +240,12 @@ describe("postConfirm", () => {
       kind: "done",
       slug: "ais",
       outcome: "published",
+    });
+    expect(
+      await call(res(200, { outcome: "queued", message: "We'll double-check this one." })),
+    ).toEqual({
+      kind: "queued",
+      message: "We'll double-check this one.",
     });
     expect(await call(res(200, { competition_slug: "ais", outcome: "merged" }))).toMatchObject({
       outcome: "merged",

@@ -29,6 +29,8 @@ export const reviewActionSchema = z.discriminatedUnion("action", [
   }),
   z.object({ action: z.literal("merge"), merge_into: z.string().uuid() }),
   z.object({ action: z.literal("reject") }),
+  /** Post-hoc duplicates only: hide the newer listing and keep the older one. */
+  z.object({ action: z.literal("hide_new") }),
 ]);
 export type ReviewAction = z.infer<typeof reviewActionSchema>;
 
@@ -36,7 +38,13 @@ export interface ReviewItem {
   id: string;
   kind: "low_confidence" | "possible_duplicate";
   status: "open" | "done";
-  payload: { extraction?: unknown; source?: PostSource; candidates?: unknown[] } | null;
+  payload: {
+    extraction?: unknown;
+    source?: PostSource;
+    candidates?: unknown[];
+    /** A listing already published (while embeddings were down) that may duplicate `candidate_competition_id`. */
+    post_hoc?: { new_id: string; new_title: string; similarity: number };
+  } | null;
   candidate_competition_id: string | null;
 }
 
@@ -48,6 +56,8 @@ export interface ReviewDeps {
     resolution: { action: ReviewAction["action"]; competition_id?: string | null },
   ): Promise<boolean>;
   store: PublishStore;
+  /** Take a published listing out of circulation (status rejected). Saves are kept in the database. */
+  hideCompetition(id: string): Promise<void>;
   embedder: Embedder;
   lookupSlug(competitionId: string): Promise<string | null>;
 }
@@ -85,6 +95,23 @@ export async function resolveReviewItem(
   if (!item) return fail(404, "not_found", "That review item does not exist.");
   if (item.status !== "open")
     return fail(409, "already_resolved", "Someone already handled this one.");
+
+  const postHoc = item.payload?.post_hoc;
+  if (postHoc) {
+    if (act.action === "reject" || act.action === "hide_new") {
+      if (act.action === "hide_new") await deps.hideCompetition(postHoc.new_id);
+      if (!(await deps.resolve(id, { action: act.action })))
+        return fail(409, "already_resolved", "Someone already handled this one.");
+      return { status: 200, body: { outcome: "rejected", competition_id: null, slug: null } };
+    }
+    return fail(
+      422,
+      "invalid_input",
+      "This listing is already published. Choose Keep both or Hide the newer one.",
+    );
+  }
+  if (act.action === "hide_new")
+    return fail(422, "invalid_input", "Only a post-publication duplicate can be hidden.");
 
   if (act.action === "reject") {
     if (!(await deps.resolve(id, { action: "reject" })))

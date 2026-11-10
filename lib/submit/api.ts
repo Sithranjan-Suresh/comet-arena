@@ -86,6 +86,7 @@ export async function postSubmission(
 
 export type ConfirmOutcome =
   | { kind: "done"; slug: string; outcome: "published" | "merged" }
+  | { kind: "queued"; message: string }
   | { kind: "invalid"; errors: FieldErrors }
   | { kind: "error"; message: string };
 
@@ -108,6 +109,8 @@ export async function postConfirm(
     };
   }
   const body = await readJson(res);
+  if (res.ok && body.outcome === "queued")
+    return { kind: "queued", message: String(body.message ?? "We'll double-check this one.") };
   if (res.ok)
     return {
       kind: "done",

@@ -120,7 +120,7 @@ export function createConfirmDeps(
     async getSubmission(id, userId) {
       const { data, error } = await userDb
         .from("submissions")
-        .select("id,user_id,raw_url,image_path,status,competition_id,merged_into")
+        .select("id,user_id,raw_url,image_path,status,competition_id,merged_into,extracted")
         .eq("id", id)
         .eq("user_id", userId)
         .maybeSingle();

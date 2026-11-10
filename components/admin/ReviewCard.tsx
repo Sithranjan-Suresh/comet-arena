@@ -21,6 +21,8 @@ export interface ReviewCardItem {
   sourceUrl: string | null;
   flyerUrl: string | null;
   candidates: { id: string; slug: string; title: string; host_name: string | null }[];
+  /** Already-published listing that may duplicate the first candidate. */
+  postHoc?: { newTitle: string; similarity: number } | null;
 }
 
 const fmt = (iso: string) =>
@@ -37,6 +39,7 @@ export function ReviewCard({ item }: { item: ReviewCardItem }) {
   const [editing, setEditing] = useState(false);
   const [target, setTarget] = useState(item.candidates[0]?.id ?? "");
   const x = item.extraction;
+  const postHoc = item.postHoc;
   const flyer = safeExternalUrl(item.flyerUrl);
   const source = safeExternalUrl(item.sourceUrl);
 
@@ -67,6 +70,40 @@ export function ReviewCard({ item }: { item: ReviewCardItem }) {
     if (Object.keys(edits).length === 0)
       return toast.show("Nothing changed. Use Approve instead.", "info");
     await run({ action: "edit", edits });
+  }
+
+  if (postHoc) {
+    const older = item.candidates[0];
+    return (
+      <article aria-label={postHoc.newTitle} className="bg-chalk space-y-3 rounded-xl p-5">
+        <p className="text-ink-muted text-xs font-semibold uppercase">
+          Published without a duplicate check · similarity {Math.round(postHoc.similarity * 100)}%
+        </p>
+        <h3 className="text-xl font-bold">{postHoc.newTitle}</h3>
+        <p className="text-sm">
+          may be the same as <strong>{older ? older.title : "an existing listing"}</strong>
+          {older?.host_name ? ` (${older.host_name})` : ""}.
+        </p>
+        <div className="flex flex-wrap gap-2">
+          <Button
+            size="sm"
+            variant="secondary"
+            loading={busy}
+            onClick={() => run({ action: "reject" })}
+          >
+            Keep both
+          </Button>
+          <Button
+            size="sm"
+            variant="danger"
+            loading={busy}
+            onClick={() => run({ action: "hide_new" })}
+          >
+            Hide the newer one
+          </Button>
+        </div>
+      </article>
+    );
   }
 
   return (

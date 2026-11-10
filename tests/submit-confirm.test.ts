@@ -121,7 +121,9 @@ class Store implements PublishStore {
   async listOrgs() {
     return [{ id: "org-ais", name: "Association for Information Systems (AIS)", slug: "ais" }];
   }
-  async enqueueReview() {
+  reviews: { kind: string; payload: unknown }[] = [];
+  async enqueueReview(item: { kind: string; payload: unknown }) {
+    this.reviews.push(item);
     return "r1";
   }
 }
@@ -153,6 +155,43 @@ function setup(sub: Partial<SubmissionRecord> | null = {}) {
   };
   return { deps, store, done };
 }
+
+describe("confirmSubmission: low-confidence reads go to the review queue (product_spec section 5)", () => {
+  it("a flyer the model was unsure about is queued, not published, and the student is told", async () => {
+    const { deps, store, done } = setup({ extracted: { confidence: 0.55 } });
+    const r = await confirmSubmission(SUB, U, valid, deps);
+    expect(r).toEqual({
+      status: 200,
+      body: { outcome: "queued", message: expect.stringContaining("double-check this one") },
+    });
+    expect(store.published).toHaveLength(0);
+    expect(done).toEqual([{ status: "queued" }]);
+    expect(store.reviews).toHaveLength(1);
+    expect(store.reviews[0].kind).toBe("low_confidence");
+    const payload = store.reviews[0].payload as {
+      extraction: { title: string; confidence: number };
+      source: { external_id: string; created_by: string };
+    };
+    expect(payload.extraction).toMatchObject({ title: valid.title, confidence: 0.55 });
+    expect(payload.source).toMatchObject({ external_id: `submission:${SUB}`, created_by: U });
+  });
+
+  it("a confident read, or manual entry (no extraction), publishes immediately", async () => {
+    for (const extracted of [{ confidence: 0.85 }, { confidence: 0.8 }, null, undefined]) {
+      const { deps, store } = setup({ extracted });
+      const r = await confirmSubmission(SUB, U, valid, deps);
+      expect(r.body).toMatchObject({ outcome: "published" });
+      expect(store.reviews).toHaveLength(0);
+    }
+  });
+
+  it("merging into an existing listing never needs review, even for a low-confidence read", async () => {
+    const { deps, store } = setup({ extracted: { confidence: 0.3 } });
+    const r = await confirmSubmission(SUB, U, { ...valid, merge_into: EXISTING }, deps);
+    expect(r.body).toMatchObject({ outcome: "merged" });
+    expect(store.reviews).toHaveLength(0);
+  });
+});
 
 describe("confirmSubmission", () => {
   it("publishes a new unverified competition crediting the submitter, with the flyer and host org", async () => {
