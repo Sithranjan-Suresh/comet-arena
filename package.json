@@ -14,6 +14,7 @@
     "db:test": "scripts/db-test.sh test",
     "db:types": "node scripts/gen-db-types.mjs",
     "seed:orgs": "tsx --env-file=.env.local supabase/seed/orgs.ts",
+    "seed:competitions": "tsx --env-file=.env.local supabase/seed/competitions.ts",
     "db:reset:local": "scripts/db-test.sh reset"
   },
   "dependencies": {

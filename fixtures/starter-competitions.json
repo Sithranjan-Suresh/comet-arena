@@ -1,0 +1,589 @@
+{
+  "_note": "SAMPLE starter data. Deadlines are offsets from the seed run date so the Field always has upcoming items. Replace with hand-collected real listings before launch (Task 128).",
+  "competitions": [
+    {
+      "slug": "comet-case-competition",
+      "title": "Comet Case Competition",
+      "host_org_slug": "association-for-information-systems",
+      "host_name": "AIS",
+      "categories": ["case_competition", "finance"],
+      "description": "Sample listing. Teams solve a real business case and present to industry judges.",
+      "tier": "campus",
+      "prize": "$2,500",
+      "cost": "free",
+      "format": "in_person",
+      "location": "JSOM Atrium",
+      "register_url": "https://example.com/register/comet-case-competition",
+      "utd_only": true,
+      "beginner_friendly": false,
+      "status": "live",
+      "stages": [
+        {
+          "name": "Registration closes",
+          "deadline_offset_days": 6,
+          "hour": 23,
+          "minute": 59
+        },
+        {
+          "name": "Case released",
+          "deadline_offset_days": 8,
+          "hour": 9,
+          "minute": 0
+        },
+        {
+          "name": "Round 1 submission",
+          "deadline_offset_days": 15,
+          "hour": 23,
+          "minute": 59
+        },
+        {
+          "name": "Finals",
+          "deadline_offset_days": 27,
+          "hour": 17,
+          "minute": 0,
+          "starts_offset_days": 27,
+          "starts_hour": 9
+        }
+      ],
+      "eligibility": {
+        "majors": ["Business Administration", "Accounting", "Finance"],
+        "class_years": [],
+        "team_min": 3,
+        "team_max": 4,
+        "cross_school": true
+      }
+    },
+    {
+      "slug": "hackutd-sample-hackathon",
+      "title": "Sample Hackathon 24h",
+      "host_org_slug": "hackutd",
+      "host_name": "HackUTD",
+      "categories": ["hackathon"],
+      "description": "Sample listing. A 24-hour hackathon open to all majors.",
+      "tier": "campus",
+      "prize": "$5,000 in prizes",
+      "cost": "free",
+      "format": "in_person",
+      "location": "ECSW Atrium",
+      "register_url": "https://example.com/register/hackutd-sample-hackathon",
+      "utd_only": false,
+      "beginner_friendly": true,
+      "status": "live",
+      "stages": [
+        {
+          "name": "Registration closes",
+          "deadline_offset_days": 12,
+          "hour": 23,
+          "minute": 59
+        },
+        {
+          "name": "Hacking begins",
+          "deadline_offset_days": 20,
+          "hour": 12,
+          "minute": 0,
+          "starts_offset_days": 20,
+          "starts_hour": 12
+        },
+        {
+          "name": "Demos",
+          "deadline_offset_days": 21,
+          "hour": 12,
+          "minute": 0,
+          "starts_offset_days": 21,
+          "starts_hour": 10
+        }
+      ],
+      "eligibility": {
+        "majors": [],
+        "class_years": [],
+        "team_min": 1,
+        "team_max": 4,
+        "cross_school": true
+      }
+    },
+    {
+      "slug": "startup-pitch-night",
+      "title": "Startup Pitch Night",
+      "host_org_slug": "utd-entrepreneurship-club",
+      "host_name": "UTD Entrepreneurship Club",
+      "categories": ["pitch_competition"],
+      "description": "Sample listing. Pitch your startup to a panel of founders and investors.",
+      "tier": "campus",
+      "prize": "$3,000 seed prize",
+      "cost": "free",
+      "format": "in_person",
+      "location": "Visitor Center",
+      "register_url": "https://example.com/register/startup-pitch-night",
+      "utd_only": true,
+      "beginner_friendly": false,
+      "status": "live",
+      "stages": [
+        {
+          "name": "Application deadline",
+          "deadline_offset_days": 9,
+          "hour": 23,
+          "minute": 59
+        },
+        {
+          "name": "Pitch night",
+          "deadline_offset_days": 23,
+          "hour": 19,
+          "minute": 0,
+          "starts_offset_days": 23,
+          "starts_hour": 18
+        }
+      ],
+      "eligibility": {
+        "majors": [],
+        "class_years": [],
+        "team_min": 1,
+        "team_max": 4,
+        "cross_school": false
+      }
+    },
+    {
+      "slug": "data-science-sprint",
+      "title": "Data Science Sprint",
+      "host_org_slug": "data-science-club",
+      "host_name": "Data Science Club",
+      "categories": ["data_science", "hackathon"],
+      "description": "Sample listing. A weekend sprint on a real dataset with a leaderboard.",
+      "tier": "campus",
+      "prize": "$1,000",
+      "cost": "free",
+      "format": "hybrid",
+      "location": "ECSS 2.306 + Zoom",
+      "register_url": "https://example.com/register/data-science-sprint",
+      "utd_only": true,
+      "beginner_friendly": true,
+      "status": "live",
+      "stages": [
+        {
+          "name": "Registration closes",
+          "deadline_offset_days": 4,
+          "hour": 23,
+          "minute": 59
+        },
+        {
+          "name": "Submissions due",
+          "deadline_offset_days": 18,
+          "hour": 23,
+          "minute": 59
+        }
+      ],
+      "eligibility": {
+        "majors": ["Computer Science", "Data Science", "Statistics"],
+        "class_years": [],
+        "team_min": 1,
+        "team_max": 3,
+        "cross_school": true
+      }
+    },
+    {
+      "slug": "investment-challenge",
+      "title": "Student Investment Challenge",
+      "host_org_slug": "investment-club",
+      "host_name": "Investment Club",
+      "categories": ["finance"],
+      "description": "Sample listing. Manage a paper portfolio for a semester.",
+      "tier": "regional",
+      "prize": "Scholarship",
+      "cost": "free",
+      "format": "virtual",
+      "location": "Online",
+      "register_url": "https://example.com/register/investment-challenge",
+      "utd_only": false,
+      "beginner_friendly": true,
+      "status": "live",
+      "stages": [
+        {
+          "name": "Sign-up closes",
+          "deadline_offset_days": 14,
+          "hour": 23,
+          "minute": 59
+        },
+        {
+          "name": "Trading ends",
+          "deadline_offset_days": 60,
+          "hour": 23,
+          "minute": 59
+        }
+      ],
+      "eligibility": {
+        "majors": [],
+        "class_years": [],
+        "team_min": 1,
+        "team_max": 4,
+        "cross_school": false
+      }
+    },
+    {
+      "slug": "design-sprint-showcase",
+      "title": "Design Sprint Showcase",
+      "host_org_slug": "design-guild",
+      "host_name": "Design Guild",
+      "categories": ["design"],
+      "description": "Sample listing. Redesign a campus service in a 48-hour design sprint.",
+      "tier": "campus",
+      "prize": "$750",
+      "cost": "free",
+      "format": "in_person",
+      "location": "ATEC 1.102",
+      "register_url": "https://example.com/register/design-sprint-showcase",
+      "utd_only": true,
+      "beginner_friendly": true,
+      "status": "live",
+      "stages": [
+        {
+          "name": "Registration closes",
+          "deadline_offset_days": 5,
+          "hour": 23,
+          "minute": 59
+        },
+        {
+          "name": "Showcase",
+          "deadline_offset_days": 16,
+          "hour": 15,
+          "minute": 0,
+          "starts_offset_days": 16,
+          "starts_hour": 13
+        }
+      ],
+      "eligibility": {
+        "majors": [],
+        "class_years": [],
+        "team_min": 1,
+        "team_max": 4,
+        "cross_school": false
+      }
+    },
+    {
+      "slug": "three-minute-thesis",
+      "title": "Three Minute Thesis",
+      "host_org_slug": "undergraduate-research-club",
+      "host_name": "Undergraduate Research Club",
+      "categories": ["research", "speaking"],
+      "description": "Sample listing. Explain your research in three minutes to a general audience.",
+      "tier": "campus",
+      "prize": "$500",
+      "cost": "free",
+      "format": "in_person",
+      "location": "Library Auditorium",
+      "register_url": "https://example.com/register/three-minute-thesis",
+      "utd_only": true,
+      "beginner_friendly": true,
+      "status": "live",
+      "stages": [
+        {
+          "name": "Abstract due",
+          "deadline_offset_days": 11,
+          "hour": 23,
+          "minute": 59
+        },
+        {
+          "name": "Competition",
+          "deadline_offset_days": 25,
+          "hour": 16,
+          "minute": 0,
+          "starts_offset_days": 25,
+          "starts_hour": 15
+        }
+      ],
+      "eligibility": {
+        "majors": [],
+        "class_years": ["junior", "senior", "graduate"],
+        "team_min": 1,
+        "team_max": 1,
+        "cross_school": true
+      }
+    },
+    {
+      "slug": "pre-health-case-night",
+      "title": "Pre-Health Case Night",
+      "host_org_slug": "pre-health-society",
+      "host_name": "Pre-Health Society",
+      "categories": ["health", "case_competition"],
+      "description": "Sample listing. Work through a clinical ethics case with peers.",
+      "tier": "campus",
+      "prize": "Gift cards",
+      "cost": "free",
+      "format": "in_person",
+      "location": "BSB Lecture Hall",
+      "register_url": "https://example.com/register/pre-health-case-night",
+      "utd_only": true,
+      "beginner_friendly": true,
+      "status": "live",
+      "stages": [
+        {
+          "name": "Sign-up closes",
+          "deadline_offset_days": 3,
+          "hour": 23,
+          "minute": 59
+        },
+        {
+          "name": "Case night",
+          "deadline_offset_days": 10,
+          "hour": 18,
+          "minute": 30,
+          "starts_offset_days": 10,
+          "starts_hour": 18
+        }
+      ],
+      "eligibility": {
+        "majors": [],
+        "class_years": [],
+        "team_min": 1,
+        "team_max": 4,
+        "cross_school": false
+      }
+    },
+    {
+      "slug": "ai-hack-challenge",
+      "title": "AI Build Challenge",
+      "host_org_slug": "utd-ai-society",
+      "host_name": "UTD AI Society",
+      "categories": ["hackathon", "data_science"],
+      "description": "Sample listing. Build an applied-AI demo in three weeks.",
+      "tier": "campus",
+      "prize": "$2,000",
+      "cost": "free",
+      "format": "hybrid",
+      "location": "ECSN + Discord",
+      "register_url": "https://example.com/register/ai-hack-challenge",
+      "utd_only": true,
+      "beginner_friendly": false,
+      "status": "unverified",
+      "stages": [
+        {
+          "name": "Team registration",
+          "deadline_offset_days": 8,
+          "hour": 23,
+          "minute": 59
+        },
+        {
+          "name": "Demo day",
+          "deadline_offset_days": 29,
+          "hour": 17,
+          "minute": 0,
+          "starts_offset_days": 29,
+          "starts_hour": 13
+        }
+      ],
+      "eligibility": {
+        "majors": [],
+        "class_years": [],
+        "team_min": 1,
+        "team_max": 4,
+        "cross_school": false
+      }
+    },
+    {
+      "slug": "national-case-open",
+      "title": "National Collegiate Case Open",
+      "host_org_slug": "",
+      "host_name": "National Case Series",
+      "categories": ["case_competition"],
+      "description": "Sample listing. A national case competition open to UTD students.",
+      "tier": "national",
+      "prize": "$10,000",
+      "cost": "paid",
+      "format": "virtual",
+      "location": "Online",
+      "register_url": "https://example.com/register/national-case-open",
+      "utd_only": false,
+      "beginner_friendly": false,
+      "status": "live",
+      "stages": [
+        {
+          "name": "Early registration",
+          "deadline_offset_days": 30,
+          "hour": 23,
+          "minute": 59
+        },
+        {
+          "name": "Final submission",
+          "deadline_offset_days": 70,
+          "hour": 23,
+          "minute": 59
+        }
+      ],
+      "eligibility": {
+        "majors": [],
+        "class_years": [],
+        "team_min": 1,
+        "team_max": 4,
+        "cross_school": false
+      }
+    },
+    {
+      "slug": "sustainability-design-jam",
+      "title": "Sustainability Design Jam",
+      "host_org_slug": "sustainability-club",
+      "host_name": "Sustainability Club",
+      "categories": ["design", "engineering"],
+      "description": "Sample listing. Prototype a sustainability fix for campus.",
+      "tier": "campus",
+      "prize": "$1,200",
+      "cost": "free",
+      "format": "in_person",
+      "location": "ECSW 1.315",
+      "register_url": "https://example.com/register/sustainability-design-jam",
+      "utd_only": true,
+      "beginner_friendly": true,
+      "status": "unverified",
+      "stages": [
+        {
+          "name": "Registration closes",
+          "deadline_offset_days": 13,
+          "hour": 23,
+          "minute": 59
+        },
+        {
+          "name": "Judging",
+          "deadline_offset_days": 19,
+          "hour": 16,
+          "minute": 0,
+          "starts_offset_days": 19,
+          "starts_hour": 10
+        }
+      ],
+      "eligibility": {
+        "majors": [],
+        "class_years": [],
+        "team_min": 1,
+        "team_max": 4,
+        "cross_school": false
+      }
+    },
+    {
+      "slug": "fall-hackathon-recap",
+      "title": "Fall Sample Hackathon (past)",
+      "host_org_slug": "hackutd",
+      "host_name": "HackUTD",
+      "categories": ["hackathon"],
+      "description": "Sample listing. Last month's hackathon, kept as a past listing.",
+      "tier": "campus",
+      "prize": "$4,000",
+      "cost": "free",
+      "format": "in_person",
+      "location": "ECSW",
+      "register_url": "https://example.com/register/fall-hackathon-recap",
+      "utd_only": false,
+      "beginner_friendly": true,
+      "status": "past",
+      "stages": [
+        {
+          "name": "Registration closes",
+          "deadline_offset_days": -40,
+          "hour": 23,
+          "minute": 59
+        },
+        {
+          "name": "Demos",
+          "deadline_offset_days": -33,
+          "hour": 12,
+          "minute": 0,
+          "starts_offset_days": -34,
+          "starts_hour": 12
+        }
+      ],
+      "eligibility": {
+        "majors": [],
+        "class_years": [],
+        "team_min": 1,
+        "team_max": 4,
+        "cross_school": false
+      }
+    },
+    {
+      "slug": "ais-case-comp-past",
+      "title": "Spring Case Competition (past)",
+      "host_org_slug": "association-for-information-systems",
+      "host_name": "AIS",
+      "categories": ["case_competition"],
+      "description": "Sample listing. Spring edition, kept as a past listing.",
+      "tier": "campus",
+      "prize": "$2,000",
+      "cost": "free",
+      "format": "in_person",
+      "location": "JSOM",
+      "register_url": "https://example.com/register/ais-case-comp-past",
+      "utd_only": true,
+      "beginner_friendly": false,
+      "status": "past",
+      "stages": [
+        {
+          "name": "Registration closes",
+          "deadline_offset_days": -200,
+          "hour": 23,
+          "minute": 59
+        },
+        {
+          "name": "Finals",
+          "deadline_offset_days": -180,
+          "hour": 17,
+          "minute": 0,
+          "starts_offset_days": -180,
+          "starts_hour": 9
+        }
+      ],
+      "eligibility": {
+        "majors": [],
+        "class_years": [],
+        "team_min": 1,
+        "team_max": 4,
+        "cross_school": false
+      }
+    },
+    {
+      "slug": "mock-trial-invitational",
+      "title": "Mock Trial Invitational (expected)",
+      "host_org_slug": "mock-trial-team",
+      "host_name": "Mock Trial Team",
+      "categories": ["speaking"],
+      "description": "Sample listing. Annual invitational. Dates not yet announced; last held in March.",
+      "tier": "campus",
+      "prize": null,
+      "cost": "unknown",
+      "format": "in_person",
+      "location": "TBA",
+      "register_url": null,
+      "utd_only": true,
+      "beginner_friendly": false,
+      "status": "expected",
+      "stages": [],
+      "eligibility": {
+        "majors": [],
+        "class_years": [],
+        "team_min": 1,
+        "team_max": 4,
+        "cross_school": false
+      }
+    },
+    {
+      "slug": "hult-prize-campus-round",
+      "title": "Hult Prize Campus Round (expected)",
+      "host_org_slug": "hult-prize-utd",
+      "host_name": "Hult Prize UTD",
+      "categories": ["pitch_competition", "other"],
+      "description": "Sample listing. Annual social-impact pitch round. Dates not yet announced; usually in the spring.",
+      "tier": "campus",
+      "prize": null,
+      "cost": "free",
+      "format": "in_person",
+      "location": "TBA",
+      "register_url": null,
+      "utd_only": true,
+      "beginner_friendly": true,
+      "status": "expected",
+      "stages": [],
+      "eligibility": {
+        "majors": [],
+        "class_years": [],
+        "team_min": 1,
+        "team_max": 4,
+        "cross_school": false
+      }
+    }
+  ]
+}
