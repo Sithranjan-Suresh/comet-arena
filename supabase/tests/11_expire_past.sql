@@ -4,7 +4,11 @@ insert into public.competitions (id, title, status) values
   ('60000000-0000-4000-8000-000000000001', 'Finished', 'live'),
   ('60000000-0000-4000-8000-000000000002', 'Reg passed, finals ahead', 'live'),
   ('60000000-0000-4000-8000-000000000003', 'All ahead', 'unverified'),
-  ('60000000-0000-4000-8000-000000000004', 'Undated expected', 'expected');
+  ('60000000-0000-4000-8000-000000000004', 'Undated expected', 'expected'),
+  ('60000000-0000-4000-8000-000000000005', 'Stale expected', 'expected');
+alter table public.competitions disable trigger user;
+update public.competitions set updated_at = '2025-01-01' where title = 'Stale expected';
+alter table public.competitions enable trigger user;
 insert into public.stages (competition_id, name, deadline_at, "order") values
   ('60000000-0000-4000-8000-000000000001', 'Reg', '2026-10-01', 1), ('60000000-0000-4000-8000-000000000001', 'Final', '2026-10-20', 2),
   ('60000000-0000-4000-8000-000000000002', 'Reg', '2026-11-01', 1), ('60000000-0000-4000-8000-000000000002', 'Final', '2026-12-05', 2),
@@ -16,12 +20,13 @@ do $$
 declare r record;
 begin
   select * into r from public.expire_past('2026-11-10T12:00:00Z');
-  if r.competitions_expired <> 1 then raise exception 'expected 1 competition expired, got %', r.competitions_expired; end if;
+  if r.competitions_expired <> 2 then raise exception 'expected 2 competitions expired, got %', r.competitions_expired; end if;
   -- Finished (past) + Reg-passed are closed; All ahead + Undated stay open
-  if r.free_agents_closed <> 2 or r.openings_closed <> 2 then raise exception 'closed % / %', r.free_agents_closed, r.openings_closed; end if;
+  if r.free_agents_closed <> 3 or r.openings_closed <> 3 then raise exception 'closed % / %', r.free_agents_closed, r.openings_closed; end if;
   if (select status from public.competitions where title = 'Finished') <> 'past' then raise exception 'Finished should be past'; end if;
   if (select status from public.competitions where title = 'Reg passed, finals ahead') <> 'live' then raise exception 'still running, must stay live'; end if;
   if (select status from public.competitions where title = 'Undated expected') <> 'expected' then raise exception 'undated must stay expected'; end if;
+  if (select status from public.competitions where title = 'Stale expected') <> 'past' then raise exception 'stale expected placeholder should be retired'; end if;
   if (select count(*) from public.free_agents where status = 'open') <> 2 then raise exception 'two posts should remain open'; end if;
   -- idempotent
   select * into r from public.expire_past('2026-11-10T12:00:00Z');
