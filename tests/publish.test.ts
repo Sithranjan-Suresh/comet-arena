@@ -39,9 +39,11 @@ interface Row {
 /** In-memory PublishStore + DedupeStore with the same semantics as the SQL functions. */
 class MemoryStore implements PublishStore, DedupeStore {
   rows: Row[] = [];
+  lastPublish: Parameters<PublishStore["publishCompetition"]>[0] | undefined;
   reviews: { id: string; kind: string; candidate: string | null; payload: unknown }[] = [];
 
   async publishCompetition(input: Parameters<PublishStore["publishCompetition"]>[0]) {
+    this.lastPublish = input;
     const c = input.competition;
     const id = `c${this.rows.length + 1}`;
     this.rows.push({
@@ -316,11 +318,6 @@ describe("publishExtraction", () => {
 
   it("carries the host org, flyer and submitter onto the new competition", async () => {
     const store = new MemoryStore();
-    let captured: Parameters<PublishStore["publishCompetition"]>[0] | undefined;
-    const spy: PublishStore = {
-      ...store,
-      publishCompetition: async (i) => ((captured = i), store.publishCompetition(i)),
-    } as PublishStore;
     await publishExtraction(
       {
         extraction: ex(),
@@ -332,15 +329,15 @@ describe("publishExtraction", () => {
           source: "submission",
         }),
       },
-      spy,
+      store,
     );
-    expect(captured!.competition).toMatchObject({
+    expect(store.lastPublish!.competition).toMatchObject({
       host_org_id: "org-1",
       flyer_url: "https://img/f.png",
       created_by: "user-1",
       utd_only: true,
     });
-    expect(captured!.sources[0].source).toBe("submission");
+    expect(store.lastPublish!.sources[0].source).toBe("submission");
   });
 
   it("uses the confidence threshold at the boundary: 0.8 publishes, 0.79 queues", async () => {
