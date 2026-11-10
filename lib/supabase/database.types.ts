@@ -46,6 +46,30 @@ export type Database = {
         }
         Relationships: []
       }
+      competition_resources: {
+        Row: {
+          id: string
+          competition_id: string
+          label: string
+          url: string
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          competition_id: string
+          label: string
+          url: string
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          competition_id?: string
+          label?: string
+          url?: string
+          created_at?: string
+        }
+        Relationships: []
+      }
       competition_sources: {
         Row: {
           id: string
@@ -644,6 +668,7 @@ export type Database = {
           onboarded: boolean
           created_at: string
           updated_at: string
+          public_results: boolean
         }
         Insert: {
           id: string
@@ -662,6 +687,7 @@ export type Database = {
           onboarded?: boolean
           created_at?: string
           updated_at?: string
+          public_results?: boolean
         }
         Update: {
           id?: string
@@ -680,6 +706,7 @@ export type Database = {
           onboarded?: boolean
           created_at?: string
           updated_at?: string
+          public_results?: boolean
         }
         Relationships: []
       }
@@ -794,9 +821,12 @@ export type Database = {
       match_competition_by_title: { Args: Record<string, unknown>; Returns: unknown }
       match_competitions: { Args: Record<string, unknown>; Returns: unknown }
       merge_into_competition: { Args: Record<string, unknown>; Returns: unknown }
+      officer_add_resource: { Args: Record<string, unknown>; Returns: unknown }
+      officer_remove_resource: { Args: Record<string, unknown>; Returns: unknown }
       officer_set_stages: { Args: Record<string, unknown>; Returns: unknown }
       officer_update_competition: { Args: Record<string, unknown>; Returns: unknown }
       officer_upload_results: { Args: Record<string, unknown>; Returns: unknown }
+      past_winners: { Args: Record<string, unknown>; Returns: unknown }
       publish_competition: { Args: Record<string, unknown>; Returns: unknown }
       similarity_to: { Args: Record<string, unknown>; Returns: unknown }
       slugify: { Args: Record<string, unknown>; Returns: unknown }

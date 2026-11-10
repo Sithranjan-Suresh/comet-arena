@@ -15,6 +15,7 @@ export interface OfficeListingData {
   location: string | null;
   register_url: string | null;
   stages: { name: string; deadline_at: string }[];
+  resources?: { id: string; label: string; url: string }[];
 }
 
 async function send(url: string, method: string, body: unknown) {
@@ -41,6 +42,9 @@ export function OfficeListing({ listing }: { listing: OfficeListingData }) {
   const toast = useToast();
   const [editing, setEditing] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [resourcesOpen, setResourcesOpen] = useState(false);
+  const [resLabel, setResLabel] = useState("");
+  const [resUrl, setResUrl] = useState("");
   const [busy, setBusy] = useState(false);
   const [csv, setCsv] = useState("");
   const [report, setReport] = useState<Report | null>(null);
@@ -89,6 +93,36 @@ export function OfficeListing({ listing }: { listing: OfficeListingData }) {
     } else toast.show(String(r.json.message ?? "Something went wrong."), "error");
   }
 
+  async function addResource(e: React.FormEvent) {
+    e.preventDefault();
+    setBusy(true);
+    const r = await send(`/api/office/competitions/${listing.id}/resources`, "POST", {
+      label: resLabel,
+      url: resUrl,
+    });
+    setBusy(false);
+    if (r.ok) {
+      setResLabel("");
+      setResUrl("");
+      toast.show("Resource added", "success");
+      router.refresh();
+    } else toast.show(String(r.json.message ?? "Something went wrong."), "error");
+  }
+
+  async function removeResource(id: string) {
+    setBusy(true);
+    const r = await send(
+      `/api/office/competitions/${listing.id}/resources/${id}`,
+      "DELETE",
+      undefined,
+    );
+    setBusy(false);
+    if (r.ok) {
+      toast.show("Resource removed", "success");
+      router.refresh();
+    } else toast.show(String(r.json.message ?? "Something went wrong."), "error");
+  }
+
   async function uploadResults(e: React.FormEvent) {
     e.preventDefault();
     setBusy(true);
@@ -121,6 +155,9 @@ export function OfficeListing({ listing }: { listing: OfficeListingData }) {
           </Button>
           <Button size="sm" variant="secondary" onClick={() => setUploading(true)}>
             Upload results
+          </Button>
+          <Button size="sm" variant="secondary" onClick={() => setResourcesOpen(true)}>
+            Prep resources
           </Button>
         </div>
       </div>
@@ -169,6 +206,61 @@ export function OfficeListing({ listing }: { listing: OfficeListingData }) {
             </Button>
           </div>
         </form>
+      </Dialog>
+
+      <Dialog
+        open={resourcesOpen}
+        onClose={() => setResourcesOpen(false)}
+        title={`Prep resources for ${listing.title}`}
+        className="w-[min(94vw,40rem)]"
+      >
+        <div className="space-y-4">
+          {(listing.resources ?? []).length === 0 ? (
+            <p className="text-ink-muted text-sm">
+              No resources yet. Links you add show on the Game Day page.
+            </p>
+          ) : (
+            <ul className="space-y-2">
+              {(listing.resources ?? []).map((r) => (
+                <li key={r.id} className="flex items-center justify-between gap-2">
+                  <span className="truncate">{r.label}</span>
+                  <Button
+                    size="sm"
+                    variant="ghost"
+                    disabled={busy}
+                    onClick={() => removeResource(r.id)}
+                    aria-label={`Remove ${r.label}`}
+                  >
+                    Remove
+                  </Button>
+                </li>
+              ))}
+            </ul>
+          )}
+          <form onSubmit={addResource} className="space-y-3">
+            <Input
+              label="Label"
+              value={resLabel}
+              onChange={(e) => setResLabel(e.target.value)}
+              maxLength={80}
+              placeholder="Last year's case"
+            />
+            <Input
+              label="Link"
+              value={resUrl}
+              onChange={(e) => setResUrl(e.target.value)}
+              placeholder="https://"
+            />
+            <div className="flex gap-2">
+              <Button type="submit" loading={busy} disabled={!resLabel.trim() || !resUrl.trim()}>
+                Add resource
+              </Button>
+              <Button type="button" variant="ghost" onClick={() => setResourcesOpen(false)}>
+                Close
+              </Button>
+            </div>
+          </form>
+        </div>
       </Dialog>
 
       <Dialog

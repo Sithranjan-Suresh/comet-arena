@@ -2,11 +2,13 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { AddEntryDialog } from "@/components/entries/AddEntryDialog";
 import { EligibilityCheck } from "@/components/game-day/EligibilityCheck";
+import { PastWinners, PrepResources } from "@/components/game-day/Extras";
 import { FreeAgencyBoard } from "@/components/free-agency/FreeAgencyBoard";
 import { GameHeader, InfoGrid, RegisterButton, SourceList } from "@/components/game-day/parts";
 import { ListingTrust } from "@/components/game-day/ListingTrust";
 import { SaveButton } from "@/components/SaveButton";
 import { StageTimeline } from "@/components/StageTimeline";
+import { getPastWinners, getPrepResources } from "@/lib/data/extras";
 import { getGameDayBySlug } from "@/lib/data/field";
 import { SLUG_PATTERN } from "@/lib/data/game-day";
 import { eligibilityLines, eventJsonLd } from "@/lib/format";
@@ -49,6 +51,10 @@ export default async function GameDayPage({ params }: Props) {
   const dto = await load(slug);
   if (!dto) notFound();
 
+  const [winners, resources] = await Promise.all([
+    getPastWinners(dto.id).catch(() => []),
+    getPrepResources(dto.id).catch(() => []),
+  ]);
   const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
   return (
     <article className="mx-auto max-w-3xl space-y-8">
@@ -87,6 +93,9 @@ export default async function GameDayPage({ params }: Props) {
         </ul>
         <EligibilityCheck slug={dto.slug} />
       </section>
+
+      <PrepResources resources={resources} />
+      <PastWinners winners={winners} />
 
       <FreeAgencyBoard
         slug={dto.slug}

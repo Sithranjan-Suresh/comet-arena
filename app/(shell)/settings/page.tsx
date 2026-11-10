@@ -14,7 +14,9 @@ export default async function SettingsPage() {
   const supabase = await createSupabaseServerClient();
   const { data } = await supabase
     .from("users")
-    .select("major,class_year,interests,roles,email_warnings,digest,onboarded,ics_token")
+    .select(
+      "major,class_year,interests,roles,email_warnings,digest,public_results,onboarded,ics_token",
+    )
     .eq("id", user.id)
     .single();
 

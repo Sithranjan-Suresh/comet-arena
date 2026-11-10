@@ -53,6 +53,14 @@ export default async function OfficePage() {
         .order("order")
     : { data: [] };
 
+  const { data: resourceRows } = compIds.length
+    ? await db
+        .from("competition_resources")
+        .select("id,competition_id,label,url")
+        .in("competition_id", compIds)
+        .order("created_at")
+    : { data: [] };
+
   return (
     <div className="space-y-10">
       <h1 className="text-4xl font-extrabold uppercase">Front Office</h1>
@@ -84,6 +92,9 @@ export default async function OfficePage() {
                       prize: c.prize,
                       location: c.location,
                       register_url: c.register_url,
+                      resources: (resourceRows ?? [])
+                        .filter((x) => x.competition_id === c.id)
+                        .map((x) => ({ id: x.id, label: x.label, url: x.url })),
                       stages: (stageRows ?? [])
                         .filter((x) => x.competition_id === c.id)
                         .map((x) => ({ name: x.name, deadline_at: x.deadline_at })),

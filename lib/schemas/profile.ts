@@ -17,6 +17,8 @@ export const profileInputSchema = z.object({
   roles: z.array(z.enum(ROLES)).max(ROLES.length).transform(dedupe).optional(),
   email_warnings: z.boolean().optional(),
   digest: z.boolean().optional(),
+  /** Show first name and last initial on past-winners lists. Off by default. */
+  public_results: z.boolean().optional(),
   /** Set true when onboarding is completed OR skipped, so the user is not asked again. */
   onboarded: z.boolean().optional(),
 });
@@ -29,5 +31,6 @@ export interface ProfileData {
   roles: string[];
   email_warnings: boolean;
   digest: boolean;
+  public_results: boolean;
   onboarded: boolean;
 }

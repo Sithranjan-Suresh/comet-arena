@@ -162,3 +162,13 @@ export function officerErrorStatus(code: string | undefined): {
     return { status: 422, error: "invalid_input", message: "Some values were not valid." };
   return { status: 503, error: "unavailable", message: "Something went wrong. Try again." };
 }
+
+export const resourceInputSchema = z.object({
+  label: z.string().trim().min(1).max(80),
+  url: z
+    .string()
+    .trim()
+    .url()
+    .max(500)
+    .refine((u) => /^https?:\/\//i.test(u), { message: "Use an http or https link" }),
+});

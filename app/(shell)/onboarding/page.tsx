@@ -19,7 +19,7 @@ export default async function OnboardingPage({
   const supabase = await createSupabaseServerClient();
   const { data } = await supabase
     .from("users")
-    .select("major,class_year,interests,roles,email_warnings,digest,onboarded")
+    .select("major,class_year,interests,roles,email_warnings,digest,public_results,onboarded")
     .eq("id", user.id)
     .maybeSingle();
 
@@ -30,6 +30,7 @@ export default async function OnboardingPage({
     roles: [],
     email_warnings: true,
     digest: true,
+    public_results: false,
     onboarded: false,
   };
 

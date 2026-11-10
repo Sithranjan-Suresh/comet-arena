@@ -35,6 +35,7 @@ export function ProfileForm({ initial, mode, next = "/" }: Props) {
   const [roles, setRoles] = useState<string[]>(initial.roles);
   const [warnings, setWarnings] = useState(initial.email_warnings);
   const [digest, setDigest] = useState(initial.digest);
+  const [publicResults, setPublicResults] = useState(initial.public_results);
   const [saving, setSaving] = useState<"save" | "skip" | null>(null);
   const [error, setError] = useState<string>();
   const [saved, setSaved] = useState(false);
@@ -52,7 +53,9 @@ export function ProfileForm({ initial, mode, next = "/" }: Props) {
             interests,
             roles,
             onboarded: true,
-            ...(mode === "settings" ? { email_warnings: warnings, digest } : {}),
+            ...(mode === "settings"
+              ? { email_warnings: warnings, digest, public_results: publicResults }
+              : {}),
           };
     try {
       const res = await fetch("/api/me/profile", {
@@ -175,6 +178,27 @@ export function ProfileForm({ initial, mode, next = "/" }: Props) {
             />
             <span>Weekly digest (Sundays, 6 PM CT)</span>
           </label>
+        </fieldset>
+      )}
+
+      {mode === "settings" && (
+        <fieldset className="space-y-3">
+          <legend className="mb-1 text-sm font-semibold">Privacy</legend>
+          <label className="flex min-h-11 items-center gap-3">
+            <input
+              type="checkbox"
+              className="size-5"
+              checked={publicResults}
+              onChange={(e) => setPublicResults(e.target.checked)}
+            />
+            <span>
+              Show my first name and last initial on past-winners lists when a host confirms I
+              placed
+            </span>
+          </label>
+          <p className="text-ink-muted text-sm">
+            Off by default. Your Player Card stays private either way.
+          </p>
         </fieldset>
       )}
 

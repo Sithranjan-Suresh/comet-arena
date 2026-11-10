@@ -4,6 +4,7 @@ import { PlayerCard } from "@/components/player/PlayerCard";
 import { ResumeExport } from "@/components/player/ResumeExport";
 import { EmptyState, buttonClasses } from "@/components/ui";
 import { requireUser } from "@/lib/auth/session";
+import { computeBadges } from "@/lib/awards";
 import { listEntries } from "@/lib/entries";
 import { computeStats } from "@/lib/player-stats";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
@@ -29,6 +30,7 @@ export default async function MePage() {
         major={profile?.major ?? null}
         classYear={profile?.class_year ?? null}
         stats={computeStats(list)}
+        badges={computeBadges(list)}
       />
 
       <p role="note" className="text-ink-muted text-sm">

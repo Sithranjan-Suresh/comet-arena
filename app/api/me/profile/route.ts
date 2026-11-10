@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { requireApiUser } from "@/lib/auth/api";
 import { profileInputSchema } from "@/lib/schemas/profile";
 
-const COLUMNS = "major,class_year,interests,roles,email_warnings,digest,onboarded";
+const COLUMNS = "major,class_year,interests,roles,email_warnings,digest,public_results,onboarded";
 
 /** Current user's profile. */
 export async function GET() {

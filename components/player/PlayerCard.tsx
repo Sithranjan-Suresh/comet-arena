@@ -1,3 +1,4 @@
+import type { Badge } from "@/lib/awards";
 import { type PlayerStats } from "@/lib/player-stats";
 
 /** The student's card: name, major and year, and the stat line. Private in v1. */
@@ -6,11 +7,13 @@ export function PlayerCard({
   major,
   classYear,
   stats,
+  badges = [],
 }: {
   name: string;
   major: string | null;
   classYear: string | null;
   stats: PlayerStats;
+  badges?: Badge[];
 }) {
   const sub = [major, classYear && classYear.charAt(0).toUpperCase() + classYear.slice(1)]
     .filter(Boolean)
@@ -36,6 +39,21 @@ export function PlayerCard({
           </div>
         ))}
       </dl>
+      {badges.length > 0 && (
+        <ul aria-label="Badges" className="mt-4 flex flex-wrap gap-2">
+          {badges.map((b) => (
+            <li
+              key={b.id}
+              title={b.description}
+              className="bg-turf-light text-chalk rounded-full px-3 py-1 text-sm font-semibold"
+            >
+              <span aria-hidden="true">★ </span>
+              {b.label}
+              <span className="sr-only">: {b.description}</span>
+            </li>
+          ))}
+        </ul>
+      )}
       {stats.verified > 0 && (
         <p className="text-chalk-muted mt-3 text-sm">{stats.verified} host-verified</p>
       )}

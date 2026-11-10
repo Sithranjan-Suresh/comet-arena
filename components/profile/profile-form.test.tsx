@@ -16,6 +16,7 @@ const empty = {
   roles: [],
   email_warnings: true,
   digest: true,
+  public_results: false,
   onboarded: false,
 };
 
@@ -123,5 +124,20 @@ describe("ProfileForm (settings)", () => {
     const [, init] = fetchMock.mock.calls[0] as unknown as [string, RequestInit];
     expect(JSON.parse(init.body as string)).toMatchObject({ email_warnings: false, digest: true });
     expect(await screen.findByRole("status")).toHaveTextContent("Saved.");
+  });
+
+  it("winner names are off by default and opting in is sent explicitly; onboarding never shows the option", async () => {
+    const fetchMock = mockFetch();
+    const { unmount } = render(<ProfileForm initial={empty} mode="settings" />);
+    const box = screen.getByLabelText(/Show my first name and last initial/);
+    expect(box).not.toBeChecked();
+    await userEvent.click(box);
+    await userEvent.click(screen.getByRole("button", { name: "Save changes" }));
+    await waitFor(() => expect(fetchMock).toHaveBeenCalled());
+    const [, init] = fetchMock.mock.calls[0] as unknown as [string, RequestInit];
+    expect(JSON.parse(init.body as string)).toMatchObject({ public_results: true });
+    unmount();
+    render(<ProfileForm initial={empty} mode="onboarding" />);
+    expect(screen.queryByLabelText(/Show my first name/)).not.toBeInTheDocument();
   });
 });

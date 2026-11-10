@@ -42,6 +42,8 @@ import * as claimRoute from "../../app/api/orgs/[id]/claim/route";
 import * as adminClaim from "../../app/api/admin/claims/[id]/route";
 import * as officeEdit from "../../app/api/office/competitions/[id]/route";
 import * as officeResults from "../../app/api/office/competitions/[id]/results/route";
+import * as officeRes from "../../app/api/office/competitions/[id]/resources/route";
+import * as officeResOne from "../../app/api/office/competitions/[id]/resources/[rid]/route";
 import * as submit from "../../app/api/submit/route";
 import * as confirm from "../../app/api/submit/[id]/confirm/route";
 import * as adminReview from "../../app/api/admin/review/route";
@@ -125,6 +127,15 @@ const userRoutes: [string, () => Promise<Response>][] = [
   [
     "POST /api/office/competitions/:id/results",
     () => officeResults.POST(post("/x", { csv: "a@utdallas.edu,1st" }), params({ id: UUID })),
+  ],
+  [
+    "POST /api/office/.../resources",
+    () =>
+      officeRes.POST(post("/x", { label: "L", url: "https://example.com" }), params({ id: UUID })),
+  ],
+  [
+    "DELETE /api/office/.../resources/:rid",
+    () => officeResOne.DELETE(req("DELETE", "/x"), params({ id: UUID, rid: UUID })),
   ],
   ["POST /api/submit", () => submit.POST(post("/api/submit", { url: "https://example.com/p" }))],
   ["POST /api/submit/:id/confirm", () => confirm.POST(post("/x", {}), params({ id: UUID }))],
@@ -217,6 +228,22 @@ describe("validation: malformed input is a 4xx with a JSON error, never a 500", 
     [
       "POST /api/office/.../results no valid rows",
       () => officeResults.POST(post("/x", { csv: "bad,row" }), params({ id: UUID })),
+    ],
+    [
+      "POST /api/office/.../resources bad link",
+      () =>
+        officeRes.POST(
+          post("/x", { label: "L", url: "javascript:alert(1)" }),
+          params({ id: UUID }),
+        ),
+    ],
+    [
+      "POST /api/office/.../resources empty",
+      () => officeRes.POST(post("/x", {}), params({ id: UUID })),
+    ],
+    [
+      "DELETE /api/office/.../resources/:rid bad id",
+      () => officeResOne.DELETE(req("DELETE", "/x"), params({ id: UUID, rid: "nope" })),
     ],
     ["POST /api/entries empty", () => entries.POST(post("/x", {}))],
     [

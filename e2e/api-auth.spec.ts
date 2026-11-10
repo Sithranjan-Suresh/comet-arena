@@ -32,6 +32,15 @@ const PROTECTED: [
     "/api/office/competitions/00000000-0000-4000-8000-0000000000c1/results",
     { csv: "a,1st" },
   ],
+  [
+    "POST",
+    "/api/office/competitions/00000000-0000-4000-8000-0000000000c1/resources",
+    { label: "x", url: "https://example.com" },
+  ],
+  [
+    "DELETE",
+    "/api/office/competitions/00000000-0000-4000-8000-0000000000c1/resources/00000000-0000-4000-8000-0000000000c2",
+  ],
   ["GET", "/api/admin/review"],
   ["PATCH", "/api/admin/orgs/00000000-0000-4000-8000-0000000000c1", { ig_handle: "x" }],
   ["POST", "/api/admin/orgs/import", { csv: "a,b" }],
