@@ -35,3 +35,26 @@ test("the page carries Event structured data and a descriptive title", async ({ 
   const ld = await page.locator('script[type="application/ld+json"]').first().textContent();
   expect(JSON.parse(ld!)).toMatchObject({ "@type": "Event", name: "Comet Case Competition" });
 });
+
+test("the page links a share image that renders as a PNG", async ({ page, request }) => {
+  await page.goto("/game/comet-case-competition");
+  const og = await page.locator('meta[property="og:image"]').first().getAttribute("content");
+  expect(og).toContain("/game/comet-case-competition/opengraph-image");
+  // Next adds a content hash to the file; fetch exactly the URL the page advertises.
+  const res = await request.get(new URL(og!).pathname);
+  expect(res.status()).toBe(200);
+  expect(res.headers()["content-type"]).toContain("image/png");
+  const body = await res.body();
+  expect(body.subarray(1, 4).toString("ascii")).toBe("PNG");
+  expect(body.length).toBeGreaterThan(5_000);
+});
+
+test("unknown competitions still get a (generic) share image", async ({ page, request }) => {
+  // The page 404s, so fetch the image route for a known page and swap the slug: the hash is per route, not per slug.
+  await page.goto("/game/comet-case-competition");
+  const og = await page.locator('meta[property="og:image"]').first().getAttribute("content");
+  const generic = new URL(og!).pathname.replace("comet-case-competition", "this-does-not-exist");
+  const res = await request.get(generic);
+  expect(res.status()).toBe(200);
+  expect(res.headers()["content-type"]).toContain("image/png");
+});
