@@ -756,9 +756,13 @@ export type Database = {
       decide_org_claim: { Args: Record<string, unknown>; Returns: unknown }
       expire_past: { Args: Record<string, unknown>; Returns: unknown }
       is_admin: { Args: Record<string, unknown>; Returns: unknown }
+      is_officer_of_competition: { Args: Record<string, unknown>; Returns: unknown }
       match_competition_by_title: { Args: Record<string, unknown>; Returns: unknown }
       match_competitions: { Args: Record<string, unknown>; Returns: unknown }
       merge_into_competition: { Args: Record<string, unknown>; Returns: unknown }
+      officer_set_stages: { Args: Record<string, unknown>; Returns: unknown }
+      officer_update_competition: { Args: Record<string, unknown>; Returns: unknown }
+      officer_upload_results: { Args: Record<string, unknown>; Returns: unknown }
       publish_competition: { Args: Record<string, unknown>; Returns: unknown }
       slugify: { Args: Record<string, unknown>; Returns: unknown }
       stages_due_between: { Args: Record<string, unknown>; Returns: unknown }

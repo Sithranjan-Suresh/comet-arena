@@ -36,7 +36,7 @@ begin
              and p.prorettype <> 'pg_catalog.trigger'::regtype  -- trigger functions cannot be called as RPC
              and p.proname <> 'is_admin' loop
     if has_function_privilege('anon', r.oid, 'execute') then bad := bad || r.proname || '(anon) '; end if;
-    if has_function_privilege('authenticated', r.oid, 'execute') and r.proname not in ('confirm_competition') then
+    if has_function_privilege('authenticated', r.oid, 'execute') and r.proname not in ('confirm_competition', 'is_officer_of_competition', 'officer_update_competition', 'officer_set_stages', 'officer_upload_results') then
       bad := bad || r.proname || '(authenticated) ';
     end if;
   end loop;

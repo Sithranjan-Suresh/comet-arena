@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { OfficeListing } from "@/components/office/OfficeListing";
 import { EmptyState, buttonClasses } from "@/components/ui";
 import { requireUser } from "@/lib/auth/session";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
@@ -35,13 +36,22 @@ export default async function OfficePage() {
 
   const { data: comps } = await db
     .from("competitions")
-    .select("id,slug,title,status,host_org_id")
+    .select("id,slug,title,status,host_org_id,description,prize,location,register_url")
     .in(
       "host_org_id",
       orgs.map((o) => o.id),
     )
     .neq("status", "rejected")
     .order("updated_at", { ascending: false });
+
+  const compIds = (comps ?? []).map((c) => c.id);
+  const { data: stageRows } = compIds.length
+    ? await db
+        .from("stages")
+        .select("competition_id,name,deadline_at,order")
+        .in("competition_id", compIds)
+        .order("order")
+    : { data: [] };
 
   return (
     <div className="space-y-10">
@@ -63,17 +73,22 @@ export default async function OfficePage() {
             ) : (
               <ul className="space-y-2">
                 {mine.map((c) => (
-                  <li
+                  <OfficeListing
                     key={c.id}
-                    className="bg-chalk flex flex-wrap items-center justify-between gap-2 rounded-xl p-3"
-                  >
-                    <span>
-                      <Link href={`/game/${c.slug}`} className="font-semibold underline">
-                        {c.title}
-                      </Link>{" "}
-                      <span className="text-ink-muted text-sm">({c.status})</span>
-                    </span>
-                  </li>
+                    listing={{
+                      id: c.id,
+                      slug: c.slug,
+                      title: c.title,
+                      status: c.status,
+                      description: c.description,
+                      prize: c.prize,
+                      location: c.location,
+                      register_url: c.register_url,
+                      stages: (stageRows ?? [])
+                        .filter((x) => x.competition_id === c.id)
+                        .map((x) => ({ name: x.name, deadline_at: x.deadline_at })),
+                    }}
+                  />
                 ))}
               </ul>
             )}

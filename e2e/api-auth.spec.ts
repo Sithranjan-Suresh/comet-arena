@@ -26,6 +26,12 @@ const PROTECTED: [
   ["GET", "/api/orgs/00000000-0000-4000-8000-0000000000c1/claim"],
   ["POST", "/api/orgs/00000000-0000-4000-8000-0000000000c1/claim", { note: "x" }],
   ["POST", "/api/admin/claims/00000000-0000-4000-8000-0000000000c1", { approve: true }],
+  ["PATCH", "/api/office/competitions/00000000-0000-4000-8000-0000000000c1", { prize: "x" }],
+  [
+    "POST",
+    "/api/office/competitions/00000000-0000-4000-8000-0000000000c1/results",
+    { csv: "a,1st" },
+  ],
   ["GET", "/api/admin/review"],
   ["PATCH", "/api/admin/orgs/00000000-0000-4000-8000-0000000000c1", { ig_handle: "x" }],
   ["POST", "/api/admin/orgs/import", { csv: "a,b" }],

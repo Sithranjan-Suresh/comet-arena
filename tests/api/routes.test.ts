@@ -40,6 +40,8 @@ import * as flagsRoute from "../../app/api/flags/route";
 import * as adminFlag from "../../app/api/admin/flags/[id]/route";
 import * as claimRoute from "../../app/api/orgs/[id]/claim/route";
 import * as adminClaim from "../../app/api/admin/claims/[id]/route";
+import * as officeEdit from "../../app/api/office/competitions/[id]/route";
+import * as officeResults from "../../app/api/office/competitions/[id]/results/route";
 import * as submit from "../../app/api/submit/route";
 import * as confirm from "../../app/api/submit/[id]/confirm/route";
 import * as adminReview from "../../app/api/admin/review/route";
@@ -116,6 +118,14 @@ const userRoutes: [string, () => Promise<Response>][] = [
     "POST /api/orgs/:id/claim",
     () => claimRoute.POST(post("/x", { note: "hi" }), params({ id: UUID })),
   ],
+  [
+    "PATCH /api/office/competitions/:id",
+    () => officeEdit.PATCH(req("PATCH", "/x", { prize: "x" }), params({ id: UUID })),
+  ],
+  [
+    "POST /api/office/competitions/:id/results",
+    () => officeResults.POST(post("/x", { csv: "a@utdallas.edu,1st" }), params({ id: UUID })),
+  ],
   ["POST /api/submit", () => submit.POST(post("/api/submit", { url: "https://example.com/p" }))],
   ["POST /api/submit/:id/confirm", () => confirm.POST(post("/x", {}), params({ id: UUID }))],
 ];
@@ -187,6 +197,26 @@ describe("validation: malformed input is a 4xx with a JSON error, never a 500", 
     [
       "POST /api/orgs/:id/claim note too long",
       () => claimRoute.POST(post("/x", { note: "x".repeat(301) }), params({ id: UUID })),
+    ],
+    [
+      "PATCH /api/office/competitions/:id empty",
+      () => officeEdit.PATCH(req("PATCH", "/x", {}), params({ id: UUID })),
+    ],
+    [
+      "PATCH /api/office/competitions/:id bad url",
+      () =>
+        officeEdit.PATCH(
+          req("PATCH", "/x", { register_url: "javascript:x" }),
+          params({ id: UUID }),
+        ),
+    ],
+    [
+      "POST /api/office/.../results empty",
+      () => officeResults.POST(post("/x", {}), params({ id: UUID })),
+    ],
+    [
+      "POST /api/office/.../results no valid rows",
+      () => officeResults.POST(post("/x", { csv: "bad,row" }), params({ id: UUID })),
     ],
     ["POST /api/entries empty", () => entries.POST(post("/x", {}))],
     [
