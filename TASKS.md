@@ -3,7 +3,7 @@
 > Derived from `full_context.md`, `product_spec.md`, `engineering_spec.md`.
 > Single global numbering. Work top to bottom; every task is sequenced after its dependencies.
 > **Rule:** one task = one commit (`Task N: <title>`), pushed to `claude/lucid-edison-8c7ns1`.
-> **Progress:** tasks 1-95 complete (✅). Sections A-I done: foundation, database, design system, auth, mock layer, extraction/dedupe/publish pipeline, public discovery, save/schedule/calendar, and the warning/digest/change email jobs.
+> **Progress:** tasks 1-96 complete (✅). Sections A-I done: foundation, database, design system, auth, mock layer, extraction/dedupe/publish pipeline, public discovery, save/schedule/calendar, and the warning/digest/change email jobs.
 > **Priority tags:** P0 = launch-blocking core loop · P1 = important · P2 = depth/later.
 > **Never cut:** ingestion → listing → save → warning.
 > Each task lists **Objective**, **Files/Where**, and **Done when** (verifiable).
@@ -420,7 +420,7 @@ Note on the skill's hackathon framing: these specs describe a real launch produc
     Objective: per org with handle: fetch → skip known `ig_post_id` → extract → publish pipeline → record `ingest_posts` classification (never reprocess non-competitions); sequential 2 s spacing; link listing to original post; resume from last processed org.
     Done when: mock run twice creates no duplicates; ≤30 min budget logged.
 
-96. **`classify-accounts` job.**
+96. ✅ **`classify-accounts` job.**
     Objective: weekly retest of `personal_or_missing` handles with Business Discovery.
     Done when: account type flips in a mock.
 
