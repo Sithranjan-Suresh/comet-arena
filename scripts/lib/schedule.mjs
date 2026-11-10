@@ -71,6 +71,15 @@ export const JOBS = [
     secrets: [...DB, ...EXTRACT, ...MAIL],
   },
   {
+    name: "ingest-events",
+    npmScript: "job:ingest-events",
+    description: "Campus calendar events -> competitions",
+    hour: 5,
+    minute: 30,
+    timeoutMinutes: 30,
+    secrets: [...DB, ...EXTRACT, ...MAIL, "NEBULA_API_KEY", "CAMPUSGROUPS_ICAL_URL"],
+  },
+  {
     name: "rededupe",
     npmScript: "job:rededupe",
     description: "Dedupe listings published while embeddings were down",

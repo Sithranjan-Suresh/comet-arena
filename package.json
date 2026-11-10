@@ -32,6 +32,7 @@
     "job:rededupe": "tsx --env-file-if-exists=.env.local jobs/rededupe.mts",
     "job:refresh-token": "tsx --env-file-if-exists=.env.local jobs/refresh-token.mts",
     "job:ingest-feeds": "tsx --env-file-if-exists=.env.local jobs/ingest-feeds.mts",
+    "job:ingest-events": "tsx --env-file-if-exists=.env.local jobs/ingest-events.mts",
     "seed:orgs": "tsx --env-file-if-exists=.env.local supabase/seed/orgs.mts",
     "seed:competitions": "tsx --env-file-if-exists=.env.local supabase/seed/competitions.mts",
     "db:reset:local": "scripts/db-test.sh reset"

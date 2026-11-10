@@ -57,3 +57,25 @@ export function flyerImagePath(file: string): string {
 export function flyerImageBytes(file: string): Buffer {
   return readFileSync(flyerImagePath(file));
 }
+
+const eventsFileSchema = z.object({
+  events: z.array(
+    z.object({
+      source: z.enum(["utdclubs", "campusgroups"]),
+      externalId: z.string(),
+      url: z.string().url(),
+      title: z.string(),
+      description: z.string(),
+      host: z.string().nullable(),
+      location: z.string().nullable(),
+      start: z.string().datetime({ offset: true }),
+      end: z.string().datetime({ offset: true }).nullable(),
+    }),
+  ),
+});
+
+export function loadCampusEvents() {
+  return eventsFileSchema.parse(
+    JSON.parse(readFileSync(path.join(root, "campus-events.json"), "utf8")),
+  ).events;
+}

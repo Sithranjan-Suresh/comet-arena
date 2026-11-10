@@ -5,8 +5,16 @@ import { createOpenAICompatibleEmbedder } from "./live/embeddings";
 import { createResendMailer } from "./live/resend";
 import { createGroqVision } from "./live/groq";
 import { Chaos } from "./mock/chaos";
-import { mockClubs, mockFeed, mockInstagram, mockNebula, mockVision } from "./mock/adapters";
+import {
+  mockClubs,
+  mockFeed,
+  mockEvents,
+  mockInstagram,
+  mockNebula,
+  mockVision,
+} from "./mock/adapters";
 import { createNebula } from "@/lib/nebula";
+import { createCampusGroups, createUtdClubsEvents } from "./live/events";
 import { mockEmbedder } from "./mock/embedder";
 import { createMockMailer } from "./mock/mailer";
 import type { Sources } from "./types";
@@ -30,6 +38,8 @@ export const defaultFactories: SourceFactories = {
       mlh: mockFeed("mlh", chaos),
       utdclubs: mockClubs(chaos),
       nebula: mockNebula(chaos),
+      utdclubsEvents: mockEvents("utdclubs", chaos),
+      campusgroups: mockEvents("campusgroups", chaos),
       vision: mockVision(chaos),
       embedder: mockEmbedder(),
       mailer: createMockMailer(),
@@ -42,6 +52,11 @@ export const defaultFactories: SourceFactories = {
     }),
     devpost: createDevpost(),
     mlh: createMlh(),
+    utdclubsEvents: createUtdClubsEvents({
+      apiKey: process.env.NEBULA_API_KEY || undefined,
+      baseUrl: process.env.UTDCLUBS_BASE_URL || undefined,
+    }),
+    campusgroups: createCampusGroups({ icalUrl: process.env.CAMPUSGROUPS_ICAL_URL || undefined }),
     nebula: createNebula({
       apiKey: process.env.NEBULA_API_KEY || undefined,
       baseUrl: process.env.NEBULA_BASE_URL || undefined,

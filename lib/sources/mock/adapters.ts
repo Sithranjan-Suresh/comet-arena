@@ -1,4 +1,4 @@
-import { loadFeedListings, loadFlyerCases } from "@/lib/fixtures";
+import { loadCampusEvents, loadFeedListings, loadFlyerCases } from "@/lib/fixtures";
 import { type Club, snapshotSchema } from "@/lib/orgs/merge";
 import { readFileSync } from "node:fs";
 import path from "node:path";
@@ -8,6 +8,7 @@ import { z } from "zod";
 import type {
   ClubsSource,
   CourseSource,
+  EventSource,
   FeedSource,
   IgPost,
   InstagramSource,
@@ -105,6 +106,22 @@ export function mockNebula(chaos: Chaos = Chaos.fromEnv()): CourseSource {
       if (!parsed.success)
         throw new SourceError("nebula(mock)", "malformed", "courses fixture is invalid");
       return parsed.data.courses[normalizeCourse(code)] ?? null;
+    },
+  };
+}
+
+/** Mock campus calendar: fixture events for one source that start inside the requested range. */
+export function mockEvents(
+  source: "utdclubs" | "campusgroups",
+  chaos: Chaos = Chaos.fromEnv(),
+): EventSource {
+  return {
+    async fetchEvents({ from, to }) {
+      await chaos.guard(`${source}-events(mock)`);
+      return loadCampusEvents().filter((e) => {
+        const t = Date.parse(e.start);
+        return e.source === source && t >= from.getTime() && t <= to.getTime();
+      });
     },
   };
 }

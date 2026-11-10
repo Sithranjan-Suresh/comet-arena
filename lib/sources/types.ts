@@ -38,6 +38,23 @@ export interface CourseSource {
   fetchPrereqs(code: string): Promise<string[] | null>;
 }
 
+/** An event from a campus calendar (UTD Clubs, CampusGroups). Structured dates, unlike a flyer. */
+export interface CampusEvent {
+  source: "utdclubs" | "campusgroups";
+  externalId: string;
+  url: string;
+  title: string;
+  description: string;
+  host: string | null;
+  location: string | null;
+  /** ISO instants. */
+  start: string;
+  end: string | null;
+}
+export interface EventSource {
+  fetchEvents(range: { from: Date; to: Date }): Promise<CampusEvent[]>;
+}
+
 export interface ClubsSource {
   fetchClubs(): Promise<Club[]>;
 }
@@ -78,6 +95,8 @@ export interface Sources {
   mlh: FeedSource;
   utdclubs: ClubsSource;
   nebula: CourseSource;
+  utdclubsEvents: EventSource;
+  campusgroups: EventSource;
   vision: VisionModel;
   embedder: Embedder;
   mailer: Mailer;
