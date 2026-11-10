@@ -20,6 +20,7 @@
     "job:notify-changes": "tsx --env-file=.env.local jobs/notify-changes.mts",
     "job:expire-past": "tsx --env-file=.env.local jobs/expire-past.mts",
     "job:sync-orgs": "tsx --env-file=.env.local jobs/sync-orgs.mts",
+    "job:ingest-instagram": "tsx --env-file=.env.local jobs/ingest-instagram.mts",
     "seed:orgs": "tsx --env-file=.env.local supabase/seed/orgs.mts",
     "seed:competitions": "tsx --env-file=.env.local supabase/seed/competitions.mts",
     "db:reset:local": "scripts/db-test.sh reset"

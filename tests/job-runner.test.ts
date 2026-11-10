@@ -127,3 +127,19 @@ describe("runJob", () => {
     expect(r.ok).toBe(true);
   });
 });
+
+describe("runJob incomplete", () => {
+  it("keeps the cursor when the job stops early on purpose", async () => {
+    const { deps } = mk();
+    const r = await runJob<number>(
+      "demo",
+      async (ctx) => {
+        await ctx.checkpoint(3);
+        return { incomplete: true };
+      },
+      deps,
+    );
+    expect(r.ok).toBe(true);
+    expect(deps.cursors.data.get("demo")).toBe(3);
+  });
+});

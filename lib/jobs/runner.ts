@@ -76,7 +76,8 @@ export async function runJob<C = unknown>(
 
   try {
     const summary = (await fn(ctx)) ?? undefined;
-    await deps.cursors.clear(name).catch(() => {});
+    // A job that stopped early on purpose (quota, time budget) returns incomplete:true and keeps its cursor.
+    if (!summary || summary.incomplete !== true) await deps.cursors.clear(name).catch(() => {});
     const result: JobResult = { name, ok: true, resumed, durationMs: now() - started, summary };
     emit("done", { durationMs: result.durationMs, ...summary });
     return result;
