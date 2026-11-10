@@ -59,7 +59,7 @@ describe("createSources", () => {
 describe("placeholder adapters", () => {
   it("fail loudly with the task that will implement them", () => {
     const s = createSources("live");
-    expect(() => s.vision.complete({ system: "", user: "", images: [] })).toThrow(SourceError);
+    expect(() => s.embedder.embed("x")).toThrow(SourceError);
     try {
       s.instagram.fetchRecentPosts("x");
     } catch (e) {

@@ -1,3 +1,4 @@
+import { createGroqVision } from "./live/groq";
 import { Chaos } from "./mock/chaos";
 import { mockClubs, mockFeed, mockInstagram, mockVision } from "./mock/adapters";
 import { notImplemented } from "./stubs";
@@ -31,7 +32,11 @@ export const defaultFactories: SourceFactories = {
     devpost: notImplemented("devpost(live)", "Task 97"),
     mlh: notImplemented("mlh(live)", "Task 97"),
     utdclubs: notImplemented("utdclubs(live)", "Task 92"),
-    vision: notImplemented("vision(live)", "Task 41"),
+    vision: createGroqVision({
+      apiKey: process.env.GROQ_API_KEY ?? "",
+      model: process.env.GROQ_VISION_MODEL || undefined,
+      maxImages: process.env.GROQ_MAX_IMAGES ? Number(process.env.GROQ_MAX_IMAGES) : undefined,
+    }),
     embedder: notImplemented("embedder(live)", "Task 47"),
     mailer: notImplemented("mailer(live)", "Task 66"),
   }),
