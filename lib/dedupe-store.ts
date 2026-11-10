@@ -19,6 +19,7 @@ export function supabaseDedupeStore(db: SupabaseClient<Database>): DedupeStore {
         slug: r.slug,
         title: r.title,
         host_name: r.host_name ?? null,
+        nearest_deadline: r.nearest_deadline ?? null,
         similarity: Number(r.similarity),
       }));
     },

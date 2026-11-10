@@ -13,8 +13,13 @@ export interface DedupeMatch {
   title: string;
   /** Host of the existing listing (for the same-event check). */
   host_name?: string | null;
+  /** The existing listing's stage deadline closest to the new post (ISO). Lets same-event checks compare dates. */
+  nearest_deadline?: string | null;
   similarity: number;
 }
+
+/** A repost that moves a date moves it by days or a couple of weeks; a monthly series is ~4 weeks apart. */
+export const SAME_EVENT_MAX_SHIFT_DAYS = 14;
 
 /** Title match (normalized character-bigram Dice coefficient) needed to call two posts the same event. */
 export const SAME_TITLE_THRESHOLD = 0.9;
@@ -61,10 +66,15 @@ export function hostsMatch(a: string | null | undefined, b: string | null | unde
  * below 0.92 whenever a repost moves a date (an explicit product_spec §4 edge case).
  */
 export function isSameEvent(
-  ex: Pick<Extraction, "title" | "host">,
-  match: Pick<DedupeMatch, "title" | "host_name">,
+  ex: Pick<Extraction, "title" | "host"> & { first_deadline?: string | null },
+  match: Pick<DedupeMatch, "title" | "host_name" | "nearest_deadline">,
 ): boolean {
   if (!ex.title) return false;
+  if (ex.first_deadline && match.nearest_deadline) {
+    const days =
+      Math.abs(Date.parse(ex.first_deadline) - Date.parse(match.nearest_deadline)) / 86_400_000;
+    if (days > SAME_EVENT_MAX_SHIFT_DAYS) return false; // a recurring series, not a moved date
+  }
   return (
     titleSimilarity(ex.title, match.title) >= SAME_TITLE_THRESHOLD &&
     hostsMatch(ex.host, match.host_name)
@@ -151,7 +161,13 @@ export async function dedupeExtraction(
   if (!best) return { action: "new", embedding, deferred: false };
   const band = decideBand(best.similarity);
   if (band === "merge") return { action: "merge", match: best, embedding };
-  if (band === "review" && isSameEvent(ex, best))
+  if (
+    band === "review" &&
+    isSameEvent(
+      { title: ex.title, host: ex.host, first_deadline: first?.deadline_at ?? null },
+      best,
+    )
+  )
     return { action: "merge", match: best, embedding };
   if (band === "review")
     return {

@@ -38,6 +38,11 @@ begin
   select count(*) into n from public.match_competitions(
     array_fill(0.1::real, array[768])::extensions.vector, now() + interval '5 days', 45, 0.8);
   if n <> 1 then raise exception 'expected 1 match within window, got %', n; end if;
+  -- the nearest stage deadline is returned so same-event checks can compare dates
+  if (select abs(extract(epoch from (nearest_deadline - (now() + interval '5 days')))) from public.match_competitions(
+        array_fill(0.1::real, array[768])::extensions.vector, now() + interval '5 days', 45, 0.8)) > 30 * 86400 then
+    raise exception 'nearest_deadline should be within the window of the query date';
+  end if;
   -- orthogonal-ish vector falls below threshold
   select count(*) into n from public.match_competitions(
     (select array_agg(case when g = 1 then 1.0::real else 0.0::real end) from generate_series(1, 768) g)::extensions.vector,

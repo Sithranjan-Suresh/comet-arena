@@ -7,3 +7,4 @@ product_spec.md
 engineering_spec.md
 lib/supabase/database.types.ts
 eval/report.md
+eval/dedupe-report.md

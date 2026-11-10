@@ -20,6 +20,7 @@
     "job:notify-changes": "tsx --env-file-if-exists=.env.local jobs/notify-changes.mts",
     "job:expire-past": "tsx --env-file-if-exists=.env.local jobs/expire-past.mts",
     "eval": "tsx --env-file-if-exists=.env.local scripts/eval.mts",
+    "eval:dedupe": "tsx --env-file-if-exists=.env.local scripts/eval-dedupe.mts",
     "eval:validate": "tsx scripts/eval-validate.mts",
     "eval:seed": "tsx scripts/eval-seed-from-fixtures.mts",
     "eval:scaffold": "tsx --env-file-if-exists=.env.local scripts/eval-scaffold.mts",

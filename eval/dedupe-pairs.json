@@ -1,0 +1,770 @@
+{
+  "_note": "Hand-authored pairs for tuning dedupe thresholds. dup=true means a human would call both posts the same event. Add real pairs from the labeled eval set.",
+  "pairs": [
+    {
+      "id": "d01",
+      "dup": true,
+      "a": {
+        "title": "AIS Fall Case Competition",
+        "host": "AIS",
+        "categories": ["case_competition"],
+        "first_deadline": "2026-11-20T23:59:00-06:00"
+      },
+      "b": {
+        "title": "Fall Case Competition",
+        "host": "Association for Information Systems",
+        "categories": ["case_competition"],
+        "first_deadline": "2026-11-20T23:59:00-06:00"
+      },
+      "note": "host acronym vs full name"
+    },
+    {
+      "id": "d02",
+      "dup": true,
+      "a": {
+        "title": "AIS Fall Case Competition",
+        "host": "AIS",
+        "categories": ["case_competition"],
+        "first_deadline": "2026-11-20T23:59:00-06:00"
+      },
+      "b": {
+        "title": "AIS Fall Case Competition",
+        "host": "AIS",
+        "categories": ["case_competition", "finance"],
+        "first_deadline": "2026-11-27T23:59:00-06:00"
+      },
+      "note": "repost moved the deadline a week"
+    },
+    {
+      "id": "d03",
+      "dup": true,
+      "a": {
+        "title": "HackUTD Ignite",
+        "host": "HackUTD",
+        "categories": ["hackathon"],
+        "first_deadline": "2026-10-30T17:00:00-05:00"
+      },
+      "b": {
+        "title": "HackUTD: Ignite 24-Hour Hackathon",
+        "host": "HackUTD",
+        "categories": ["hackathon"],
+        "first_deadline": "2026-10-30T17:00:00-05:00"
+      },
+      "note": "subtitle added"
+    },
+    {
+      "id": "d04",
+      "dup": true,
+      "a": {
+        "title": "Startup Pitch Night",
+        "host": "Blackstone LaunchPad",
+        "categories": ["pitch"],
+        "first_deadline": "2026-11-12T18:00:00-06:00"
+      },
+      "b": {
+        "title": "Pitch Night: Startup Edition",
+        "host": "LaunchPad at UTD",
+        "categories": ["pitch"],
+        "first_deadline": "2026-11-12T18:00:00-06:00"
+      },
+      "note": "reworded title and host"
+    },
+    {
+      "id": "d05",
+      "dup": true,
+      "a": {
+        "title": "Data Sprint 2026",
+        "host": "Data Science Club",
+        "categories": ["data_science"],
+        "first_deadline": "2026-11-08T23:59:00-06:00"
+      },
+      "b": {
+        "title": "Data Sprint",
+        "host": "Data Science Club at UTD",
+        "categories": ["data_science"],
+        "first_deadline": "2026-11-08T23:59:00-06:00"
+      },
+      "note": "year dropped"
+    },
+    {
+      "id": "d06",
+      "dup": true,
+      "a": {
+        "title": "Three Minute Thesis",
+        "host": "Office of Graduate Studies",
+        "categories": ["research"],
+        "first_deadline": "2026-11-15T17:00:00-06:00"
+      },
+      "b": {
+        "title": "3 Minute Thesis (3MT) Competition",
+        "host": "Graduate Studies",
+        "categories": ["research"],
+        "first_deadline": "2026-11-15T17:00:00-06:00"
+      },
+      "note": "3MT spelling"
+    },
+    {
+      "id": "d07",
+      "dup": true,
+      "a": {
+        "title": "Design Jam",
+        "host": "Design Society",
+        "categories": ["design"],
+        "first_deadline": "2026-11-05T12:00:00-06:00"
+      },
+      "b": {
+        "title": "UTD Design Jam",
+        "host": "Design Society UTD",
+        "categories": ["design"],
+        "first_deadline": "2026-11-05T12:00:00-06:00"
+      },
+      "note": "prefix added"
+    },
+    {
+      "id": "d08",
+      "dup": true,
+      "a": {
+        "title": "Investment Challenge",
+        "host": "Finance Society",
+        "categories": ["finance"],
+        "first_deadline": "2026-11-18T23:59:00-06:00"
+      },
+      "b": {
+        "title": "Fall Investment Challenge",
+        "host": "Finance Society",
+        "categories": ["finance", "case_competition"],
+        "first_deadline": "2026-11-18T23:59:00-06:00"
+      },
+      "note": "season added, extra category"
+    },
+    {
+      "id": "d09",
+      "dup": true,
+      "a": {
+        "title": "Collegiate Speech Contest",
+        "host": "Debate Union",
+        "categories": ["speaking"],
+        "first_deadline": "2026-11-22T10:00:00-06:00"
+      },
+      "b": {
+        "title": "Speech Contest",
+        "host": "UTD Debate Union",
+        "categories": ["speaking"],
+        "first_deadline": "2026-11-22T10:00:00-06:00"
+      },
+      "note": "shorter title"
+    },
+    {
+      "id": "d10",
+      "dup": true,
+      "a": {
+        "title": "Pre-Health Case Challenge",
+        "host": "Pre-Health Society",
+        "categories": ["case_competition", "health"],
+        "first_deadline": "2026-11-14T23:59:00-06:00"
+      },
+      "b": {
+        "title": "Pre Health Case Challenge",
+        "host": "Pre-Health Society",
+        "categories": ["case_competition"],
+        "first_deadline": "2026-11-14T23:59:00-06:00"
+      },
+      "note": "hyphen dropped"
+    },
+    {
+      "id": "d11",
+      "dup": true,
+      "a": {
+        "title": "Comet Cup Esports Tournament",
+        "host": "Esports Club",
+        "categories": ["gaming"],
+        "first_deadline": "2026-11-07T14:00:00-06:00"
+      },
+      "b": {
+        "title": "Comet Cup",
+        "host": "UTD Esports",
+        "categories": ["gaming"],
+        "first_deadline": "2026-11-07T14:00:00-06:00"
+      },
+      "note": "short form"
+    },
+    {
+      "id": "d12",
+      "dup": true,
+      "a": {
+        "title": "Women in Tech Hackathon",
+        "host": "WiT",
+        "categories": ["hackathon"],
+        "first_deadline": "2026-11-21T09:00:00-06:00"
+      },
+      "b": {
+        "title": "Women in Tech Hackathon",
+        "host": "Women in Technology",
+        "categories": ["hackathon"],
+        "first_deadline": "2026-11-21T09:00:00-06:00"
+      },
+      "note": "acronym host"
+    },
+    {
+      "id": "d13",
+      "dup": true,
+      "a": {
+        "title": "Robotics Challenge",
+        "host": "IEEE UTD",
+        "categories": ["engineering"],
+        "first_deadline": "2026-11-19T17:00:00-06:00"
+      },
+      "b": {
+        "title": "IEEE Robotics Challenge",
+        "host": "IEEE",
+        "categories": ["engineering"],
+        "first_deadline": "2026-11-20T17:00:00-06:00"
+      },
+      "note": "date off by a day"
+    },
+    {
+      "id": "d14",
+      "dup": true,
+      "a": {
+        "title": "Business Plan Competition",
+        "host": "Entrepreneurship Club",
+        "categories": ["pitch"],
+        "first_deadline": "2026-12-01T23:59:00-06:00"
+      },
+      "b": {
+        "title": "UTD Business Plan Competition",
+        "host": "Entrepreneurship Club",
+        "categories": ["pitch"],
+        "first_deadline": "2026-12-01T23:59:00-06:00"
+      },
+      "note": "prefix added"
+    },
+    {
+      "id": "d15",
+      "dup": true,
+      "a": {
+        "title": "Mock Trial Invitational",
+        "host": "Pre-Law Society",
+        "categories": ["speaking"],
+        "first_deadline": "2026-11-13T08:00:00-06:00"
+      },
+      "b": {
+        "title": "Mock Trial Invitational 2026",
+        "host": "Pre-Law Society",
+        "categories": ["speaking"],
+        "first_deadline": "2026-11-13T08:00:00-06:00"
+      },
+      "note": "year added"
+    },
+    {
+      "id": "n01",
+      "dup": false,
+      "a": {
+        "title": "AIS Fall Case Competition",
+        "host": "AIS",
+        "categories": ["case_competition"],
+        "first_deadline": "2026-11-20T23:59:00-06:00"
+      },
+      "b": {
+        "title": "AIS Spring Case Competition",
+        "host": "AIS",
+        "categories": ["case_competition"],
+        "first_deadline": "2027-03-05T23:59:00-06:00"
+      },
+      "note": "same series, next season"
+    },
+    {
+      "id": "n02",
+      "dup": false,
+      "a": {
+        "title": "HackUTD Ignite",
+        "host": "HackUTD",
+        "categories": ["hackathon"],
+        "first_deadline": "2026-10-30T17:00:00-05:00"
+      },
+      "b": {
+        "title": "HackUTD Ignite",
+        "host": "HackUTD",
+        "categories": ["hackathon"],
+        "first_deadline": "2027-10-29T17:00:00-05:00"
+      },
+      "note": "same name, next year"
+    },
+    {
+      "id": "n03",
+      "dup": false,
+      "a": {
+        "title": "Startup Pitch Night",
+        "host": "Blackstone LaunchPad",
+        "categories": ["pitch"],
+        "first_deadline": "2026-11-12T18:00:00-06:00"
+      },
+      "b": {
+        "title": "Startup Pitch Night",
+        "host": "Blackstone LaunchPad",
+        "categories": ["pitch"],
+        "first_deadline": "2026-12-10T18:00:00-06:00"
+      },
+      "note": "monthly series, different night"
+    },
+    {
+      "id": "n04",
+      "dup": false,
+      "a": {
+        "title": "Data Sprint",
+        "host": "Data Science Club",
+        "categories": ["data_science"],
+        "first_deadline": "2026-11-08T23:59:00-06:00"
+      },
+      "b": {
+        "title": "Data Sprint",
+        "host": "Statistics Club",
+        "categories": ["data_science"],
+        "first_deadline": "2026-11-08T23:59:00-06:00"
+      },
+      "note": "same name and date, different host"
+    },
+    {
+      "id": "n05",
+      "dup": false,
+      "a": {
+        "title": "Case Competition",
+        "host": "Finance Society",
+        "categories": ["case_competition"],
+        "first_deadline": "2026-11-20T23:59:00-06:00"
+      },
+      "b": {
+        "title": "Case Competition",
+        "host": "Marketing Association",
+        "categories": ["case_competition"],
+        "first_deadline": "2026-11-20T23:59:00-06:00"
+      },
+      "note": "generic name, different host, same date"
+    },
+    {
+      "id": "n06",
+      "dup": false,
+      "a": {
+        "title": "Design Jam",
+        "host": "Design Society",
+        "categories": ["design"],
+        "first_deadline": "2026-11-05T12:00:00-06:00"
+      },
+      "b": {
+        "title": "Game Design Jam",
+        "host": "Game Dev Club",
+        "categories": ["design", "gaming"],
+        "first_deadline": "2026-11-05T12:00:00-06:00"
+      },
+      "note": "similar words, different event"
+    },
+    {
+      "id": "n07",
+      "dup": false,
+      "a": {
+        "title": "Collegiate Speech Contest",
+        "host": "Debate Union",
+        "categories": ["speaking"],
+        "first_deadline": "2026-11-22T10:00:00-06:00"
+      },
+      "b": {
+        "title": "Collegiate Debate Tournament",
+        "host": "Debate Union",
+        "categories": ["speaking"],
+        "first_deadline": "2026-11-22T10:00:00-06:00"
+      },
+      "note": "same host and day, different event"
+    },
+    {
+      "id": "n08",
+      "dup": false,
+      "a": {
+        "title": "Investment Challenge",
+        "host": "Finance Society",
+        "categories": ["finance"],
+        "first_deadline": "2026-11-18T23:59:00-06:00"
+      },
+      "b": {
+        "title": "Investment Banking Workshop",
+        "host": "Finance Society",
+        "categories": ["finance"],
+        "first_deadline": "2026-11-18T18:00:00-06:00"
+      },
+      "note": "workshop, not the contest"
+    },
+    {
+      "id": "n09",
+      "dup": false,
+      "a": {
+        "title": "Robotics Challenge",
+        "host": "IEEE UTD",
+        "categories": ["engineering"],
+        "first_deadline": "2026-11-19T17:00:00-06:00"
+      },
+      "b": {
+        "title": "Rocketry Challenge",
+        "host": "AIAA UTD",
+        "categories": ["engineering"],
+        "first_deadline": "2026-11-19T17:00:00-06:00"
+      },
+      "note": "same category and date"
+    },
+    {
+      "id": "n10",
+      "dup": false,
+      "a": {
+        "title": "Women in Tech Hackathon",
+        "host": "WiT",
+        "categories": ["hackathon"],
+        "first_deadline": "2026-11-21T09:00:00-06:00"
+      },
+      "b": {
+        "title": "Women in Engineering Hackathon",
+        "host": "SWE",
+        "categories": ["hackathon"],
+        "first_deadline": "2026-11-21T09:00:00-06:00"
+      },
+      "note": "near-identical name, different org"
+    },
+    {
+      "id": "n11",
+      "dup": false,
+      "a": {
+        "title": "Comet Cup Esports Tournament",
+        "host": "Esports Club",
+        "categories": ["gaming"],
+        "first_deadline": "2026-11-07T14:00:00-06:00"
+      },
+      "b": {
+        "title": "Comet Cup Chess Tournament",
+        "host": "Chess Club",
+        "categories": ["gaming"],
+        "first_deadline": "2026-11-07T14:00:00-06:00"
+      },
+      "note": "same brand prefix"
+    },
+    {
+      "id": "n12",
+      "dup": false,
+      "a": {
+        "title": "Business Plan Competition",
+        "host": "Entrepreneurship Club",
+        "categories": ["pitch"],
+        "first_deadline": "2026-12-01T23:59:00-06:00"
+      },
+      "b": {
+        "title": "Business Plan Competition",
+        "host": "Entrepreneurship Club",
+        "categories": ["pitch"],
+        "first_deadline": "2027-04-01T23:59:00-06:00"
+      },
+      "note": "spring edition of the same contest"
+    },
+    {
+      "id": "n13",
+      "dup": false,
+      "a": {
+        "title": "Mock Trial Invitational",
+        "host": "Pre-Law Society",
+        "categories": ["speaking"],
+        "first_deadline": "2026-11-13T08:00:00-06:00"
+      },
+      "b": {
+        "title": "Moot Court Invitational",
+        "host": "Pre-Law Society",
+        "categories": ["speaking"],
+        "first_deadline": "2026-11-13T08:00:00-06:00"
+      },
+      "note": "different format"
+    },
+    {
+      "id": "n14",
+      "dup": false,
+      "a": {
+        "title": "Three Minute Thesis",
+        "host": "Office of Graduate Studies",
+        "categories": ["research"],
+        "first_deadline": "2026-11-15T17:00:00-06:00"
+      },
+      "b": {
+        "title": "Undergraduate Research Symposium",
+        "host": "Office of Undergraduate Research",
+        "categories": ["research"],
+        "first_deadline": "2026-11-15T17:00:00-06:00"
+      },
+      "note": "same category and day"
+    },
+    {
+      "id": "n15",
+      "dup": false,
+      "a": {
+        "title": "Pre-Health Case Challenge",
+        "host": "Pre-Health Society",
+        "categories": ["case_competition", "health"],
+        "first_deadline": "2026-11-14T23:59:00-06:00"
+      },
+      "b": {
+        "title": "Pre-Law Case Challenge",
+        "host": "Pre-Law Society",
+        "categories": ["case_competition"],
+        "first_deadline": "2026-11-14T23:59:00-06:00"
+      },
+      "note": "parallel names"
+    },
+    {
+      "id": "n16",
+      "dup": false,
+      "a": {
+        "title": "Hack the Hill",
+        "host": "CS Club",
+        "categories": ["hackathon"],
+        "first_deadline": "2026-11-02T17:00:00-06:00"
+      },
+      "b": {
+        "title": "Hack for Good",
+        "host": "ACM UTD",
+        "categories": ["hackathon"],
+        "first_deadline": "2026-11-30T17:00:00-06:00"
+      },
+      "note": "unrelated hackathons"
+    },
+    {
+      "id": "n17",
+      "dup": false,
+      "a": {
+        "title": "Cybersecurity CTF",
+        "host": "Cyber Club",
+        "categories": ["engineering"],
+        "first_deadline": "2026-11-09T12:00:00-06:00"
+      },
+      "b": {
+        "title": "Capture the Flag Night",
+        "host": "Hacker Club",
+        "categories": ["engineering"],
+        "first_deadline": "2026-12-03T12:00:00-06:00"
+      },
+      "note": "two CTFs a month apart"
+    },
+    {
+      "id": "n18",
+      "dup": false,
+      "a": {
+        "title": "Poster Competition",
+        "host": "Biology Honors",
+        "categories": ["research"],
+        "first_deadline": "2026-11-24T17:00:00-06:00"
+      },
+      "b": {
+        "title": "Pitch Competition",
+        "host": "Biology Honors",
+        "categories": ["pitch"],
+        "first_deadline": "2026-11-24T17:00:00-06:00"
+      },
+      "note": "same host and day, different kind"
+    },
+    {
+      "id": "n19",
+      "dup": false,
+      "a": {
+        "title": "Dance Showcase Competition",
+        "host": "Dance Crew",
+        "categories": ["arts"],
+        "first_deadline": "2026-11-16T19:00:00-06:00"
+      },
+      "b": {
+        "title": "Talent Showcase",
+        "host": "Student Union",
+        "categories": ["arts"],
+        "first_deadline": "2026-11-16T19:00:00-06:00"
+      },
+      "note": "same night, different show"
+    },
+    {
+      "id": "n20",
+      "dup": false,
+      "a": {
+        "title": "Marketing Case Competition",
+        "host": "AMA",
+        "categories": ["case_competition"],
+        "first_deadline": "2026-11-03T23:59:00-06:00"
+      },
+      "b": {
+        "title": "Marketing Strategy Workshop",
+        "host": "AMA",
+        "categories": ["marketing"],
+        "first_deadline": "2026-11-03T18:00:00-06:00"
+      },
+      "note": "competition vs workshop"
+    },
+    {
+      "id": "n21",
+      "dup": false,
+      "a": {
+        "title": "Math Modeling Contest",
+        "host": "Math Club",
+        "categories": ["data_science"],
+        "first_deadline": "2026-11-11T23:59:00-06:00"
+      },
+      "b": {
+        "title": "Math Olympiad Prep",
+        "host": "Math Club",
+        "categories": ["data_science"],
+        "first_deadline": "2026-11-11T18:00:00-06:00"
+      },
+      "note": "contest vs prep session"
+    },
+    {
+      "id": "n22",
+      "dup": false,
+      "a": {
+        "title": "Photography Contest",
+        "host": "Photo Club",
+        "categories": ["arts"],
+        "first_deadline": "2026-11-27T23:59:00-06:00"
+      },
+      "b": {
+        "title": "Photography Workshop",
+        "host": "Photo Club",
+        "categories": ["arts"],
+        "first_deadline": "2026-11-27T18:00:00-06:00"
+      },
+      "note": "contest vs workshop"
+    },
+    {
+      "id": "n23",
+      "dup": false,
+      "a": {
+        "title": "Supply Chain Case Competition",
+        "host": "SCM Club",
+        "categories": ["case_competition"],
+        "first_deadline": "2026-12-04T23:59:00-06:00"
+      },
+      "b": {
+        "title": "Supply Chain Career Fair",
+        "host": "SCM Club",
+        "categories": ["business"],
+        "first_deadline": "2026-12-04T10:00:00-06:00"
+      },
+      "note": "competition vs career fair"
+    },
+    {
+      "id": "n24",
+      "dup": false,
+      "a": {
+        "title": "Nonprofit Innovation Challenge",
+        "host": "Social Entrepreneurs",
+        "categories": ["pitch"],
+        "first_deadline": "2026-11-17T23:59:00-06:00"
+      },
+      "b": {
+        "title": "Nonprofit Volunteer Day",
+        "host": "Social Entrepreneurs",
+        "categories": ["service"],
+        "first_deadline": "2026-11-17T09:00:00-06:00"
+      },
+      "note": "different event, same host"
+    },
+    {
+      "id": "n25",
+      "dup": false,
+      "a": {
+        "title": "Chemistry Quiz Bowl",
+        "host": "Chem Society",
+        "categories": ["quiz"],
+        "first_deadline": "2026-11-06T18:00:00-06:00"
+      },
+      "b": {
+        "title": "Physics Quiz Bowl",
+        "host": "Physics Society",
+        "categories": ["quiz"],
+        "first_deadline": "2026-11-06T18:00:00-06:00"
+      },
+      "note": "parallel quiz bowls"
+    },
+    {
+      "id": "n26",
+      "dup": false,
+      "a": {
+        "title": "Public Speaking Showdown",
+        "host": "Toastmasters",
+        "categories": ["speaking"],
+        "first_deadline": "2026-11-23T19:00:00-06:00"
+      },
+      "b": {
+        "title": "Public Speaking Showdown",
+        "host": "Toastmasters",
+        "categories": ["speaking"],
+        "first_deadline": "2026-12-14T19:00:00-06:00"
+      },
+      "note": "recurring, three weeks later"
+    },
+    {
+      "id": "n27",
+      "dup": false,
+      "a": {
+        "title": "Healthcare Hackathon",
+        "host": "Med Tech Club",
+        "categories": ["hackathon"],
+        "first_deadline": "2026-11-28T09:00:00-06:00"
+      },
+      "b": {
+        "title": "Healthcare Case Competition",
+        "host": "Med Tech Club",
+        "categories": ["case_competition"],
+        "first_deadline": "2026-11-28T09:00:00-06:00"
+      },
+      "note": "same host and day, different format"
+    },
+    {
+      "id": "n28",
+      "dup": false,
+      "a": {
+        "title": "Esports League Finals",
+        "host": "Esports Club",
+        "categories": ["gaming"],
+        "first_deadline": "2026-12-06T14:00:00-06:00"
+      },
+      "b": {
+        "title": "Esports League Kickoff",
+        "host": "Esports Club",
+        "categories": ["gaming"],
+        "first_deadline": "2026-09-05T14:00:00-05:00"
+      },
+      "note": "same series, different stage"
+    },
+    {
+      "id": "n29",
+      "dup": false,
+      "a": {
+        "title": "Film Festival Submissions",
+        "host": "Film Club",
+        "categories": ["arts"],
+        "first_deadline": "2026-11-30T23:59:00-06:00"
+      },
+      "b": {
+        "title": "Film Festival Screening",
+        "host": "Film Club",
+        "categories": ["arts"],
+        "first_deadline": "2026-12-12T19:00:00-06:00"
+      },
+      "note": "submissions vs screening"
+    },
+    {
+      "id": "n30",
+      "dup": false,
+      "a": {
+        "title": "Tech Trivia Night",
+        "host": "ACM UTD",
+        "categories": ["quiz"],
+        "first_deadline": "2026-11-04T19:00:00-06:00"
+      },
+      "b": {
+        "title": "Trivia Night",
+        "host": "Honors Society",
+        "categories": ["quiz"],
+        "first_deadline": "2026-11-04T19:00:00-06:00"
+      },
+      "note": "generic trivia, different host"
+    }
+  ]
+}
