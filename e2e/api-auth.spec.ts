@@ -99,3 +99,12 @@ test("the board endpoint is public but validates its inputs", async ({ request }
     (await request.get("/api/competitions/comet-case-competition/board?role=ceo")).status(),
   ).toBe(400);
 });
+
+test("admin pages never render for signed-out visitors (they are sent to sign in)", async ({
+  page,
+}) => {
+  for (const path of ["/admin", "/admin/submissions", "/admin/ingest"]) {
+    await page.goto(path);
+    expect(new URL(page.url()).pathname, path).toBe("/login");
+  }
+});
