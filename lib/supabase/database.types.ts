@@ -177,6 +177,7 @@ export type Database = {
           confirm_token: string
           confirmed_at: string | null
           created_at: string
+          confirmation_sent_at: string | null
         }
         Insert: {
           email: string
@@ -184,6 +185,7 @@ export type Database = {
           confirm_token?: string
           confirmed_at?: string | null
           created_at?: string
+          confirmation_sent_at?: string | null
         }
         Update: {
           email?: string
@@ -191,6 +193,7 @@ export type Database = {
           confirm_token?: string
           confirmed_at?: string | null
           created_at?: string
+          confirmation_sent_at?: string | null
         }
         Relationships: []
       }

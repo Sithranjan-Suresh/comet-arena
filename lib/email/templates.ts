@@ -183,3 +183,29 @@ export function changeEmail(i: ChangeInput): RenderedEmail {
   ].join("\n");
   return { subject, html, text };
 }
+
+export interface ConfirmSubscriptionInput {
+  confirmUrl: string;
+}
+
+/** Double opt-in: nothing is sent weekly until the person clicks through. */
+export function confirmSubscriptionEmail(i: ConfirmSubscriptionInput): RenderedEmail {
+  const subject = "Confirm your Comet Arena Weekly subscription";
+  const html = layout({
+    preheader: "One click to start getting UTD competitions in your inbox",
+    bodyHtml: `<h1 style="margin:0 0 8px;font-size:26px">One more step</h1>
+<p style="margin:0 0 16px">Confirm to get <strong>Comet Arena Weekly</strong>: every UTD competition closing this week and what is new, every Sunday evening.</p>
+<p style="margin:0 0 16px">${button("Confirm my subscription", i.confirmUrl)}</p>
+<p style="margin:0;font-size:13px;color:#5a554b">If you did not ask for this, ignore this email and nothing will be sent.</p>`,
+    footerHtml: "You are receiving this because this address was entered on Comet Arena.",
+  });
+  const text = [
+    "Confirm your Comet Arena Weekly subscription",
+    "",
+    "Every UTD competition closing this week and what is new, every Sunday evening.",
+    `Confirm: ${i.confirmUrl}`,
+    "",
+    "If you did not ask for this, ignore this email and nothing will be sent.",
+  ].join("\n");
+  return { subject, html, text };
+}

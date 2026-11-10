@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Suspense } from "react";
 import { FieldResults } from "@/components/field/FieldResults";
 import { FilterBar } from "@/components/field/FilterBar";
+import { WeeklySignup } from "@/components/WeeklySignup";
 import { EmptyState, buttonClasses } from "@/components/ui";
 import { getCompetitionsPage } from "@/lib/data/field";
 import { activeFilterCount } from "@/lib/field-url";
@@ -72,6 +73,7 @@ export default async function FieldPage({ searchParams }: { searchParams: Promis
           queryString={withoutCursor.toString()}
         />
       )}
+      <WeeklySignup className="mt-10" />
     </>
   );
 }
