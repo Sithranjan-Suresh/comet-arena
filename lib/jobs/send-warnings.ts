@@ -1,6 +1,6 @@
 import { warningEmail } from "@/lib/email/templates";
 import type { Mailer } from "@/lib/sources";
-import { SourceError } from "@/lib/sources";
+import { realSleep, sendWithRetry } from "./mail";
 import type { WarningWindow } from "@/lib/schemas";
 
 const MIN = 60_000;
@@ -69,33 +69,6 @@ export interface WarningsResult {
 export const sentKey = (userId: string, stageId: string) => `${userId}:${stageId}`;
 export const idempotencyKey = (userId: string, stageId: string, window: WarningWindow) =>
   `warn:${userId}:${stageId}:${window}`;
-
-const realSleep = (ms: number) => new Promise<void>((r) => setTimeout(r, ms));
-
-/** Retry rate limits and outages with backoff; everything else (bad address, rejected content) is permanent. */
-async function sendWithRetry(
-  mailer: Mailer,
-  msg: Parameters<Mailer["send"]>[0],
-  delays: number[],
-  sleep: (ms: number) => Promise<void>,
-): Promise<void> {
-  for (let attempt = 0; ; attempt++) {
-    try {
-      await mailer.send(msg);
-      return;
-    } catch (e) {
-      const retryable =
-        e instanceof SourceError &&
-        (e.kind === "rate_limit" || e.kind === "unavailable" || e.kind === "timeout");
-      if (!retryable || attempt >= delays.length) throw e;
-      await sleep(
-        e instanceof SourceError && e.retryAfterMs
-          ? Math.max(e.retryAfterMs, delays[attempt])
-          : delays[attempt],
-      );
-    }
-  }
-}
 
 /**
  * Two-Minute Warning: email savers 7 days and 1 day before each stage deadline (CL-5).
