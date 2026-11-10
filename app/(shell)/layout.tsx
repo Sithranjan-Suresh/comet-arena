@@ -1,10 +1,11 @@
+import { Providers } from "@/components/Providers";
 import { BottomTabs } from "@/components/shell/NavLinks";
 import { Ticker } from "@/components/shell/Ticker";
 import { TopBar } from "@/components/shell/TopBar";
 
 export default function ShellLayout({ children }: { children: React.ReactNode }) {
   return (
-    <>
+    <Providers>
       <a
         href="#main"
         className="bg-chalk text-ink sr-only z-50 rounded-md px-4 py-2 font-semibold focus:not-sr-only focus:absolute focus:top-2 focus:left-2"
@@ -18,6 +19,6 @@ export default function ShellLayout({ children }: { children: React.ReactNode })
       </main>
       <Ticker />
       <BottomTabs />
-    </>
+    </Providers>
   );
 }
