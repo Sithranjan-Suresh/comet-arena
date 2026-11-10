@@ -3,7 +3,7 @@
 > Derived from `full_context.md`, `product_spec.md`, `engineering_spec.md`.
 > Single global numbering. Work top to bottom; every task is sequenced after its dependencies.
 > **Rule:** one task = one commit (`Task N: <title>`), pushed to `claude/lucid-edison-8c7ns1`.
-> **Progress:** tasks 1-103 complete (✅). Sections A-I done: foundation, database, design system, auth, mock layer, extraction/dedupe/publish pipeline, public discovery, save/schedule/calendar, and the warning/digest/change email jobs.
+> **Progress:** tasks 1-104 complete (✅). Sections A-I done: foundation, database, design system, auth, mock layer, extraction/dedupe/publish pipeline, public discovery, save/schedule/calendar, and the warning/digest/change email jobs.
 > **Priority tags:** P0 = launch-blocking core loop · P1 = important · P2 = depth/later.
 > **Never cut:** ingestion → listing → save → warning.
 > Each task lists **Objective**, **Files/Where**, and **Done when** (verifiable).
@@ -456,7 +456,7 @@ Note on the skill's hackathon framing: these specs describe a real launch produc
 
 ## P. Eval harness (P0 gate before live ingestion)
 
-104. **Eval dataset format + labeling tool.**
+104. ✅ **Eval dataset format + labeling tool.**
      Objective: `/eval/cases.jsonl` schema; helper script to scaffold a case from an Instagram post URL; document labeling rules (title, host, first deadline, register URL, categories; 10 non-competition, 5 results).
      Done when: schema validator passes sample cases.
 
