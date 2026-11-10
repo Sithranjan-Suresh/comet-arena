@@ -36,3 +36,17 @@ npm run test:e2e    # Playwright (builds and serves the app in SOURCES_MODE=mock
 ```
 
 If Playwright can't find its browser, set `PW_CHROMIUM_PATH` to a Chromium binary.
+
+## Deploy (Vercel)
+
+Web is hosted on Vercel (preview per PR, production on `main`). Scheduled jobs are **not** Vercel
+crons; they run as GitHub Actions workflows (see `.github/workflows`).
+
+1. Import the GitHub repo in Vercel (framework: Next.js; `vercel.json` pins region `dfw1`).
+2. Add environment variables from `.env.example` for Production and Preview. Start with
+   `SOURCES_MODE=mock`; switch to `live` only after the eval gate passes (see `TASKS.md` §P).
+3. Set `NEXT_PUBLIC_APP_URL` to the production URL (used for calendar feeds and email links).
+4. Add the custom domain, then verify the email sending domain (SPF/DKIM) in Resend.
+5. Production deploys from `main`; every PR gets a preview URL.
+
+Images from Supabase Storage and the Instagram/Facebook CDNs are allowed in `next.config.ts`.
