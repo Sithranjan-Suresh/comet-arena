@@ -83,3 +83,10 @@ test("POST /api/submit/:id/confirm requires sign-in", async ({ request }) => {
   });
   expect(res.status()).toBe(401);
 });
+
+test("the board endpoint is public but validates its inputs", async ({ request }) => {
+  expect((await request.get("/api/competitions/Not_A_Slug/board")).status()).toBe(404);
+  expect(
+    (await request.get("/api/competitions/comet-case-competition/board?role=ceo")).status(),
+  ).toBe(400);
+});
