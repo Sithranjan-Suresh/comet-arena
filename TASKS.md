@@ -3,7 +3,7 @@
 > Derived from `full_context.md`, `product_spec.md`, `engineering_spec.md`.
 > Single global numbering. Work top to bottom; every task is sequenced after its dependencies.
 > **Rule:** one task = one commit (`Task N: <title>`), pushed to `claude/lucid-edison-8c7ns1`.
-> **Progress:** tasks 1-107 complete (✅). Sections A-I done: foundation, database, design system, auth, mock layer, extraction/dedupe/publish pipeline, public discovery, save/schedule/calendar, and the warning/digest/change email jobs.
+> **Progress:** tasks 1-108 complete (✅). Sections A-I done: foundation, database, design system, auth, mock layer, extraction/dedupe/publish pipeline, public discovery, save/schedule/calendar, and the warning/digest/change email jobs.
 > **Priority tags:** P0 = launch-blocking core loop · P1 = important · P2 = depth/later.
 > **Never cut:** ingestion → listing → save → warning.
 > Each task lists **Objective**, **Files/Where**, and **Done when** (verifiable).
@@ -474,9 +474,10 @@ Note on the skill's hackathon framing: these specs describe a real launch produc
 
 ## Q. Quality: tests, accessibility, performance (P0/P1)
 
-108. **API integration test suite.**
+108. ✅ **API integration test suite.**
      Objective: tests across every route's auth/validation/error paths against a local Supabase.
      Done when: suite green in CI.
+     _Built as route-handler contract tests (`tests/api/routes.test.ts`, 49 cases: auth 401/403, validation 4xx, DB-outage 5xx without leaks) over a fake query builder, plus the SQL/RLS suite against real Postgres (`npm run db:test`). A full local Supabase (Docker + GoTrue) is not available in this environment; add it when one is._
 
 109. **Playwright smoke: core loop.**
      Objective: e2e: browse Field → open Game Day → sign in (test user) → save → Schedule shows stages → ICS feed parses.
