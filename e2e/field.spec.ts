@@ -63,3 +63,24 @@ test("invalid URL parameters fall back to defaults instead of erroring", async (
   expect(res?.status()).toBe(200);
   await expect(page.getByRole("article").first()).toBeVisible();
 });
+
+test("signed out: Save sends the visitor to sign in and remembers where they were", async ({
+  page,
+}) => {
+  await page.goto("/field?categories=hackathon");
+  await expect(page.getByRole("article").first()).toBeVisible();
+  await page
+    .getByRole("button", { name: /^Save / })
+    .first()
+    .click();
+  await expect(page).toHaveURL(/\/login\?next=%2Ffield%3Fcategories%3Dhackathon$/);
+  // the pending save is stored so it completes after sign-in
+  const pending = await page.evaluate(() => sessionStorage.getItem("comet:pending-action"));
+  expect(JSON.parse(pending!).action).toMatchObject({ type: "save" });
+});
+
+test("signed out: Save on a Game Day page behaves the same", async ({ page }) => {
+  await page.goto("/game/comet-case-competition");
+  await page.getByRole("button", { name: /^Save / }).click();
+  await expect(page).toHaveURL(/\/login\?next=%2Fgame%2Fcomet-case-competition$/);
+});

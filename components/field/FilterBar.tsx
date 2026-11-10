@@ -23,27 +23,44 @@ export function FilterBar() {
   const [open, setOpen] = useState(false);
   const [text, setText] = useState(params.get("q") ?? "");
   const lastPushed = useRef(params.get("q") ?? "");
+  const searchRef = useRef<HTMLInputElement>(null);
 
   const push = (patch: Partial<FieldFilters>) => {
     const next = applyFieldPatch(new URLSearchParams(params.toString()), patch);
     startTransition(() => router.replace(fieldHref(next, pathname), { scroll: false }));
   };
 
-  // Debounce the search box so we do not navigate on every keystroke.
-  useEffect(() => {
-    if (text === lastPushed.current) return;
-    const id = setTimeout(() => {
-      lastPushed.current = text;
-      push({ q: text.trim() });
+  // The debounce timer reads the LATEST push through a ref. A closure captured when the timer was
+  // scheduled would use stale search params and could drop a category chip clicked within 300 ms.
+  const pushRef = useRef(push);
+  pushRef.current = push;
+  const timer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+
+  /** Debounce the search box so we do not navigate on every keystroke. Started from the event
+   * handler itself (not an effect), so it cannot be lost to effect timing or hydration order. */
+  const scheduleSearch = (value: string) => {
+    clearTimeout(timer.current);
+    timer.current = setTimeout(() => {
+      lastPushed.current = value;
+      pushRef.current({ q: value.trim() });
     }, 300);
-    return () => clearTimeout(id);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [text]);
+  };
+
+  // Text typed before hydration finished lives only in the DOM; adopt it and run the search.
+  useEffect(() => {
+    const typed = searchRef.current?.value;
+    if (typed && typed !== lastPushed.current) {
+      setText(typed);
+      scheduleSearch(typed);
+    }
+    return () => clearTimeout(timer.current);
+  }, []);
 
   // Keep the box in sync when the URL changes elsewhere (Clear filters, back button).
   useEffect(() => {
     const q = params.get("q") ?? "";
     if (q !== lastPushed.current) {
+      clearTimeout(timer.current);
       lastPushed.current = q;
       setText(q);
     }
@@ -59,12 +76,16 @@ export function FilterBar() {
       <div className="flex gap-2">
         <div className="flex-1">
           <Input
+            ref={searchRef}
             label="Search competitions"
             hideLabel
             type="search"
             placeholder="Search by name, host or topic"
             value={text}
-            onChange={(e) => setText(e.target.value)}
+            onChange={(e) => {
+              setText(e.target.value);
+              scheduleSearch(e.target.value);
+            }}
             maxLength={100}
           />
         </div>

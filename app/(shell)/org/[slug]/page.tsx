@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { GameCard } from "@/components/GameCard";
+import { SaveButton } from "@/components/SaveButton";
 import { Chip, EmptyState, buttonClasses } from "@/components/ui";
 import { getCompetitionsPage } from "@/lib/data/field";
 import { getOrgBySlug } from "@/lib/data/orgs";
@@ -78,7 +79,11 @@ export default async function OrgPage({ params }: Props) {
           <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {upcoming.map((c) => (
               <li key={c.id} className="flex">
-                <GameCard card={c} className="w-full" />
+                <GameCard
+                  card={c}
+                  className="w-full"
+                  action={<SaveButton competitionId={c.id} title={c.title} />}
+                />
               </li>
             ))}
           </ul>

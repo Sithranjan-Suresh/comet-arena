@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { EligibilityCheck } from "@/components/game-day/EligibilityCheck";
 import { GameHeader, InfoGrid, RegisterButton, SourceList } from "@/components/game-day/parts";
+import { SaveButton } from "@/components/SaveButton";
 import { StageTimeline } from "@/components/StageTimeline";
 import { getGameDayBySlug } from "@/lib/data/field";
 import { SLUG_PATTERN } from "@/lib/data/game-day";
@@ -49,7 +50,7 @@ export default async function GameDayPage({ params }: Props) {
 
       <div className="flex flex-wrap items-center gap-3">
         <RegisterButton dto={dto} />
-        {/* Save button slot: filled by Task 60. */}
+        <SaveButton competitionId={dto.id} title={dto.title} />
       </div>
 
       {dto.description && <p className="text-lg leading-relaxed">{dto.description}</p>}

@@ -1,4 +1,5 @@
 // @vitest-environment jsdom
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { render, screen, waitFor } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { AuthProvider } from "@/components/auth/AuthProvider";
@@ -11,11 +12,13 @@ const id = "22222222-2222-4222-8222-222222222222";
 
 function mount(user: { id: string; email: string } | null) {
   return render(
-    <AuthProvider initialUser={user}>
-      <ToastProvider>
-        <PendingActionRunner />
-      </ToastProvider>
-    </AuthProvider>,
+    <QueryClientProvider client={new QueryClient()}>
+      <AuthProvider initialUser={user}>
+        <ToastProvider>
+          <PendingActionRunner />
+        </ToastProvider>
+      </AuthProvider>
+    </QueryClientProvider>,
   );
 }
 

@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { GameCard } from "@/components/GameCard";
+import { SaveButton } from "@/components/SaveButton";
 import { Button } from "@/components/ui";
 import type { GameCardDTO } from "@/lib/schemas";
 
@@ -47,7 +48,11 @@ export function FieldResults({
       <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3" aria-label="Competitions">
         {items.map((card) => (
           <li key={card.id} className="flex">
-            <GameCard card={card} className="w-full" />
+            <GameCard
+              card={card}
+              className="w-full"
+              action={<SaveButton competitionId={card.id} title={card.title} />}
+            />
           </li>
         ))}
       </ul>
