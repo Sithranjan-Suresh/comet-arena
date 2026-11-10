@@ -13,6 +13,8 @@ const PROTECTED: [
   ["PUT", "/api/me/profile", { onboarded: true }],
   ["POST", "/api/me/ics-token"],
   ["DELETE", "/api/me", { confirm: "DELETE" }],
+  ["POST", "/api/submit", { url: "https://example.com/post" }],
+  ["GET", "/api/schedule"],
 ];
 
 for (const [method, path, body] of PROTECTED) {

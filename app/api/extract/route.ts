@@ -1,9 +1,9 @@
 import { NextResponse } from "next/server";
 import { verifyInternalKey } from "@/lib/auth/internal-key";
-import { createImageResolver } from "@/lib/extract/resolve-image";
+import { createExtractDeps } from "@/lib/extract/deps";
 import { EmptyInputError, runExtraction } from "@/lib/extract/service";
 import { extractRequestSchema } from "@/lib/schemas";
-import { SourceError, getSources } from "@/lib/sources";
+import { SourceError } from "@/lib/sources";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 
 export const maxDuration = 30;
@@ -26,22 +26,11 @@ export async function POST(request: Request) {
     );
   }
 
-  const sources = getSources();
   try {
-    const outcome = await runExtraction(parsed.data, {
-      vision: sources.vision,
-      mode: sources.mode,
-      maxImages: Number(process.env.GROQ_MAX_IMAGES) || 3,
-      resolveImage: createImageResolver({
-        downloadStorage: async (bucket, objectPath) => {
-          const { data, error } = await createSupabaseAdminClient()
-            .storage.from(bucket)
-            .download(objectPath);
-          if (error || !data) throw new Error("storage download failed");
-          return Buffer.from(await data.arrayBuffer());
-        },
-      }),
-    });
+    const outcome = await runExtraction(
+      parsed.data,
+      createExtractDeps(createSupabaseAdminClient()),
+    );
     return NextResponse.json(
       outcome.ok
         ? { ...outcome.extraction, meta: outcome.meta }
