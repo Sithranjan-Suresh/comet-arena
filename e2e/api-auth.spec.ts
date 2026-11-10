@@ -27,3 +27,17 @@ test("the internal extraction endpoint is locked without the key", async ({ requ
   const res = await request.post("/api/extract", { data: { images: [], caption: "x" } });
   expect(res.status()).toBe(401);
 });
+
+test("calendar feed: malformed and unknown tokens are 404 and never reveal anything", async ({
+  request,
+}) => {
+  for (const path of [
+    "/api/calendar/garbage.ics",
+    `/api/calendar/${"0".repeat(48)}`,
+    "/api/calendar/..%2Fsecret.ics",
+  ]) {
+    const res = await request.get(path);
+    expect([404, 503]).toContain(res.status()); // 503 only because this CI has no database configured
+    expect(await res.text()).not.toMatch(/BEGIN:VCALENDAR/);
+  }
+});
