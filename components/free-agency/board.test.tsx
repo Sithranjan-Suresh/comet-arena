@@ -222,3 +222,64 @@ describe("FreeAgencyBoard: your own posts", () => {
     });
   });
 });
+
+describe("Suggested matches", () => {
+  it("a free agent sees teams that need their role, with what they cover and what is still missing", async () => {
+    server({
+      free_agents: [agent({ id: "mine", is_mine: true, roles: ["dev"] })],
+      openings: [
+        opening({ id: "o1", team_name: "Comet Coders", roles_needed: ["dev", "pm"] }),
+        opening({ id: "o2", team_name: "Designers Only", roles_needed: ["design"] }),
+      ],
+    });
+    mount();
+    const panel = await screen.findByRole("region", { name: "Suggested matches" });
+    expect(within(panel).getByText("Comet Coders")).toBeInTheDocument();
+    expect(
+      within(panel).getByText(/You cover Developer; they still need Product \/ PM/),
+    ).toBeInTheDocument();
+    expect(within(panel).queryByText("Designers Only")).not.toBeInTheDocument();
+  });
+
+  it("a team lead sees free agents who fit their opening", async () => {
+    server({
+      free_agents: [
+        agent({ id: "a1", display_name: "Ada", roles: ["design"] }),
+        agent({ id: "a2", display_name: "Bo", roles: ["pm"] }),
+      ],
+      openings: [
+        opening({ id: "mine", is_mine: true, team_name: "My Team", roles_needed: ["design"] }),
+      ],
+    });
+    mount();
+    const panel = await screen.findByRole("region", { name: "Suggested matches" });
+    expect(within(panel).getByText("Ada")).toBeInTheDocument();
+    expect(within(panel).queryByText("Bo")).not.toBeInTheDocument();
+  });
+
+  it("shows nothing for visitors, or when the student has no post, or nothing fits", async () => {
+    server({ free_agents: [agent()], openings: [opening()] });
+    mount(null);
+    await screen.findByText("Ada");
+    expect(screen.queryByRole("region", { name: "Suggested matches" })).not.toBeInTheDocument();
+  });
+
+  it("Contact reveals the email only after a click", async () => {
+    server({
+      free_agents: [agent({ id: "mine", is_mine: true, roles: ["design"] })],
+      openings: [
+        opening({
+          id: "o1",
+          team_name: "Team Z",
+          roles_needed: ["design"],
+          contact_email: "grace@utdallas.edu",
+        }),
+      ],
+    });
+    mount();
+    const panel = await screen.findByRole("region", { name: "Suggested matches" });
+    expect(within(panel).queryByText("grace@utdallas.edu")).not.toBeInTheDocument();
+    await userEvent.click(within(panel).getByRole("button", { name: "Contact" }));
+    expect(within(panel).getByText("grace@utdallas.edu")).toBeInTheDocument();
+  });
+});

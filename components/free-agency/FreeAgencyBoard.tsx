@@ -16,6 +16,7 @@ import {
   Input,
 } from "@/components/ui";
 import type { BoardFreeAgent, BoardOpening } from "@/lib/board";
+import { SuggestedMatches } from "./SuggestedMatches";
 import {
   closeFreeAgent,
   closeOpening,
@@ -176,6 +177,14 @@ export function FreeAgencyBoard({
     queryKey: ["board", slug, role, !!user],
     queryFn: () => fetchBoard(slug, role),
   });
+  // Suggestions need the whole board even while a role filter narrows the lists below (same key as the
+  // unfiltered view, so with no filter this is the same cached query).
+  const full = useQuery({
+    queryKey: ["board", slug, null, !!user],
+    queryFn: () => fetchBoard(slug, null),
+    enabled: !!user && role !== null,
+  });
+  const matchesBoard = role === null ? board.data : full.data;
   const refresh = () => qc.invalidateQueries({ queryKey: ["board", slug] });
 
   const post = useMutation({
@@ -231,6 +240,8 @@ export function FreeAgencyBoard({
           </div>
         )}
       </div>
+
+      {user && matchesBoard && <SuggestedMatches board={matchesBoard} title={title} />}
 
       <div role="tablist" aria-label="Board" className="flex gap-2">
         {(
