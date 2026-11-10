@@ -179,8 +179,8 @@ export function OfficeListing({ listing }: { listing: OfficeListingData }) {
       >
         <form onSubmit={uploadResults} className="space-y-3">
           <Textarea
-            label="CSV: email, result, rounds (optional), points (optional), team (optional)"
-            hint="Result: 1st, 2nd, 3rd, finalist, advanced or participated. Students with an account get a verified entry on their Player Card."
+            label="CSV: email, result, rounds, points, team, club (everything after result is optional)"
+            hint="Result: 1st, 2nd, 3rd, finalist, advanced or participated. Add the club each student represented so it counts toward club standings. Students with an account get a verified entry on their Player Card."
             value={csv}
             onChange={(e) => setCsv(e.target.value)}
             rows={6}

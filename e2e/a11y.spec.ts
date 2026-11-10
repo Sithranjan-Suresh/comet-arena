@@ -16,6 +16,7 @@ const PAGES = [
   "/report",
   "/unsubscribe?t=invalid",
   "/privacy",
+  "/standings",
 ];
 
 for (const path of PAGES) {

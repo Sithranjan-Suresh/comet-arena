@@ -227,6 +227,7 @@ export type Database = {
           points: number | null
           season: string
           created_at: string
+          org_id: string | null
         }
         Insert: {
           id?: string
@@ -239,6 +240,7 @@ export type Database = {
           points?: number | null
           season?: string
           created_at?: string
+          org_id?: string | null
         }
         Update: {
           id?: string
@@ -251,6 +253,7 @@ export type Database = {
           points?: number | null
           season?: string
           created_at?: string
+          org_id?: string | null
         }
         Relationships: []
       }
@@ -784,6 +787,7 @@ export type Database = {
       competition_next_deadline: { Args: Record<string, unknown>; Returns: unknown }
       confirm_competition: { Args: Record<string, unknown>; Returns: unknown }
       decide_org_claim: { Args: Record<string, unknown>; Returns: unknown }
+      entry_points: { Args: Record<string, unknown>; Returns: unknown }
       expire_past: { Args: Record<string, unknown>; Returns: unknown }
       is_admin: { Args: Record<string, unknown>; Returns: unknown }
       is_officer_of_competition: { Args: Record<string, unknown>; Returns: unknown }
@@ -797,6 +801,8 @@ export type Database = {
       similarity_to: { Args: Record<string, unknown>; Returns: unknown }
       slugify: { Args: Record<string, unknown>; Returns: unknown }
       stages_due_between: { Args: Record<string, unknown>; Returns: unknown }
+      standings: { Args: Record<string, unknown>; Returns: unknown }
+      standings_seasons: { Args: Record<string, unknown>; Returns: unknown }
       unique_competition_slug: { Args: Record<string, unknown>; Returns: unknown }
     }
     Enums: {

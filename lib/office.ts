@@ -44,6 +44,8 @@ export const resultRowSchema = z.object({
   rounds_advanced: z.number().int().min(0).max(20).optional(),
   points: z.number().int().min(0).max(100000).nullable().optional(),
   team_name: z.string().trim().max(80).optional(),
+  /** The club the student competed for (slug or name); counts toward that club's standings. */
+  club: z.string().trim().max(120).optional(),
 });
 export type ResultRow = z.infer<typeof resultRowSchema>;
 
@@ -98,9 +100,8 @@ export function parseResultsCsv(csv: string): ParsedResults {
   const seen = new Set<string>();
   for (let i = start; i < table.length; i++) {
     const line = i + 1;
-    const [email = "", resultRaw = "", roundsRaw = "", pointsRaw = "", team = ""] = table[i].map(
-      (c) => c.trim(),
-    );
+    const [email = "", resultRaw = "", roundsRaw = "", pointsRaw = "", team = "", club = ""] =
+      table[i].map((c) => c.trim());
     const result = normalizeResult(resultRaw);
     if (!result) {
       out.skipped.push({
@@ -128,6 +129,7 @@ export function parseResultsCsv(csv: string): ParsedResults {
       rounds_advanced: roundsRaw === "" ? undefined : Number(roundsRaw),
       points: pointsRaw === "" ? undefined : Number(pointsRaw),
       team_name: team || undefined,
+      club: club || undefined,
     });
     if (!parsed.success) {
       out.skipped.push({ line, reason: "Not a valid email address", value: email });

@@ -36,6 +36,14 @@ export default async function MePage() {
         confirms them.
       </p>
 
+      <p className="text-sm">
+        See how clubs and majors rank on the{" "}
+        <Link href="/standings" className="font-semibold underline">
+          Standings
+        </Link>
+        .
+      </p>
+
       <section aria-labelledby="results">
         <h2 id="results" className="mb-3 text-2xl font-bold">
           My competitions

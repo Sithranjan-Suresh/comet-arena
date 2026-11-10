@@ -21,6 +21,9 @@ export default function ShellLayout({ children }: { children: React.ReactNode })
       <footer className="mx-auto max-w-6xl px-4 pb-36 text-sm md:pb-16">
         <nav aria-label="Footer" className="text-ink-muted flex flex-wrap gap-x-5 gap-y-2">
           <span>Comet Arena is not affiliated with UT Dallas.</span>
+          <Link href="/standings" className="underline">
+            Standings
+          </Link>
           <Link href="/privacy" className="underline">
             Privacy
           </Link>
