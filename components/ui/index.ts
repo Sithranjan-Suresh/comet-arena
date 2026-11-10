@@ -5,3 +5,4 @@ export * from "./Dialog";
 export * from "./Skeleton";
 export * from "./States";
 export * from "./Toast";
+export * from "./Badges";
