@@ -15,6 +15,7 @@ const PROTECTED: [
   ["DELETE", "/api/me", { confirm: "DELETE" }],
   ["POST", "/api/submit", { url: "https://example.com/post" }],
   ["GET", "/api/schedule"],
+  ["GET", "/api/feed"],
   ["GET", "/api/me/entries"],
   [
     "POST",
