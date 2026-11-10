@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { AddEntryDialog } from "@/components/entries/AddEntryDialog";
 import { EligibilityCheck } from "@/components/game-day/EligibilityCheck";
 import { FreeAgencyBoard } from "@/components/free-agency/FreeAgencyBoard";
 import { GameHeader, InfoGrid, RegisterButton, SourceList } from "@/components/game-day/parts";
@@ -53,6 +54,7 @@ export default async function GameDayPage({ params }: Props) {
       <div className="flex flex-wrap items-center gap-3">
         <RegisterButton dto={dto} />
         <SaveButton competitionId={dto.id} title={dto.title} />
+        <AddEntryDialog competitionId={dto.id} title={dto.title} stageCount={dto.stages.length} />
       </div>
 
       {dto.description && <p className="text-lg leading-relaxed">{dto.description}</p>}
