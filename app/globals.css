@@ -17,6 +17,10 @@
   --color-good: #1e6b34;
   --color-warn: #7a4e00;
   --color-critical: #a8231b;
+
+  --font-display: var(--font-display), "Arial Narrow", Impact, sans-serif;
+  --font-sans: var(--font-sans), system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-led: var(--font-led), ui-monospace, "SFMono-Regular", Menlo, monospace;
 }
 
 html {
@@ -35,4 +39,33 @@ body {
 :focus-visible {
   outline: 3px solid var(--color-utd-orange);
   outline-offset: 2px;
+}
+
+/* Headings use the jersey face; numerals line up in tables and countdowns. */
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  letter-spacing: 0.01em;
+  text-wrap: balance;
+}
+
+/* Scoreboard digits: amber LED on a dark panel (see Countdown). */
+.led-digits {
+  font-family: var(--font-led);
+  font-variant-numeric: tabular-nums;
+  color: var(--color-led);
+  text-shadow: 0 0 6px color-mix(in srgb, var(--color-led) 55%, transparent);
+  letter-spacing: 0.06em;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
 }

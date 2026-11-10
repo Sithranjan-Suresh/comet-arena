@@ -34,6 +34,22 @@ export default function TokensPage() {
         </ul>
       </section>
 
+      <section aria-labelledby="type">
+        <h2 id="type" className="mb-3 text-xl font-semibold">
+          Typography
+        </h2>
+        <div className="space-y-3 rounded-lg bg-turf p-5 text-chalk">
+          <p className="font-display text-5xl font-extrabold uppercase">Never compete alone</p>
+          <p className="font-display text-2xl font-bold">Heading / jersey display face</p>
+          <p>Body text uses a clean sans so long descriptions stay readable on a phone.</p>
+        </div>
+        <div className="mt-3 rounded-lg bg-scoreboard p-5">
+          <p className="led-digits text-5xl" aria-label="3 days 4 hours 12 minutes">
+            03d 04h 12m
+          </p>
+        </div>
+      </section>
+
       <section aria-labelledby="contrast">
         <h2 id="contrast" className="mb-3 text-xl font-semibold">
           Text contrast
