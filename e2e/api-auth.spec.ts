@@ -15,6 +15,14 @@ const PROTECTED: [
   ["DELETE", "/api/me", { confirm: "DELETE" }],
   ["POST", "/api/submit", { url: "https://example.com/post" }],
   ["GET", "/api/schedule"],
+  ["GET", "/api/me/entries"],
+  [
+    "POST",
+    "/api/entries",
+    { competition_id: "00000000-0000-4000-8000-0000000000c1", result: "first" },
+  ],
+  ["PATCH", "/api/entries/00000000-0000-4000-8000-0000000000c1", { result: "first" }],
+  ["DELETE", "/api/entries/00000000-0000-4000-8000-0000000000c1"],
   [
     "POST",
     "/api/free-agents",
