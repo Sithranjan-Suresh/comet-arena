@@ -35,21 +35,19 @@ await runCli("ingest-events", async (ctx, db) => {
       },
       async record(r) {
         // ingest_posts is the "seen it" ledger for every source; event ids are prefixed with their source.
-        const { error } = await db
-          .from("ingest_posts")
-          .upsert(
-            {
-              ig_post_id: r.id,
-              org_id: null,
-              caption: r.title,
-              media_urls: [],
-              permalink: r.url,
-              posted_at: r.startsAt,
-              classification: r.classification,
-              competition_id: r.competitionId,
-            },
-            { onConflict: "ig_post_id" },
-          );
+        const { error } = await db.from("ingest_posts").upsert(
+          {
+            ig_post_id: r.id,
+            org_id: null,
+            caption: r.title,
+            media_urls: [],
+            permalink: r.url,
+            posted_at: r.startsAt,
+            classification: r.classification,
+            competition_id: r.competitionId,
+          },
+          { onConflict: "ig_post_id" },
+        );
         if (error) throw error;
       },
     },
