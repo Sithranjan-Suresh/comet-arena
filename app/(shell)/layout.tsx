@@ -1,4 +1,5 @@
 import { BottomTabs } from "@/components/shell/NavLinks";
+import { Ticker } from "@/components/shell/Ticker";
 import { TopBar } from "@/components/shell/TopBar";
 
 export default function ShellLayout({ children }: { children: React.ReactNode }) {
@@ -12,9 +13,10 @@ export default function ShellLayout({ children }: { children: React.ReactNode })
       </a>
       <TopBar />
       {/* Bottom padding leaves room for the mobile tab bar (and the ticker, Task 29). */}
-      <main id="main" className="mx-auto min-h-[70dvh] max-w-6xl px-4 pt-6 pb-28 md:pb-12">
+      <main id="main" className="mx-auto min-h-[70dvh] max-w-6xl px-4 pt-6 pb-36 md:pb-16">
         {children}
       </main>
+      <Ticker />
       <BottomTabs />
     </>
   );

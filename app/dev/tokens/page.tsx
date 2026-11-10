@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { contrastRatio } from "@/lib/theme/contrast";
 import { colors, textPairs } from "@/lib/theme/tokens";
 import { Countdown } from "@/components/Countdown";
+import { TickerBar } from "@/components/shell/Ticker";
 import { StageTimeline } from "@/components/StageTimeline";
 import { UiDemo } from "./UiDemo";
 
@@ -80,6 +81,27 @@ export default function TokensPage() {
             />
           ))}
         </div>
+      </section>
+
+      <section aria-labelledby="ticker">
+        <h2 id="ticker" className="mb-3 text-xl font-semibold">
+          Deadline ticker
+        </h2>
+        <TickerBar
+          fixed={false}
+          items={[
+            "Comet Case Competition",
+            "Hackathon 24h",
+            "Pitch Night",
+            "Data Science Sprint",
+            "Design Sprint",
+          ].map((title, i) => ({
+            slug: `sample-${i}`,
+            title,
+            stage: "Registration closes",
+            deadline: new Date(Date.now() + (i + 1) * 31 * 3600_000).toISOString(),
+          }))}
+        />
       </section>
 
       <UiDemo />

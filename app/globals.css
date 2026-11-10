@@ -69,3 +69,31 @@ h3 {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* Deadline ticker marquee: pauses on hover/focus; static and scrollable for reduced motion. */
+@keyframes ticker-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+.ticker-track {
+  animation: ticker-scroll 45s linear infinite;
+}
+.ticker:hover .ticker-track,
+.ticker:focus-within .ticker-track {
+  animation-play-state: paused;
+}
+@media (prefers-reduced-motion: reduce) {
+  .ticker {
+    overflow-x: auto;
+  }
+  .ticker-track {
+    animation: none !important;
+  }
+  .ticker-dup {
+    display: none;
+  }
+}
