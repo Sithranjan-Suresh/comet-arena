@@ -23,6 +23,9 @@ const PROTECTED: [
     { competition_id: "00000000-0000-4000-8000-0000000000c1", field: "dates" },
   ],
   ["POST", "/api/admin/flags/00000000-0000-4000-8000-0000000000c1"],
+  ["GET", "/api/orgs/00000000-0000-4000-8000-0000000000c1/claim"],
+  ["POST", "/api/orgs/00000000-0000-4000-8000-0000000000c1/claim", { note: "x" }],
+  ["POST", "/api/admin/claims/00000000-0000-4000-8000-0000000000c1", { approve: true }],
   ["GET", "/api/admin/review"],
   ["PATCH", "/api/admin/orgs/00000000-0000-4000-8000-0000000000c1", { ig_handle: "x" }],
   ["POST", "/api/admin/orgs/import", { csv: "a,b" }],
@@ -124,4 +127,11 @@ test("admin pages never render for signed-out visitors (they are sent to sign in
     await page.goto(path);
     expect(new URL(page.url()).pathname, path).toBe("/login");
   }
+});
+
+test("the Front Office sends signed-out visitors to sign in and returns them after", async ({
+  page,
+}) => {
+  await page.goto("/office");
+  await expect(page).toHaveURL(/\/login\?next=%2Foffice$/);
 });

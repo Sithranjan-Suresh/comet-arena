@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { GameCard } from "@/components/GameCard";
+import { ClaimOrgButton } from "@/components/org/ClaimOrgButton";
 import { SaveButton } from "@/components/SaveButton";
 import { Chip, EmptyState, buttonClasses } from "@/components/ui";
 import { getCompetitionsPage } from "@/lib/data/field";
@@ -58,6 +59,7 @@ export default async function OrgPage({ params }: Props) {
             <Chip key={t}>{t}</Chip>
           ))}
         </div>
+        {!org.verified && <ClaimOrgButton orgId={org.id} orgName={org.name} />}
         {(ig || discord) && (
           <ul className="flex flex-wrap gap-4 text-sm font-semibold">
             {ig && (

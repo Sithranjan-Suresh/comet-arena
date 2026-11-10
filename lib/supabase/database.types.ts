@@ -368,6 +368,39 @@ export type Database = {
         }
         Relationships: []
       }
+      org_claims: {
+        Row: {
+          id: string
+          org_id: string
+          user_id: string
+          note: string
+          status: Database["public"]["Enums"]["claim_status"]
+          created_at: string
+          decided_at: string | null
+          decided_by: string | null
+        }
+        Insert: {
+          id?: string
+          org_id: string
+          user_id: string
+          note?: string
+          status?: Database["public"]["Enums"]["claim_status"]
+          created_at?: string
+          decided_at?: string | null
+          decided_by?: string | null
+        }
+        Update: {
+          id?: string
+          org_id?: string
+          user_id?: string
+          note?: string
+          status?: Database["public"]["Enums"]["claim_status"]
+          created_at?: string
+          decided_at?: string | null
+          decided_by?: string | null
+        }
+        Relationships: []
+      }
       orgs: {
         Row: {
           id: string
@@ -720,6 +753,7 @@ export type Database = {
       apply_stage_update: { Args: Record<string, unknown>; Returns: unknown }
       competition_next_deadline: { Args: Record<string, unknown>; Returns: unknown }
       confirm_competition: { Args: Record<string, unknown>; Returns: unknown }
+      decide_org_claim: { Args: Record<string, unknown>; Returns: unknown }
       expire_past: { Args: Record<string, unknown>; Returns: unknown }
       is_admin: { Args: Record<string, unknown>; Returns: unknown }
       match_competition_by_title: { Args: Record<string, unknown>; Returns: unknown }
@@ -731,6 +765,7 @@ export type Database = {
       unique_competition_slug: { Args: Record<string, unknown>; Returns: unknown }
     }
     Enums: {
+      claim_status: "pending" | "approved" | "rejected"
       competition_cost: "free" | "paid" | "unknown"
       competition_format: "in_person" | "virtual" | "hybrid" | "unknown"
       competition_status: "live" | "unverified" | "expected" | "past" | "rejected"

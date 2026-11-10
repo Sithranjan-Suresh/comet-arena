@@ -38,6 +38,8 @@ import * as feed from "../../app/api/feed/route";
 import * as confirmRoute from "../../app/api/confirm/[competition_id]/route";
 import * as flagsRoute from "../../app/api/flags/route";
 import * as adminFlag from "../../app/api/admin/flags/[id]/route";
+import * as claimRoute from "../../app/api/orgs/[id]/claim/route";
+import * as adminClaim from "../../app/api/admin/claims/[id]/route";
 import * as submit from "../../app/api/submit/route";
 import * as confirm from "../../app/api/submit/[id]/confirm/route";
 import * as adminReview from "../../app/api/admin/review/route";
@@ -109,11 +111,20 @@ const userRoutes: [string, () => Promise<Response>][] = [
     "POST /api/flags",
     () => flagsRoute.POST(post("/api/flags", { competition_id: UUID, field: "dates" })),
   ],
+  ["GET /api/orgs/:id/claim", () => claimRoute.GET(req("GET", "/x"), params({ id: UUID }))],
+  [
+    "POST /api/orgs/:id/claim",
+    () => claimRoute.POST(post("/x", { note: "hi" }), params({ id: UUID })),
+  ],
   ["POST /api/submit", () => submit.POST(post("/api/submit", { url: "https://example.com/p" }))],
   ["POST /api/submit/:id/confirm", () => confirm.POST(post("/x", {}), params({ id: UUID }))],
 ];
 
 const adminRoutes: [string, () => Promise<Response>][] = [
+  [
+    "POST /api/admin/claims/:id",
+    () => adminClaim.POST(post("/x", { approve: true }), params({ id: UUID })),
+  ],
   ["POST /api/admin/flags/:id", () => adminFlag.POST(req("POST", "/x"), params({ id: UUID }))],
   ["GET /api/admin/review", () => adminReview.GET()],
   [
@@ -168,6 +179,14 @@ describe("validation: malformed input is a 4xx with a JSON error, never a 500", 
     [
       "POST /api/confirm/:id bad id",
       () => confirmRoute.POST(req("POST", "/x"), params({ competition_id: "nope" })),
+    ],
+    [
+      "POST /api/orgs/:id/claim bad id",
+      () => claimRoute.POST(post("/x", {}), params({ id: "nope" })),
+    ],
+    [
+      "POST /api/orgs/:id/claim note too long",
+      () => claimRoute.POST(post("/x", { note: "x".repeat(301) }), params({ id: UUID })),
     ],
     ["POST /api/entries empty", () => entries.POST(post("/x", {}))],
     [
