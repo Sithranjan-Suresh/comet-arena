@@ -83,3 +83,54 @@ export function createSubmitDeps(db: SupabaseClient<Database>): SubmitDeps {
     },
   };
 }
+
+import { supabasePublishStore } from "@/lib/pipeline/supabase-store";
+import type { ConfirmDeps, SubmissionRecord } from "./confirm";
+
+/** Public URL of a stored flyer, e.g. storage:flyers/submissions/u/x.jpg -> https://<project>.supabase.co/storage/v1/object/public/... */
+export function publicFlyerUrl(
+  imagePath: string | null,
+  supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL,
+): string | null {
+  if (!imagePath?.startsWith("storage:") || !supabaseUrl) return null;
+  const rest = imagePath.slice("storage:".length);
+  if (rest.includes("..")) return null;
+  return `${supabaseUrl.replace(/\/+$/, "")}/storage/v1/object/public/${rest}`;
+}
+
+/**
+ * Production wiring for confirming a submission. `userDb` is the student's RLS-bound client (so they can
+ * only ever load their own submission); `adminDb` performs the system writes.
+ */
+export function createConfirmDeps(
+  userDb: SupabaseClient<Database>,
+  adminDb: SupabaseClient<Database>,
+): ConfirmDeps {
+  return {
+    async getSubmission(id, userId) {
+      const { data, error } = await userDb
+        .from("submissions")
+        .select("id,user_id,raw_url,image_path,status,competition_id,merged_into")
+        .eq("id", id)
+        .eq("user_id", userId)
+        .maybeSingle();
+      if (error) throw error;
+      return data as SubmissionRecord | null;
+    },
+    store: supabasePublishStore(adminDb),
+    embedder: getSources().embedder,
+    async lookupSlug(competitionId) {
+      const { data } = await adminDb
+        .from("competitions")
+        .select("slug")
+        .eq("id", competitionId)
+        .maybeSingle();
+      return data?.slug ?? null;
+    },
+    async markDone(id, patch) {
+      const { error } = await adminDb.from("submissions").update(patch).eq("id", id);
+      if (error) throw error;
+    },
+    flyerUrl: (path) => publicFlyerUrl(path),
+  };
+}

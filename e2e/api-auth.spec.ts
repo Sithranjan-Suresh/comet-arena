@@ -60,3 +60,10 @@ test.describe("unsubscribe", () => {
     await expect(page.getByRole("button", { name: "Confirm unsubscribe" })).toHaveCount(0);
   });
 });
+
+test("POST /api/submit/:id/confirm requires sign-in", async ({ request }) => {
+  const res = await request.post("/api/submit/00000000-0000-4000-8000-0000000000b1/confirm", {
+    data: {},
+  });
+  expect(res.status()).toBe(401);
+});
