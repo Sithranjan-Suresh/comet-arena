@@ -435,9 +435,9 @@ Note on the skill's hackathon framing: these specs describe a real launch produc
     Objective: one workflow per job with correct CT-converted UTC cron (DST-aware strategy documented), secrets wiring, concurrency groups, failure notification.
     Done when: YAML lints; schedules match §6.
 
-100. **Meta token refresh job.**
-     Objective: monthly `refresh-token` workflow refreshing the long-lived token and writing back to secrets (or alerting for manual rotation).
-     Done when: dry-run logs expected calls.
+100.  **Meta token refresh job.**
+      Objective: monthly `refresh-token` workflow refreshing the long-lived token and writing back to secrets (or alerting for manual rotation).
+      Done when: dry-run logs expected calls.
 
 ## O. Admin and review queue (P0)
 
