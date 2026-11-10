@@ -15,6 +15,10 @@ never misses a stage.
 - [`engineering_spec.md`](engineering_spec.md): architecture, data model, APIs, jobs
 - [`docs/auth-setup.md`](docs/auth-setup.md): Supabase Auth, Google OAuth and `@utdallas.edu` restriction setup
 - [`TASKS.md`](TASKS.md): the ordered implementation checklist (one commit per task)
+- [`docs/launch-runbook.md`](docs/launch-runbook.md): what to set up, in order, to go live (Supabase, Vercel, Resend, Meta, data load, burn-in)
+- [`docs/ship-checklist.md`](docs/ship-checklist.md): the "Shipped" criteria and the evidence for each
+- [`docs/demo-script.md`](docs/demo-script.md): the 90-second launch demo
+- [`docs/security.md`](docs/security.md), [`docs/accessibility.md`](docs/accessibility.md), [`docs/perf.md`](docs/perf.md), [`docs/failure-states.md`](docs/failure-states.md): review results
 
 ## Quickstart
 
@@ -27,7 +31,15 @@ npm run dev        # http://localhost:3000
 
 Other scripts: `npm run lint`, `npm run typecheck`, `npm run build`, `npm run format`.
 
-More setup (Supabase, env vars, deploy) is added by the tasks in `TASKS.md` as they land.
+Everything runs offline by default (`SOURCES_MODE=mock`): the extraction model, Instagram, email, Discord and push are
+fixtures, so you can try the whole product with no accounts. Copy `.env.example` to `.env.local` to configure real
+services, and follow `docs/launch-runbook.md` to go live. `npm run verify:launch` reports what is still missing.
+
+### Scheduled jobs
+
+Each job is a script (`npm run job:<name>`) and a generated GitHub Actions workflow
+(`.github/workflows/job-*.yml`, regenerate with `node scripts/gen-workflows.mjs` after editing
+`scripts/lib/schedule.mjs`). Times are America/Chicago; see `tests/workflows.test.ts` for the DST handling.
 
 ## Testing
 

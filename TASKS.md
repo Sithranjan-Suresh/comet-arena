@@ -3,7 +3,7 @@
 > Derived from `full_context.md`, `product_spec.md`, `engineering_spec.md`.
 > Single global numbering. Work top to bottom; every task is sequenced after its dependencies.
 > **Rule:** one task = one commit (`Task N: <title>`), pushed to `claude/lucid-edison-8c7ns1`.
-> **Progress:** tasks 1-108 and 111-124 complete (109-110 wait for a live Supabase) (✅). Sections A-I done: foundation, database, design system, auth, mock layer, extraction/dedupe/publish pipeline, public discovery, save/schedule/calendar, and the warning/digest/change email jobs.
+> **Progress:** tasks 1-108, 111-124 complete (✅). Built and tested in mock mode: everything through Section S. Waiting on accounts and real data: 109-110 (e2e with a live Supabase) and Section T (125-131: production Supabase, Vercel, Meta, real data, burn-in, demo, ship). See `docs/launch-runbook.md`.
 > **Priority tags:** P0 = launch-blocking core loop · P1 = important · P2 = depth/later.
 > **Never cut:** ingestion → listing → save → warning.
 > Each task lists **Objective**, **Files/Where**, and **Done when** (verifiable).
