@@ -17,6 +17,12 @@ export function AuthControl() {
         >
           {user.email}
         </span>
+        <Link
+          href="/settings"
+          className="text-chalk hover:bg-turf-light inline-flex min-h-11 items-center rounded-lg px-3 font-semibold"
+        >
+          Settings
+        </Link>
         <button
           type="submit"
           className="border-chalk-muted text-chalk hover:bg-turf-light inline-flex min-h-11 items-center rounded-lg border px-4 font-semibold"
