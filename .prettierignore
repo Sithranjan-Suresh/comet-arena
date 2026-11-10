@@ -5,3 +5,4 @@ next-env.d.ts
 full_context.md
 product_spec.md
 engineering_spec.md
+lib/supabase/database.types.ts
