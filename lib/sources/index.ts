@@ -1,3 +1,5 @@
+import { Chaos } from "./mock/chaos";
+import { mockClubs, mockFeed, mockInstagram, mockVision } from "./mock/adapters";
 import { notImplemented } from "./stubs";
 import type { Sources } from "./types";
 
@@ -11,15 +13,19 @@ export interface SourceFactories {
 }
 
 export const defaultFactories: SourceFactories = {
-  mock: () => ({
-    instagram: notImplemented("instagram(mock)", "Task 38/39"),
-    devpost: notImplemented("devpost(mock)", "Task 38/39"),
-    mlh: notImplemented("mlh(mock)", "Task 38/39"),
-    utdclubs: notImplemented("utdclubs(mock)", "Task 38/39"),
-    vision: notImplemented("vision(mock)", "Task 38/39"),
-    embedder: notImplemented("embedder(mock)", "Task 47"),
-    mailer: notImplemented("mailer(mock)", "Task 66"),
-  }),
+  mock: () => {
+    // One chaos instance shared by all mock adapters so "one 429 per run" is truly once per run.
+    const chaos = Chaos.fromEnv();
+    return {
+      instagram: mockInstagram(chaos),
+      devpost: mockFeed("devpost", chaos),
+      mlh: mockFeed("mlh", chaos),
+      utdclubs: mockClubs(chaos),
+      vision: mockVision(chaos),
+      embedder: notImplemented("embedder(mock)", "Task 47"),
+      mailer: notImplemented("mailer(mock)", "Task 66"),
+    };
+  },
   live: () => ({
     instagram: notImplemented("instagram(live)", "Task 93"),
     devpost: notImplemented("devpost(live)", "Task 97"),
