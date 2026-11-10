@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { Button, useToast } from "@/components/ui";
-import { icsFeedUrl } from "@/lib/ics-token";
+import { icsFeedUrl } from "@/lib/ics-url";
 
 export function CalendarFeedCard({
   appUrl,

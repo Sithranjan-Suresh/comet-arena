@@ -1,5 +1,8 @@
-import { describe, expect, it } from "vitest";
-import { ICS_TOKEN_PATTERN, generateIcsToken, icsFeedPath, icsFeedUrl } from "@/lib/ics-token";
+import { describe, expect, it, vi } from "vitest";
+
+vi.mock("server-only", () => ({}));
+import { generateIcsToken } from "@/lib/ics-token";
+import { ICS_TOKEN_PATTERN, icsFeedPath, icsFeedUrl } from "@/lib/ics-url";
 
 describe("ics token", () => {
   it("generates 192-bit hex tokens that never repeat", () => {
