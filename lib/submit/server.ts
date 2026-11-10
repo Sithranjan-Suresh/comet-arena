@@ -2,6 +2,7 @@ import { randomUUID } from "node:crypto";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { dedupeExtraction } from "@/lib/dedupe";
 import { supabaseDedupeStore } from "@/lib/dedupe-store";
+import { runWithBudget, sha256 } from "@/lib/extract/budget";
 import { createExtractDeps } from "@/lib/extract/deps";
 import { runExtraction } from "@/lib/extract/service";
 import { safeFetchBuffer } from "@/lib/net/ssrf";
@@ -17,6 +18,8 @@ const MAX_HTML_BYTES = 2 * 1024 * 1024;
 export function createSubmitDeps(db: SupabaseClient<Database>): SubmitDeps {
   const sources = getSources();
   const extractDeps = createExtractDeps(db);
+  // Remember each uploaded image's hash so the budget wrapper can recognise the demo flyer.
+  const hashes = new Map<string, string>();
 
   return {
     storage: {
@@ -28,7 +31,9 @@ export function createSubmitDeps(db: SupabaseClient<Database>): SubmitDeps {
         if (error) throw error;
         // Short-lived link for the preview; the flyer becomes public only when the competition is published.
         const { data } = await db.storage.from(FLYER_BUCKET).createSignedUrl(path, 3600);
-        return { ref: `storage:${FLYER_BUCKET}/${path}`, publicUrl: data?.signedUrl ?? null };
+        const ref = `storage:${FLYER_BUCKET}/${path}`;
+        hashes.set(ref, sha256(bytes));
+        return { ref, publicUrl: data?.signedUrl ?? null };
       },
     },
 
@@ -55,7 +60,12 @@ export function createSubmitDeps(db: SupabaseClient<Database>): SubmitDeps {
       return new Uint8Array(res.buffer);
     },
 
-    extract: (req) => runExtraction(req, extractDeps),
+    extract: (req) =>
+      runWithBudget({
+        run: () => runExtraction(req, extractDeps),
+        imageSha256: req.images[0] ? hashes.get(req.images[0]) : null,
+        forceCache: process.env.DEMO_CACHE === "1",
+      }),
 
     dedupe: (extraction, postedAt) =>
       dedupeExtraction(extraction, {

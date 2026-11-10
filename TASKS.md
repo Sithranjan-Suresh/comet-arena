@@ -3,7 +3,7 @@
 > Derived from `full_context.md`, `product_spec.md`, `engineering_spec.md`.
 > Single global numbering. Work top to bottom; every task is sequenced after its dependencies.
 > **Rule:** one task = one commit (`Task N: <title>`), pushed to `claude/lucid-edison-8c7ns1`.
-> **Progress:** tasks 1-71 complete (✅). Sections A-I done: foundation, database, design system, auth, mock layer, extraction/dedupe/publish pipeline, public discovery, save/schedule/calendar, and the warning/digest/change email jobs.
+> **Progress:** tasks 1-79 complete (✅). Sections A-I done: foundation, database, design system, auth, mock layer, extraction/dedupe/publish pipeline, public discovery, save/schedule/calendar, and the warning/digest/change email jobs.
 > **Priority tags:** P0 = launch-blocking core loop · P1 = important · P2 = depth/later.
 > **Never cut:** ingestion → listing → save → warning.
 > Each task lists **Objective**, **Files/Where**, and **Done when** (verifiable).
@@ -316,35 +316,35 @@ Note on the skill's hackathon framing: these specs describe a real launch produc
 
 ## J. Report a Game (P0 — signature moment)
 
-72. **`POST /api/submit`.**
+72. ✅ **`POST /api/submit`.**
     Objective: accepts URL or multipart image (JPG/PNG/HEIC ≤10 MB), stores image in Supabase Storage, fetches page text/OG image for URLs, calls extraction, runs dedupe preview, creates `submissions` row, returns `{submission_id, extracted, possible_match?}`; queues on outage with "we'll finish reading it shortly".
     Done when: integration tests for URL, image, oversize (413), wrong type, outage.
 
-73. **`POST /api/submit/:id/confirm`.**
+73. ✅ **`POST /api/submit/:id/confirm`.**
     Objective: validates required confirmations (title, ≥1 dated stage, register link or "no link yet"), publishes as `unverified` crediting the submitter, or merges (`merge_into`) adding a confirmation.
     Done when: both publish and merge paths tested.
 
-74. **Storage bucket + policies.**
+74. ✅ **Storage bucket + policies.**
     Objective: `flyers` bucket, owner-write/public-read for published flyers, size/type limits.
     Done when: anon cannot write; user can upload own file.
 
-75. **`SourceInput` component.**
+75. ✅ **`SourceInput` component.**
     Objective: link-or-upload with drag-drop, paste-image, camera on mobile, inline validation ("Add a link or an image").
     Done when: works on 375px.
 
-76. **`ExtractionPreview` component.**
+76. ✅ **`ExtractionPreview` component.**
     Objective: skeleton fields + "Reading the flyer…", fields fill live as results arrive, every field editable, stages editor (add/remove/reorder), category chips, confidence/“we'll double-check” note, manual-entry fallback after 10 s.
     Done when: simulated slow/malformed/timeout mock states each render correctly.
 
-77. **`DuplicatePrompt` + confirm UI.**
+77. ✅ **`DuplicatePrompt` + confirm UI.**
     Objective: "Same competition?" showing the matched Game Day card with Yes (adds confirmation) / No (publishes new).
     Done when: both choices hit the right API path.
 
-78. **Report a Game page (`/report`).**
+78. ✅ **Report a Game page (`/report`).**
     Objective: compose steps 75–77, success screen linking to the new Game Day page; requires auth via `AuthGate`.
     Done when: end-to-end in mock mode: upload fixture flyer → fields → publish → page exists.
 
-79. **Signature-moment cache + budget.**
+79. ✅ **Signature-moment cache + budget.**
     Objective: pre-extracted cached result for the demo flyer served when `DEMO_CACHE=1` or when live exceeds 6 s; measure and log extraction latency.
     Done when: demo flyer returns in ≤6 s on throttled network emulation.
 
