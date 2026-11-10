@@ -211,6 +211,7 @@ describe("duplicates", () => {
     const same = deps({ dedupe: async () => ({ action: "merge", match, embedding: [1] }) });
     const a = await handleSubmission({ userId: USER, image: { bytes: PNG } }, same.d);
     expect(a.status === 200 && "possible_match" in a.body && a.body.possible_match).toEqual({
+      id: "c1",
       slug: "ais-case",
       title: "AIS Case",
       similarity: 0.95,

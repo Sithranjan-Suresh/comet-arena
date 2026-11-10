@@ -42,6 +42,8 @@ export interface SubmitInput {
 }
 
 export interface PossibleMatch {
+  /** Competition id: what the confirm endpoint needs to merge into it. */
+  id: string;
   slug: string;
   title: string;
   similarity: number;
@@ -211,6 +213,7 @@ export async function handleSubmission(
       const d = await deps.dedupe(extraction, postedAt);
       if (d.action === "merge")
         possible = {
+          id: d.match.id,
           slug: d.match.slug,
           title: d.match.title,
           similarity: d.match.similarity,
@@ -218,7 +221,13 @@ export async function handleSubmission(
         };
       else if (d.action === "review" && d.candidates[0]) {
         const c = d.candidates[0];
-        possible = { slug: c.slug, title: c.title, similarity: c.similarity, confidence: "maybe" };
+        possible = {
+          id: c.id,
+          slug: c.slug,
+          title: c.title,
+          similarity: c.similarity,
+          confidence: "maybe",
+        };
       }
     } catch {
       possible = null; // dedupe is a convenience here; the admin queue catches duplicates later
