@@ -1,7 +1,8 @@
-import "server-only";
 import { createHmac, timingSafeEqual } from "node:crypto";
 import { z } from "zod";
 
+// Node-only (node:crypto), so it cannot end up in a browser bundle. Not `server-only` because scheduled
+// jobs import it outside Next.js, where that package throws.
 /**
  * Signed, non-expiring unsubscribe tokens. They must work forever (people unsubscribe from old emails),
  * so there is no expiry; safety comes from the HMAC and from every action being low-risk and reversible.

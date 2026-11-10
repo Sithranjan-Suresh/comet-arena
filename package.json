@@ -15,6 +15,7 @@
     "db:test": "scripts/db-test.sh test",
     "db:types": "node scripts/gen-db-types.mjs",
     "fixtures:flyers": "tsx scripts/gen-fixture-flyers.mts",
+    "job:send-warnings": "tsx --env-file=.env.local jobs/send-warnings.mts",
     "seed:orgs": "tsx --env-file=.env.local supabase/seed/orgs.mts",
     "seed:competitions": "tsx --env-file=.env.local supabase/seed/competitions.mts",
     "db:reset:local": "scripts/db-test.sh reset"
