@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { EligibilityCheck } from "@/components/game-day/EligibilityCheck";
+import { FreeAgencyBoard } from "@/components/free-agency/FreeAgencyBoard";
 import { GameHeader, InfoGrid, RegisterButton, SourceList } from "@/components/game-day/parts";
 import { SaveButton } from "@/components/SaveButton";
 import { StageTimeline } from "@/components/StageTimeline";
 import { getGameDayBySlug } from "@/lib/data/field";
 import { SLUG_PATTERN } from "@/lib/data/game-day";
 import { eligibilityLines, eventJsonLd } from "@/lib/format";
+import { registrationClosed } from "@/lib/free-agency";
 import { formatCT } from "@/lib/time";
 
 type Props = { params: Promise<{ slug: string }> };
@@ -76,7 +78,12 @@ export default async function GameDayPage({ params }: Props) {
         <EligibilityCheck slug={dto.slug} />
       </section>
 
-      {/* Free Agency board slot: filled by Task 83. */}
+      <FreeAgencyBoard
+        slug={dto.slug}
+        competitionId={dto.id}
+        title={dto.title}
+        registrationClosed={dto.status === "past" || registrationClosed(dto.stages)}
+      />
 
       <SourceList dto={dto} />
       {/* "Report a problem" flag button slot: filled by Task 115. */}
