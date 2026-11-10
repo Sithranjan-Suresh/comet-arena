@@ -155,12 +155,14 @@ export interface ChangeInput {
 
 /** "Dates changed for X": old to new for every changed stage. */
 export function changeEmail(i: ChangeInput): RenderedEmail {
-  const fmt = (iso: string | null) => (iso ? formatCT(iso) : "removed");
+  // An empty "before" means the stage is new; an empty "after" means it was removed.
+  const was = (iso: string | null) => (iso ? formatCT(iso) : "new");
+  const now = (iso: string | null) => (iso ? formatCT(iso) : "removed");
   const subject = `Dates changed: ${i.competitionTitle}`;
   const rows = i.changes
     .map(
       (c) =>
-        `<tr><td style="padding:6px 0"><strong>${escapeHtml(c.stageName)}</strong><br><span style="color:#5a554b;text-decoration:line-through">${escapeHtml(fmt(c.before))}</span> &rarr; <strong>${escapeHtml(fmt(c.after))}</strong></td></tr>`,
+        `<tr><td style="padding:6px 0"><strong>${escapeHtml(c.stageName)}</strong><br><span style="color:#5a554b;text-decoration:line-through">${escapeHtml(was(c.before))}</span> &rarr; <strong>${escapeHtml(now(c.after))}</strong></td></tr>`,
     )
     .join("");
   const html = layout({
@@ -176,7 +178,7 @@ export function changeEmail(i: ChangeInput): RenderedEmail {
     hello(i.userName),
     "",
     `${i.competitionTitle}: the host changed the schedule.`,
-    ...i.changes.map((c) => `- ${c.stageName}: ${fmt(c.before)} -> ${fmt(c.after)}`),
+    ...i.changes.map((c) => `- ${c.stageName}: ${was(c.before)} -> ${now(c.after)}`),
     "",
     `Details: ${i.gameUrl}`,
     `Stop updates: ${i.unsubscribeCompetitionUrl}`,
