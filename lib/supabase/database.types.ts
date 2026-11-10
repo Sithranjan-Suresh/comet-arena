@@ -82,6 +82,7 @@ export type Database = {
           created_at: string
           updated_at: string
           search_tsv: string | null
+          needs_dedupe: boolean
         }
         Insert: {
           id?: string
@@ -108,6 +109,7 @@ export type Database = {
           created_by?: string | null
           created_at?: string
           updated_at?: string
+          needs_dedupe?: boolean
         }
         Update: {
           id?: string
@@ -134,6 +136,7 @@ export type Database = {
           created_by?: string | null
           created_at?: string
           updated_at?: string
+          needs_dedupe?: boolean
         }
         Relationships: []
       }
@@ -677,6 +680,8 @@ export type Database = {
       competition_next_deadline: { Args: Record<string, unknown>; Returns: unknown }
       is_admin: { Args: Record<string, unknown>; Returns: unknown }
       match_competitions: { Args: Record<string, unknown>; Returns: unknown }
+      merge_into_competition: { Args: Record<string, unknown>; Returns: unknown }
+      publish_competition: { Args: Record<string, unknown>; Returns: unknown }
       slugify: { Args: Record<string, unknown>; Returns: unknown }
       stages_due_between: { Args: Record<string, unknown>; Returns: unknown }
       unique_competition_slug: { Args: Record<string, unknown>; Returns: unknown }
