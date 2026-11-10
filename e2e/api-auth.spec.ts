@@ -41,6 +41,13 @@ const PROTECTED: [
     "DELETE",
     "/api/office/competitions/00000000-0000-4000-8000-0000000000c1/resources/00000000-0000-4000-8000-0000000000c2",
   ],
+  [
+    "POST",
+    "/api/push/subscribe",
+    { endpoint: "https://push.example/a", keys: { p256dh: "x", auth: "y" } },
+  ],
+  ["DELETE", "/api/push/subscribe", { endpoint: "https://push.example/a" }],
+  ["POST", "/api/push/test"],
   ["GET", "/api/admin/review"],
   ["PATCH", "/api/admin/orgs/00000000-0000-4000-8000-0000000000c1", { ig_handle: "x" }],
   ["POST", "/api/admin/orgs/import", { csv: "a,b" }],

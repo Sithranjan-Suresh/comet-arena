@@ -97,7 +97,41 @@ export interface Sources {
   nebula: CourseSource;
   utdclubsEvents: EventSource;
   campusgroups: EventSource;
+  push: PushSender;
+  discord: DiscordSender;
   vision: VisionModel;
   embedder: Embedder;
   mailer: Mailer;
+}
+
+/** A browser push subscription as the browser gives it to us. */
+export interface PushSubscriptionData {
+  endpoint: string;
+  keys: { p256dh: string; auth: string };
+}
+export interface PushPayload {
+  title: string;
+  body: string;
+  /** Path or URL opened when the notification is clicked. */
+  url: string;
+  tag?: string;
+}
+/** "gone" = the browser says this subscription no longer exists (unsubscribed or expired): delete it. */
+export interface PushSender {
+  send(sub: PushSubscriptionData, payload: PushPayload): Promise<"ok" | "gone">;
+}
+
+export interface DiscordMessage {
+  content?: string;
+  embeds?: {
+    title: string;
+    url?: string;
+    description?: string;
+    color?: number;
+    fields?: { name: string; value: string; inline?: boolean }[];
+  }[];
+}
+/** Posts to one channel through an incoming webhook. */
+export interface DiscordSender {
+  post(message: DiscordMessage): Promise<void>;
 }

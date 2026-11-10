@@ -506,6 +506,51 @@ export type Database = {
         }
         Relationships: []
       }
+      outbound_notifications: {
+        Row: {
+          channel: string
+          key: string
+          sent_at: string
+        }
+        Insert: {
+          channel: string
+          key: string
+          sent_at?: string
+        }
+        Update: {
+          channel?: string
+          key?: string
+          sent_at?: string
+        }
+        Relationships: []
+      }
+      push_subscriptions: {
+        Row: {
+          id: string
+          user_id: string
+          endpoint: string
+          p256dh: string
+          auth: string
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          endpoint: string
+          p256dh: string
+          auth: string
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          endpoint?: string
+          p256dh?: string
+          auth?: string
+          created_at?: string
+        }
+        Relationships: []
+      }
       review_queue: {
         Row: {
           id: string

@@ -32,3 +32,10 @@ test("Standings is public and explains how points work", async ({ page }) => {
   expect(api.status()).toBe(200); // junk parameters fall back to defaults
   expect((await api.json()).rows.length).toBeGreaterThan(0);
 });
+
+test("the service worker is served as JavaScript from the site root", async ({ request }) => {
+  const res = await request.get("/sw.js");
+  expect(res.status()).toBe(200);
+  expect(res.headers()["content-type"]).toMatch(/javascript/);
+  expect(await res.text()).toContain("notificationclick");
+});

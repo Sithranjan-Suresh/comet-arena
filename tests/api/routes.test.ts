@@ -44,6 +44,8 @@ import * as officeEdit from "../../app/api/office/competitions/[id]/route";
 import * as officeResults from "../../app/api/office/competitions/[id]/results/route";
 import * as officeRes from "../../app/api/office/competitions/[id]/resources/route";
 import * as officeResOne from "../../app/api/office/competitions/[id]/resources/[rid]/route";
+import * as pushSub from "../../app/api/push/subscribe/route";
+import * as pushTest from "../../app/api/push/test/route";
 import * as submit from "../../app/api/submit/route";
 import * as confirm from "../../app/api/submit/[id]/confirm/route";
 import * as adminReview from "../../app/api/admin/review/route";
@@ -137,6 +139,21 @@ const userRoutes: [string, () => Promise<Response>][] = [
     "DELETE /api/office/.../resources/:rid",
     () => officeResOne.DELETE(req("DELETE", "/x"), params({ id: UUID, rid: UUID })),
   ],
+  [
+    "POST /api/push/subscribe",
+    () =>
+      pushSub.POST(
+        post("/x", {
+          endpoint: "https://push.example/a",
+          keys: { p256dh: "p".repeat(30), auth: "a".repeat(12) },
+        }),
+      ),
+  ],
+  [
+    "DELETE /api/push/subscribe",
+    () => pushSub.DELETE(req("DELETE", "/x", { endpoint: "https://push.example/a" })),
+  ],
+  ["POST /api/push/test", () => pushTest.POST()],
   ["POST /api/submit", () => submit.POST(post("/api/submit", { url: "https://example.com/p" }))],
   ["POST /api/submit/:id/confirm", () => confirm.POST(post("/x", {}), params({ id: UUID }))],
 ];
@@ -245,6 +262,18 @@ describe("validation: malformed input is a 4xx with a JSON error, never a 500", 
       "DELETE /api/office/.../resources/:rid bad id",
       () => officeResOne.DELETE(req("DELETE", "/x"), params({ id: UUID, rid: "nope" })),
     ],
+    [
+      "POST /api/push/subscribe insecure endpoint",
+      () =>
+        pushSub.POST(
+          post("/x", {
+            endpoint: "http://push.example/a",
+            keys: { p256dh: "p".repeat(30), auth: "a".repeat(12) },
+          }),
+        ),
+    ],
+    ["POST /api/push/subscribe empty", () => pushSub.POST(post("/x", {}))],
+    ["DELETE /api/push/subscribe empty", () => pushSub.DELETE(req("DELETE", "/x", {}))],
     ["POST /api/entries empty", () => entries.POST(post("/x", {}))],
     [
       "POST /api/entries bad result",

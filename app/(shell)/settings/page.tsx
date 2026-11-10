@@ -1,6 +1,7 @@
 import { CalendarFeedCard } from "@/components/profile/CalendarFeedCard";
 import { DeleteAccount } from "@/components/profile/DeleteAccount";
 import { ProfileForm } from "@/components/profile/ProfileForm";
+import { PushToggle } from "@/components/profile/PushToggle";
 import { requireUser } from "@/lib/auth/session";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
@@ -31,6 +32,7 @@ export default async function SettingsPage() {
         <p className="text-ink-muted">Signed in as {user.email}</p>
       </div>
       <ProfileForm initial={profile} mode="settings" />
+      <PushToggle publicKey={process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY} />
       <CalendarFeedCard appUrl={appUrl} initialToken={ics_token} />
       <DeleteAccount />
     </div>

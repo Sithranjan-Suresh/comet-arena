@@ -9,9 +9,13 @@ import type {
   ClubsSource,
   CourseSource,
   EventSource,
+  DiscordMessage,
+  DiscordSender,
   FeedSource,
   IgPost,
   InstagramSource,
+  PushPayload,
+  PushSender,
   VisionModel,
 } from "../types";
 import { Chaos, throwForOutcome } from "./chaos";
@@ -123,6 +127,30 @@ export function mockEvents(
         const t = Date.parse(e.start);
         return e.source === source && t >= from.getTime() && t <= to.getTime();
       });
+    },
+  };
+}
+
+/** Mock push: records what would have been delivered; a subscription whose endpoint contains "gone" is dead. */
+export function mockPush(): PushSender & { sent: { endpoint: string; payload: PushPayload }[] } {
+  const sent: { endpoint: string; payload: PushPayload }[] = [];
+  return {
+    sent,
+    async send(sub, payload) {
+      if (sub.endpoint.includes("gone")) return "gone";
+      sent.push({ endpoint: sub.endpoint, payload });
+      return "ok";
+    },
+  };
+}
+
+/** Mock Discord: records posted messages. */
+export function mockDiscord(): DiscordSender & { posted: DiscordMessage[] } {
+  const posted: DiscordMessage[] = [];
+  return {
+    posted,
+    async post(message) {
+      posted.push(message);
     },
   };
 }

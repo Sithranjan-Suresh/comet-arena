@@ -1,4 +1,5 @@
 import { warningEmail } from "@/lib/email/templates";
+import { warningPush } from "@/lib/notify/push";
 import type { Mailer } from "@/lib/sources";
 import { realSleep, sendWithRetry } from "./mail";
 import type { WarningWindow } from "@/lib/schemas";
@@ -49,6 +50,11 @@ export interface WarningsDeps {
     allUrl(userId: string): string;
     headers(userId: string): Record<string, string>;
   };
+  /** Optional browser push alongside the email. Best effort: a failure never affects the email or the ledger. */
+  push?: (
+    userId: string,
+    payload: { title: string; body: string; url: string; tag?: string },
+  ) => Promise<unknown>;
   now?: Date;
   sleep?: (ms: number) => Promise<void>;
   /** Pause between sends to respect the provider's rate limit. */
@@ -60,6 +66,7 @@ export interface WarningsDeps {
 export interface WarningsResult {
   considered: number;
   sent: number;
+  pushed: number;
   skippedAlreadySent: number;
   skippedSavedLate: number;
   failed: number;
@@ -83,6 +90,7 @@ export async function runSendWarnings(deps: WarningsDeps): Promise<WarningsResul
   const result: WarningsResult = {
     considered: 0,
     sent: 0,
+    pushed: 0,
     skippedAlreadySent: 0,
     skippedSavedLate: 0,
     failed: 0,
@@ -149,6 +157,17 @@ export async function runSendWarnings(deps: WarningsDeps): Promise<WarningsResul
         // idempotency key, which the provider collapses into the original message.
         await deps.recordSent({ user_id: c.user_id, stage_id: c.stage_id, window });
         result.sent++;
+        if (deps.push) {
+          try {
+            await deps.push(
+              c.user_id,
+              warningPush({ title: c.title, stageName: c.stage_name, window, slug: c.slug }),
+            );
+            result.pushed++;
+          } catch {
+            /* push is a bonus channel */
+          }
+        }
       } catch (e) {
         result.failed++;
         result.errors.push({

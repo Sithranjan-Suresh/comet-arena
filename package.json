@@ -35,6 +35,7 @@
     "job:ingest-feeds": "tsx --env-file-if-exists=.env.local jobs/ingest-feeds.mts",
     "job:ingest-events": "tsx --env-file-if-exists=.env.local jobs/ingest-events.mts",
     "job:ingest-dept": "tsx --env-file-if-exists=.env.local jobs/ingest-dept.mts",
+    "job:notify-discord": "tsx --env-file-if-exists=.env.local jobs/notify-discord.mts",
     "seed:orgs": "tsx --env-file-if-exists=.env.local supabase/seed/orgs.mts",
     "seed:competitions": "tsx --env-file-if-exists=.env.local supabase/seed/competitions.mts",
     "db:reset:local": "scripts/db-test.sh reset"
@@ -49,6 +50,7 @@
     "react-dom": "19.1.0",
     "server-only": "^0.0.1",
     "sharp": "^0.35.5",
+    "web-push": "^3.6.7",
     "zod": "^4.6.7"
   },
   "devDependencies": {
@@ -64,6 +66,7 @@
     "@types/node": "^22.20.5",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/web-push": "^3.6.4",
     "@vitejs/plugin-react": "^6.3.0",
     "eslint": "^9",
     "eslint-config-next": "15.5.29",

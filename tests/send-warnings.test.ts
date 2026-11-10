@@ -262,3 +262,44 @@ describe("runSendWarnings: failures", () => {
     ).rejects.toThrow("db down");
   });
 });
+
+describe("push alongside the email", () => {
+  it("sends a push after each delivered warning with the right text and link", async () => {
+    const w = world([cand({ deadline: new Date(T0.getTime() + 7 * DAY) })]);
+    const push = vi.fn(async () => ({}));
+    const r = await runSendWarnings(w.deps(T0, { push }));
+    expect(r).toMatchObject({ sent: 1, pushed: 1 });
+    expect(push).toHaveBeenCalledWith(
+      expect.stringMatching(/^user-/),
+      expect.objectContaining({
+        title: "Registration closes closes in 7 days",
+        url: "/game/ais-fall-case",
+      }),
+    );
+  });
+
+  it("a push failure never affects the email, the ledger or the sent count", async () => {
+    const w = world([cand({ deadline: new Date(T0.getTime() + 7 * DAY) })]);
+    const r = await runSendWarnings(
+      w.deps(T0, {
+        push: async () => {
+          throw new Error("push down");
+        },
+      }),
+    );
+    expect(r).toMatchObject({ sent: 1, pushed: 0, failed: 0 });
+    expect(w.ledger.size).toBe(1);
+    expect(w.mailer.sent).toHaveLength(1);
+  });
+
+  it("no push when the email failed, and none when no push channel is configured", async () => {
+    const failing = world([cand({ deadline: new Date(T0.getTime() + 7 * DAY) })], {
+      failFor: () => new SourceError("resend", "unavailable"),
+    });
+    const push = vi.fn(async () => ({}));
+    await runSendWarnings(failing.deps(T0, { push, retryDelaysMs: [] }));
+    expect(push).not.toHaveBeenCalled();
+    const plain = world([cand({ deadline: new Date(T0.getTime() + 7 * DAY) })]);
+    expect((await runSendWarnings(plain.deps(T0))).pushed).toBe(0);
+  });
+});

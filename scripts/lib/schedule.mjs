@@ -89,6 +89,21 @@ export const JOBS = [
     secrets: [...DB, ...EXTRACT, ...MAIL],
   },
   {
+    name: "notify-discord",
+    npmScript: "job:notify-discord",
+    description: "Discord channel alerts for new games and closing deadlines",
+    hour: 8,
+    timeoutMinutes: 10,
+    secrets: [
+      ...DB,
+      "DISCORD_WEBHOOK_URL",
+      "RESEND_API_KEY",
+      "EMAIL_FROM",
+      "ADMIN_EMAIL",
+      "NEXT_PUBLIC_APP_URL",
+    ],
+  },
+  {
     name: "rededupe",
     npmScript: "job:rededupe",
     description: "Dedupe listings published while embeddings were down",
@@ -119,7 +134,7 @@ export const JOBS = [
     description: "Two-Minute Warning emails",
     hourly: true,
     timeoutMinutes: 10,
-    secrets: [...DB, ...MAIL],
+    secrets: [...DB, ...MAIL, "VAPID_PUBLIC_KEY", "VAPID_PRIVATE_KEY", "VAPID_SUBJECT"],
   },
   {
     name: "send-digest",

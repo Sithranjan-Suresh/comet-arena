@@ -7,14 +7,18 @@ import { createGroqVision } from "./live/groq";
 import { Chaos } from "./mock/chaos";
 import {
   mockClubs,
+  mockDiscord,
   mockFeed,
   mockEvents,
   mockInstagram,
   mockNebula,
+  mockPush,
   mockVision,
 } from "./mock/adapters";
 import { createNebula } from "@/lib/nebula";
+import { createDiscord } from "./live/discord";
 import { createCampusGroups, createUtdClubsEvents } from "./live/events";
+import { createWebPush } from "./live/push";
 import { mockEmbedder } from "./mock/embedder";
 import { createMockMailer } from "./mock/mailer";
 import type { Sources } from "./types";
@@ -39,6 +43,8 @@ export const defaultFactories: SourceFactories = {
       utdclubs: mockClubs(chaos),
       nebula: mockNebula(chaos),
       utdclubsEvents: mockEvents("utdclubs", chaos),
+      push: mockPush(),
+      discord: mockDiscord(),
       campusgroups: mockEvents("campusgroups", chaos),
       vision: mockVision(chaos),
       embedder: mockEmbedder(),
@@ -57,6 +63,12 @@ export const defaultFactories: SourceFactories = {
       baseUrl: process.env.UTDCLUBS_BASE_URL || undefined,
     }),
     campusgroups: createCampusGroups({ icalUrl: process.env.CAMPUSGROUPS_ICAL_URL || undefined }),
+    push: createWebPush({
+      publicKey: process.env.VAPID_PUBLIC_KEY ?? "",
+      privateKey: process.env.VAPID_PRIVATE_KEY ?? "",
+      subject: process.env.VAPID_SUBJECT || "mailto:admin@example.com",
+    }),
+    discord: createDiscord({ webhookUrl: process.env.DISCORD_WEBHOOK_URL ?? "" }),
     nebula: createNebula({
       apiKey: process.env.NEBULA_API_KEY || undefined,
       baseUrl: process.env.NEBULA_BASE_URL || undefined,
