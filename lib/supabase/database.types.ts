@@ -596,6 +596,24 @@ export type Database = {
         }
         Relationships: []
       }
+      warning_mutes: {
+        Row: {
+          user_id: string
+          competition_id: string
+          created_at: string
+        }
+        Insert: {
+          user_id: string
+          competition_id: string
+          created_at?: string
+        }
+        Update: {
+          user_id?: string
+          competition_id?: string
+          created_at?: string
+        }
+        Relationships: []
+      }
       warnings_sent: {
         Row: {
           user_id: string

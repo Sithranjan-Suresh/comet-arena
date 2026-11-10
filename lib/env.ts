@@ -29,6 +29,8 @@ const baseServerSchema = z.object({
   APIFY_TOKEN: z.string().optional(),
   NEBULA_API_KEY: z.string().optional(),
   RESEND_API_KEY: z.string().optional(),
+  EMAIL_FROM: z.string().optional(),
+  UNSUBSCRIBE_SECRET: z.string().min(16).optional(),
 });
 
 /** Keys that become mandatory when SOURCES_MODE=live. */
@@ -41,6 +43,7 @@ export const LIVE_REQUIRED_KEYS = [
   "APIFY_TOKEN",
   "NEBULA_API_KEY",
   "RESEND_API_KEY",
+  "UNSUBSCRIBE_SECRET",
 ] as const;
 
 const serverSchema = baseServerSchema.superRefine((val, ctx) => {

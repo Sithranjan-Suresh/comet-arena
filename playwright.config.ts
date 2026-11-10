@@ -24,6 +24,6 @@ export default defineConfig({
     url: `http://localhost:${port}`,
     reuseExistingServer: !process.env.CI,
     timeout: 180_000,
-    env: { SOURCES_MODE: "mock" },
+    env: { SOURCES_MODE: "mock", UNSUBSCRIBE_SECRET: "e2e-unsubscribe-secret-0123456789" },
   },
 });

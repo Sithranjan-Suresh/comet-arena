@@ -41,3 +41,20 @@ test("calendar feed: malformed and unknown tokens are 404 and never reveal anyth
     expect(await res.text()).not.toMatch(/BEGIN:VCALENDAR/);
   }
 });
+
+test.describe("unsubscribe", () => {
+  test("the one-click endpoint refuses missing and forged tokens and ignores GET", async ({
+    request,
+  }) => {
+    expect((await request.post("/api/unsubscribe")).status()).toBe(400);
+    expect((await request.post("/api/unsubscribe?t=not.a.token")).status()).toBe(400);
+    // A GET (link prefetch / security scanner) must never perform the unsubscribe.
+    expect((await request.get("/api/unsubscribe?t=anything")).status()).toBe(405);
+  });
+
+  test("the page explains an invalid link and never offers to confirm it", async ({ page }) => {
+    await page.goto("/unsubscribe?t=garbage");
+    await expect(page.getByRole("alert").filter({ hasText: "not valid" })).toBeVisible();
+    await expect(page.getByRole("button", { name: "Confirm unsubscribe" })).toHaveCount(0);
+  });
+});
