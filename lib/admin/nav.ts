@@ -3,9 +3,10 @@ export interface AdminNavItem {
   label: string;
 }
 
-/** Admin sections (engineering_spec §2). Review and Orgs land with Tasks 102-103. */
+/** Admin sections (engineering_spec §2). Orgs lands with Task 103. */
 export const ADMIN_NAV: AdminNavItem[] = [
   { href: "/admin", label: "Overview" },
+  { href: "/admin/review", label: "Review" },
   { href: "/admin/submissions", label: "Submissions" },
   { href: "/admin/ingest", label: "Ingest runs" },
 ];

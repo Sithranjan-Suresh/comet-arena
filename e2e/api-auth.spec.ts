@@ -16,6 +16,8 @@ const PROTECTED: [
   ["POST", "/api/submit", { url: "https://example.com/post" }],
   ["GET", "/api/schedule"],
   ["GET", "/api/feed"],
+  ["GET", "/api/admin/review"],
+  ["POST", "/api/admin/review/00000000-0000-4000-8000-0000000000c1", { action: "approve" }],
   ["GET", "/api/me/entries"],
   [
     "POST",
@@ -103,7 +105,7 @@ test("the board endpoint is public but validates its inputs", async ({ request }
 test("admin pages never render for signed-out visitors (they are sent to sign in)", async ({
   page,
 }) => {
-  for (const path of ["/admin", "/admin/submissions", "/admin/ingest"]) {
+  for (const path of ["/admin", "/admin/review", "/admin/submissions", "/admin/ingest"]) {
     await page.goto(path);
     expect(new URL(page.url()).pathname, path).toBe("/login");
   }

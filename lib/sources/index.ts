@@ -8,7 +8,6 @@ import { Chaos } from "./mock/chaos";
 import { mockClubs, mockFeed, mockInstagram, mockVision } from "./mock/adapters";
 import { mockEmbedder } from "./mock/embedder";
 import { createMockMailer } from "./mock/mailer";
-import { notImplemented } from "./stubs";
 import type { Sources } from "./types";
 
 export * from "./errors";

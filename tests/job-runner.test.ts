@@ -4,7 +4,7 @@ import { memoryCursorStore, runJob } from "@/lib/jobs/runner";
 
 const mk = () => {
   const lines: string[] = [];
-  const send = vi.fn(async (_m: MailMessage) => ({ id: "m1" }));
+  const send = vi.fn<(m: MailMessage) => Promise<{ id: string }>>(async () => ({ id: "m1" }));
   return {
     lines,
     send,
