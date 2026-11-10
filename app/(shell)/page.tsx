@@ -23,7 +23,7 @@ export default async function HomePage() {
       <HomeSwitch>
         <div className="space-y-12">
           <section aria-labelledby="hero" className="bg-turf text-chalk rounded-2xl p-8 md:p-12">
-            <p className="text-utd-orange text-sm font-bold tracking-widest uppercase">
+            <p className="text-utd-orange-text text-sm font-bold tracking-widest uppercase">
               UT Dallas competitions
             </p>
             <h1

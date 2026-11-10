@@ -8,6 +8,7 @@ export const colors = {
   turf: "#10372a", // deep green surface (cards, panels)
   "turf-light": "#1b5a43",
   "utd-orange": "#e87500",
+  "utd-orange-text": "#f59232",
   "utd-green": "#154734",
   scoreboard: "#0e0f0c", // near-black LED panel
   led: "#ffb000", // amber digits
@@ -36,4 +37,5 @@ export const textPairs: { fg: ColorToken; bg: ColorToken; min: number; use: stri
   { fg: "warn", bg: "court", min: 4.5, use: "warning text" },
   { fg: "critical", bg: "court", min: 4.5, use: "error text" },
   { fg: "utd-orange", bg: "turf", min: 3, use: "orange accent on cards (large text / icons)" },
+  { fg: "utd-orange-text", bg: "turf", min: 4.5, use: "small orange kicker text on turf" },
 ];

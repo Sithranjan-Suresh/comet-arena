@@ -7,6 +7,8 @@
   --color-turf: #10372a;
   --color-turf-light: #1b5a43;
   --color-utd-orange: #e87500;
+  /* Orange for small text on turf: #e87500 is 4.4:1 there (AA needs 4.5), this is 5.4:1. */
+  --color-utd-orange-text: #f59232;
   --color-utd-green: #154734;
   --color-scoreboard: #0e0f0c;
   --color-led: #ffb000;

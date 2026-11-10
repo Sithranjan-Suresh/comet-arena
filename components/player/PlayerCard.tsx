@@ -23,7 +23,9 @@ export function PlayerCard({
   ];
   return (
     <section aria-label="Player card" className="bg-turf text-chalk rounded-2xl p-6 shadow-lg">
-      <p className="text-utd-orange text-sm font-bold tracking-widest uppercase">Player Card</p>
+      <p className="text-utd-orange-text text-sm font-bold tracking-widest uppercase">
+        Player Card
+      </p>
       <h2 className="font-display text-4xl font-extrabold uppercase">{name}</h2>
       <p className="text-chalk-muted">{sub || "Add your major in Settings"}</p>
       <dl className="mt-5 grid grid-cols-4 gap-2 text-center">

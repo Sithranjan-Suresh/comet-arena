@@ -8,7 +8,7 @@ export interface NavItem {
 
 /** Primary navigation (engineering_spec §2). Order matches the mobile tab bar. */
 export const NAV_ITEMS: NavItem[] = [
-  { href: "/", label: "Scouting Report", short: "Scout", icon: "scout" },
+  { href: "/", label: "Scouting Report", short: "Scouting", icon: "scout" },
   { href: "/field", label: "The Field", short: "Field", icon: "field" },
   { href: "/schedule", label: "Schedule", short: "Schedule", icon: "schedule" },
   { href: "/free-agency", label: "Free Agency", short: "Agency", icon: "agency" },

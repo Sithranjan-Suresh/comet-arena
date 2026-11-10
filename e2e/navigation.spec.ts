@@ -6,7 +6,10 @@ const visible = (page: import("@playwright/test").Page, label: string) =>
 
 test("public tabs navigate and mark the current page", async ({ page }) => {
   await page.goto("/");
-  await expect(page.getByRole("heading", { level: 1, name: "Scouting Report" })).toBeVisible();
+  // Signed out, the home page is the public hero; the Scouting Report feed appears after sign-in.
+  await expect(
+    page.getByRole("heading", { level: 1, name: /Never miss a competition/ }),
+  ).toBeVisible();
   await expect(visible(page, "Scouting Report")).toHaveAttribute("aria-current", "page");
 
   await visible(page, "The Field").click();
