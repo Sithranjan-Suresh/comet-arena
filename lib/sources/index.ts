@@ -1,3 +1,4 @@
+import { createDevpost, createMlh } from "./live/feeds";
 import { createInstagramBusinessDiscovery } from "./live/instagram";
 import { createUtdClubs } from "./live/utdclubs";
 import { createOpenAICompatibleEmbedder } from "./live/embeddings";
@@ -38,8 +39,8 @@ export const defaultFactories: SourceFactories = {
       userId: process.env.META_IG_USER_ID ?? "",
       accessToken: process.env.META_LONG_LIVED_TOKEN ?? "",
     }),
-    devpost: notImplemented("devpost(live)", "Task 97"),
-    mlh: notImplemented("mlh(live)", "Task 97"),
+    devpost: createDevpost(),
+    mlh: createMlh(),
     utdclubs: createUtdClubs({
       apiKey: process.env.NEBULA_API_KEY || undefined,
       baseUrl: process.env.UTDCLUBS_BASE_URL || undefined,

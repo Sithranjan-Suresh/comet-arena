@@ -9,6 +9,7 @@ import {
   setSourcesForTest,
 } from "@/lib/sources";
 import type { Mailer } from "@/lib/sources";
+import { notImplemented } from "@/lib/sources/stubs";
 
 afterEach(() => setSourcesForTest(undefined));
 
@@ -58,10 +59,16 @@ describe("createSources", () => {
 
 describe("placeholder adapters", () => {
   it("fail loudly with the task that will implement them", () => {
-    const s = createSources("live");
-    expect(() => s.devpost.fetchListings()).toThrow(SourceError);
+    const s = createSources("live", {
+      ...factories,
+      live: () => ({
+        ...factories.live(),
+        instagram: notImplemented("instagram(live)", "Task 93"),
+      }),
+    });
     try {
       s.instagram.fetchRecentPosts("x");
+      throw new Error("should have thrown");
     } catch (e) {
       expect(e).toMatchObject({ kind: "not_implemented" });
       expect((e as Error).message).toContain("Task 93");
