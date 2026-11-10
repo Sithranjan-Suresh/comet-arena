@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { EntryList } from "@/components/player/EntryList";
 import { PlayerCard } from "@/components/player/PlayerCard";
+import { ResumeExport } from "@/components/player/ResumeExport";
 import { EmptyState, buttonClasses } from "@/components/ui";
 import { requireUser } from "@/lib/auth/session";
 import { listEntries } from "@/lib/entries";
@@ -50,7 +51,10 @@ export default async function MePage() {
             }
           />
         ) : (
-          <EntryList entries={list} />
+          <div className="space-y-4">
+            <ResumeExport entries={list} />
+            <EntryList entries={list} />
+          </div>
         )}
       </section>
     </div>

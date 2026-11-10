@@ -3,7 +3,7 @@
 > Derived from `full_context.md`, `product_spec.md`, `engineering_spec.md`.
 > Single global numbering. Work top to bottom; every task is sequenced after its dependencies.
 > **Rule:** one task = one commit (`Task N: <title>`), pushed to `claude/lucid-edison-8c7ns1`.
-> **Progress:** tasks 1-79 complete (✅). Sections A-I done: foundation, database, design system, auth, mock layer, extraction/dedupe/publish pipeline, public discovery, save/schedule/calendar, and the warning/digest/change email jobs.
+> **Progress:** tasks 1-88 complete (✅). Sections A-I done: foundation, database, design system, auth, mock layer, extraction/dedupe/publish pipeline, public discovery, save/schedule/calendar, and the warning/digest/change email jobs.
 > **Priority tags:** P0 = launch-blocking core loop · P1 = important · P2 = depth/later.
 > **Never cut:** ingestion → listing → save → warning.
 > Each task lists **Objective**, **Files/Where**, and **Done when** (verifiable).
@@ -350,41 +350,41 @@ Note on the skill's hackathon framing: these specs describe a real launch produc
 
 ## K. Free Agency (P0)
 
-80. **Free agent & opening APIs.**
+80. ✅ **Free agent & opening APIs.**
     Objective: `POST/PATCH /api/free-agents`, `POST/PATCH /api/team-openings` with validation (note ≤280 chars, one active free-agent post per user per competition, editable/closable).
     Done when: tests for uniqueness and ownership.
 
-81. **Board API.**
+81. ✅ **Board API.**
     Objective: `GET /api/competitions/:id/board?role=`; contact emails only for authenticated users via the `board_contacts` view.
     Done when: anon response contains no emails.
 
-82. **Auto-close job.**
+82. ✅ **Auto-close job.**
     Objective: in `expire-past`, close posts once the competition's registration stage passes.
     Done when: test with fake clock.
 
-83. **`FreeAgencyBoard` component.**
+83. ✅ **`FreeAgencyBoard` component.**
     Objective: tabs (Free agents / Team openings), role filter chips, post forms (dialog), contact reveal button, own-post edit/close, empty states.
     Done when: embedded on Game Day and functional.
 
-84. **Free Agency tab page (`/free-agency`).**
+84. ✅ **Free Agency tab page (`/free-agency`).**
     Objective: cross-competition view of the user's saved competitions' boards + their own posts.
     Done when: lists boards for saved comps.
 
 ## L. Player Card — private history (P0)
 
-85. **Entries API.**
+85. ✅ **Entries API.**
     Objective: `POST /api/entries`, `GET /api/me/entries`, update/delete; result enum, rounds advanced, team name, `season` computed, `verified_by_host=false` always from users.
     Done when: ownership + validation tests.
 
-86. **`AddEntryDialog` on Game Day.**
+86. ✅ **`AddEntryDialog` on Game Day.**
     Objective: "I competed" flow from Game Day with participated…1st options.
     Done when: adds an entry visible in My Competitions.
 
-87. **Player Card page (`/me`).**
+87. ✅ **Player Card page (`/me`).**
     Objective: `PlayerCard` header (name, major, year, stat line: entered/advanced/placed), `EntryList` labeled "unverified", edit/delete, private-only note.
     Done when: stat line computes from entries.
 
-88. **Résumé export.**
+88. ✅ **Résumé export.**
     Objective: "Copy as résumé list" and plain-text download: `Title — Result (Season), Team`.
     Done when: output snapshot test.
 
