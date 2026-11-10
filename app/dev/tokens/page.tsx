@@ -1,6 +1,8 @@
 import { notFound } from "next/navigation";
 import { contrastRatio } from "@/lib/theme/contrast";
 import { colors, textPairs } from "@/lib/theme/tokens";
+import { Countdown } from "@/components/Countdown";
+import { StageTimeline } from "@/components/StageTimeline";
 import { UiDemo } from "./UiDemo";
 
 export const metadata = { title: "Design tokens" };
@@ -48,6 +50,35 @@ export default function TokensPage() {
           <p className="led-digits text-5xl" aria-label="3 days 4 hours 12 minutes">
             03d 04h 12m
           </p>
+        </div>
+      </section>
+
+      <section aria-labelledby="timeline">
+        <h2 id="timeline" className="mb-3 text-xl font-semibold">
+          Stage timeline and countdown
+        </h2>
+        <div className="mb-4 flex flex-wrap gap-3">
+          <Countdown
+            deadline={new Date(Date.now() + (3 * 24 + 4) * 3600_000 + 12 * 60_000).toISOString()}
+          />
+          <Countdown deadline={new Date(Date.now() + 4 * 3600_000).toISOString()} />
+          <Countdown deadline={new Date(Date.now() - 3600_000).toISOString()} />
+        </div>
+        <div className="grid gap-8 md:grid-cols-3">
+          {[1, 3, 5].map((n) => (
+            <StageTimeline
+              key={n}
+              stages={Array.from({ length: n }, (_, i) => ({
+                name: ["Registration closes", "Case released", "Round 1", "Semifinals", "Finals"][
+                  i
+                ],
+                starts_at:
+                  i === 4 ? new Date(Date.now() + (i * 9 - 5) * 86400_000).toISOString() : null,
+                deadline_at: new Date(Date.now() + (i * 9 - 4) * 86400_000).toISOString(),
+                order: i + 1,
+              }))}
+            />
+          ))}
         </div>
       </section>
 
