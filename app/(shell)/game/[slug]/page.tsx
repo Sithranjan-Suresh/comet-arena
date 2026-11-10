@@ -12,6 +12,13 @@ import { eligibilityLines, eventJsonLd } from "@/lib/format";
 import { registrationClosed } from "@/lib/free-agency";
 import { formatCT } from "@/lib/time";
 
+// Render on first request, then serve from the ISR cache and refresh every 5 minutes (data is also tagged
+// "competitions" so a publish revalidates it at once). Viewer-specific state (saved, eligibility) loads client-side.
+export const revalidate = 300;
+export function generateStaticParams() {
+  return [];
+}
+
 type Props = { params: Promise<{ slug: string }> };
 
 async function load(slug: string) {

@@ -693,6 +693,7 @@ export type Database = {
           next_stage_deadline_at: string | null
           next_stage_order: number | null
           has_upcoming: boolean | null
+          description: string | null
         }
         Relationships: []
       }

@@ -34,6 +34,9 @@ begin
   select * into r from public.competition_cards where id = '20000000-0000-4000-8000-000000000003';
   if r.next_stage_name <> 'Only' or r.has_upcoming then raise exception 'past card fallback wrong'; end if;
 
+  -- The Field search filters cards on title, host_name AND description: all three columns must exist
+  perform title, host_name, description from public.competition_cards where title ilike '%x%' or host_name ilike '%x%' or description ilike '%x%';
+
   -- match: identical vectors, around 'now+5d' +/-45d -> Near matches; Far (200d) is outside the window
   select count(*) into n from public.match_competitions(
     array_fill(0.1::real, array[768])::extensions.vector, now() + interval '5 days', 45, 0.8);

@@ -40,7 +40,7 @@ case "${1:-}" in
       echo "test $(basename "$f")"; psql_db "-d $DB -f $f"
     done
     echo "DB tests passed" ;;
-  psql) as_pg "$PGBIN/psql -p $PORT -h /tmp -d $DB" ;;
+  psql) shift; as_pg "$PGBIN/psql -p $PORT -h /tmp -d $DB $*" ;;
   stop) as_pg "$PGBIN/pg_ctl -D $DATA stop" ;;
   *) echo "usage: $0 start|reset|test|psql|stop"; exit 1 ;;
 esac

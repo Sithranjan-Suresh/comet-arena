@@ -55,6 +55,7 @@ function mount(
 beforeEach(() => {
   push.mockClear();
   sessionStorage.clear();
+  window.history.replaceState({}, "", "/field?categories=hackathon"); // the hook reads the live query string
 });
 
 describe("SaveButton", () => {

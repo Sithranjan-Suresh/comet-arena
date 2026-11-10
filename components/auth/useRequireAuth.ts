@@ -1,5 +1,5 @@
 "use client";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useCallback } from "react";
 import { loginPathFor } from "@/lib/auth/routes";
 import { type PendingAction, savePendingAction } from "@/lib/pending-action";
@@ -14,15 +14,16 @@ export function useRequireAuth() {
   const { user } = useAuth();
   const router = useRouter();
   const pathname = usePathname();
-  const search = useSearchParams().toString();
 
   return useCallback(
     (action?: PendingAction): boolean => {
       if (user) return true;
       if (action) savePendingAction(action);
-      router.push(loginPathFor(pathname, search ? `?${search}` : ""));
+      // Read the query string at click time. Subscribing with useSearchParams() would force every page that
+      // renders a Save button to bail out of static rendering, defeating ISR on Game Day and org pages.
+      router.push(loginPathFor(pathname, window.location.search));
       return false;
     },
-    [user, router, pathname, search],
+    [user, router, pathname],
   );
 }
