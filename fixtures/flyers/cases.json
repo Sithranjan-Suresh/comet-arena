@@ -55,12 +55,12 @@
       "posted_at": "2026-11-04T18:30:00Z",
       "caption": "Our friends at AIS are hosting a case competition. Sign up before Nov 20! Finals Dec 5. Details on their page.",
       "images": ["f02-ais-case-repost.png"],
-      "note": "Same competition reposted by a second club.",
+      "note": "Same competition reposted by a second club (extracts the same host: auto-merges).",
       "expected": {
         "is_competition": true,
         "kind": "competition",
         "title": "AIS Fall Case Competition",
-        "host": "AIS (shared by Comet Consulting)",
+        "host": "AIS",
         "categories": ["case_competition", "finance"],
         "description": "Teams of 3-4 solve a real business case and present to industry judges.",
         "stages": [
@@ -102,7 +102,7 @@
       "posted_at": "2026-11-05T16:00:00Z",
       "caption": "Calling all business majors: AIS Fall Case Competition. $2,500 prize pool, free to enter. Deadline to register: Nov 20.",
       "images": ["f03-ais-case-repost2.png"],
-      "note": "Third club, same competition.",
+      "note": "Third club spells the host out in full: lands in the possible-duplicate review band.",
       "expected": {
         "is_competition": true,
         "kind": "competition",
