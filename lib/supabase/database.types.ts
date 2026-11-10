@@ -700,6 +700,7 @@ export type Database = {
     Functions: {
       apply_stage_update: { Args: Record<string, unknown>; Returns: unknown }
       competition_next_deadline: { Args: Record<string, unknown>; Returns: unknown }
+      expire_past: { Args: Record<string, unknown>; Returns: unknown }
       is_admin: { Args: Record<string, unknown>; Returns: unknown }
       match_competition_by_title: { Args: Record<string, unknown>; Returns: unknown }
       match_competitions: { Args: Record<string, unknown>; Returns: unknown }

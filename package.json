@@ -18,6 +18,7 @@
     "job:send-warnings": "tsx --env-file=.env.local jobs/send-warnings.mts",
     "job:send-digest": "tsx --env-file=.env.local jobs/send-digest.mts",
     "job:notify-changes": "tsx --env-file=.env.local jobs/notify-changes.mts",
+    "job:expire-past": "tsx --env-file=.env.local jobs/expire-past.mts",
     "seed:orgs": "tsx --env-file=.env.local supabase/seed/orgs.mts",
     "seed:competitions": "tsx --env-file=.env.local supabase/seed/competitions.mts",
     "db:reset:local": "scripts/db-test.sh reset"
