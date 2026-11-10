@@ -1,3 +1,4 @@
+import { createUtdClubs } from "./live/utdclubs";
 import { createOpenAICompatibleEmbedder } from "./live/embeddings";
 import { createResendMailer } from "./live/resend";
 import { createGroqVision } from "./live/groq";
@@ -35,7 +36,10 @@ export const defaultFactories: SourceFactories = {
     instagram: notImplemented("instagram(live)", "Task 93"),
     devpost: notImplemented("devpost(live)", "Task 97"),
     mlh: notImplemented("mlh(live)", "Task 97"),
-    utdclubs: notImplemented("utdclubs(live)", "Task 92"),
+    utdclubs: createUtdClubs({
+      apiKey: process.env.NEBULA_API_KEY || undefined,
+      baseUrl: process.env.UTDCLUBS_BASE_URL || undefined,
+    }),
     vision: createGroqVision({
       apiKey: process.env.GROQ_API_KEY ?? "",
       model: process.env.GROQ_VISION_MODEL || undefined,
