@@ -1,0 +1,60 @@
+import { notImplemented } from "./stubs";
+import type { Sources } from "./types";
+
+export * from "./errors";
+export * from "./types";
+
+/** The two complete adapter sets. Real implementations replace the stubs task by task. */
+export interface SourceFactories {
+  mock: () => Omit<Sources, "mode">;
+  live: () => Omit<Sources, "mode">;
+}
+
+export const defaultFactories: SourceFactories = {
+  mock: () => ({
+    instagram: notImplemented("instagram(mock)", "Task 38/39"),
+    devpost: notImplemented("devpost(mock)", "Task 38/39"),
+    mlh: notImplemented("mlh(mock)", "Task 38/39"),
+    utdclubs: notImplemented("utdclubs(mock)", "Task 38/39"),
+    vision: notImplemented("vision(mock)", "Task 38/39"),
+    embedder: notImplemented("embedder(mock)", "Task 47"),
+    mailer: notImplemented("mailer(mock)", "Task 66"),
+  }),
+  live: () => ({
+    instagram: notImplemented("instagram(live)", "Task 93"),
+    devpost: notImplemented("devpost(live)", "Task 97"),
+    mlh: notImplemented("mlh(live)", "Task 97"),
+    utdclubs: notImplemented("utdclubs(live)", "Task 92"),
+    vision: notImplemented("vision(live)", "Task 41"),
+    embedder: notImplemented("embedder(live)", "Task 47"),
+    mailer: notImplemented("mailer(live)", "Task 66"),
+  }),
+};
+
+export type SourcesMode = "mock" | "live";
+
+/** `SOURCES_MODE` unset or anything but "live" means mock (the safe default: no network, no spend). */
+export function resolveMode(raw: string | undefined = process.env.SOURCES_MODE): SourcesMode {
+  return raw === "live" ? "live" : "mock";
+}
+
+/** Build an adapter set for a mode. Pure: used directly by tests. */
+export function createSources(
+  mode: SourcesMode,
+  factories: SourceFactories = defaultFactories,
+): Sources {
+  return { mode, ...factories[mode]() };
+}
+
+let cached: Sources | undefined;
+
+/** The adapters for the current environment. Call sites use this and never branch on the mode. */
+export function getSources(): Sources {
+  cached ??= createSources(resolveMode());
+  return cached;
+}
+
+/** Test hook: replace (or clear with undefined) the cached adapter set. */
+export function setSourcesForTest(sources: Sources | undefined): void {
+  cached = sources;
+}
