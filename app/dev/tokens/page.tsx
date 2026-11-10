@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { contrastRatio } from "@/lib/theme/contrast";
 import { colors, textPairs } from "@/lib/theme/tokens";
+import { UiDemo } from "./UiDemo";
 
 export const metadata = { title: "Design tokens" };
 // Evaluate the production guard per request, not at build time.
@@ -49,6 +50,8 @@ export default function TokensPage() {
           </p>
         </div>
       </section>
+
+      <UiDemo />
 
       <section aria-labelledby="contrast">
         <h2 id="contrast" className="mb-3 text-xl font-semibold">
