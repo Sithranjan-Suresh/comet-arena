@@ -1,0 +1,768 @@
+{
+  "_note": "SAMPLE fixtures for SOURCES_MODE=mock. Handles end in _sample and are not real accounts; images are generated placeholders (npm run fixtures:flyers). Real UTD flyers belong in the eval set (Task 104).",
+  "cases": [
+    {
+      "id": "f01-ais-case",
+      "org_slug": "association-for-information-systems",
+      "ig_handle": "ais_utd_sample",
+      "posted_at": "2026-11-03T15:00:00Z",
+      "caption": "FALL CASE COMP IS BACK! Teams of 3-4, $2,500 in prizes. Register by Nov 20 at the link in bio. Case drops Nov 21, finals Dec 5 at the JSOM Atrium. #utd #casecomp",
+      "images": ["f01-ais-case.png"],
+      "note": "Original post of the case competition shared by three clubs (dedupe demo).",
+      "expected": {
+        "is_competition": true,
+        "kind": "competition",
+        "title": "AIS Fall Case Competition",
+        "host": "AIS",
+        "categories": ["case_competition", "finance"],
+        "description": "Teams of 3-4 solve a real business case and present to industry judges.",
+        "stages": [
+          {
+            "name": "Registration closes",
+            "starts_at": null,
+            "deadline_at": "2026-11-20T23:59:00-06:00"
+          },
+          {
+            "name": "Case released",
+            "starts_at": null,
+            "deadline_at": "2026-11-21T09:00:00-06:00"
+          },
+          {
+            "name": "Finals",
+            "starts_at": "2026-12-05T09:00:00-06:00",
+            "deadline_at": "2026-12-05T17:00:00-06:00"
+          }
+        ],
+        "eligibility": {
+          "majors": ["Business Administration", "Accounting"],
+          "class_years": [],
+          "team_min": 3,
+          "team_max": 4
+        },
+        "prize": "$2,500",
+        "cost": "free",
+        "format": "in_person",
+        "location": "JSOM Atrium",
+        "register_url": "https://example.com/register/ais-fall-case",
+        "confidence": 0.92,
+        "missing_fields": []
+      }
+    },
+    {
+      "id": "f02-ais-case-repost",
+      "org_slug": "utd-consulting-club",
+      "ig_handle": "comet_consulting_sample",
+      "posted_at": "2026-11-04T18:30:00Z",
+      "caption": "Our friends at AIS are hosting a case competition. Sign up before Nov 20! Finals Dec 5. Details on their page.",
+      "images": ["f02-ais-case-repost.png"],
+      "note": "Same competition reposted by a second club.",
+      "expected": {
+        "is_competition": true,
+        "kind": "competition",
+        "title": "AIS Fall Case Competition",
+        "host": "AIS (shared by Comet Consulting)",
+        "categories": ["case_competition", "finance"],
+        "description": "Teams of 3-4 solve a real business case and present to industry judges.",
+        "stages": [
+          {
+            "name": "Registration closes",
+            "starts_at": null,
+            "deadline_at": "2026-11-20T23:59:00-06:00"
+          },
+          {
+            "name": "Case released",
+            "starts_at": null,
+            "deadline_at": "2026-11-21T09:00:00-06:00"
+          },
+          {
+            "name": "Finals",
+            "starts_at": "2026-12-05T09:00:00-06:00",
+            "deadline_at": "2026-12-05T17:00:00-06:00"
+          }
+        ],
+        "eligibility": {
+          "majors": ["Business Administration", "Accounting"],
+          "class_years": [],
+          "team_min": 3,
+          "team_max": 4
+        },
+        "prize": "$2,500",
+        "cost": "free",
+        "format": "in_person",
+        "location": "JSOM Atrium",
+        "register_url": "https://example.com/register/ais-fall-case",
+        "confidence": 0.92,
+        "missing_fields": []
+      }
+    },
+    {
+      "id": "f03-ais-case-repost2",
+      "org_slug": "marketing-association",
+      "ig_handle": "utd_marketing_sample",
+      "posted_at": "2026-11-05T16:00:00Z",
+      "caption": "Calling all business majors: AIS Fall Case Competition. $2,500 prize pool, free to enter. Deadline to register: Nov 20.",
+      "images": ["f03-ais-case-repost2.png"],
+      "note": "Third club, same competition.",
+      "expected": {
+        "is_competition": true,
+        "kind": "competition",
+        "title": "AIS Fall Case Competition",
+        "host": "Association for Information Systems",
+        "categories": ["case_competition", "finance"],
+        "description": "Teams of 3-4 solve a real business case and present to industry judges.",
+        "stages": [
+          {
+            "name": "Registration closes",
+            "starts_at": null,
+            "deadline_at": "2026-11-20T23:59:00-06:00"
+          },
+          {
+            "name": "Case released",
+            "starts_at": null,
+            "deadline_at": "2026-11-21T09:00:00-06:00"
+          },
+          {
+            "name": "Finals",
+            "starts_at": "2026-12-05T09:00:00-06:00",
+            "deadline_at": "2026-12-05T17:00:00-06:00"
+          }
+        ],
+        "eligibility": {
+          "majors": ["Business Administration", "Accounting"],
+          "class_years": [],
+          "team_min": 3,
+          "team_max": 4
+        },
+        "prize": "$2,500",
+        "cost": "free",
+        "format": "in_person",
+        "location": "JSOM Atrium",
+        "register_url": "https://example.com/register/ais-fall-case",
+        "confidence": 0.92,
+        "missing_fields": []
+      }
+    },
+    {
+      "id": "f04-hackutd-24h",
+      "org_slug": "hackutd",
+      "ig_handle": "hackutd_sample",
+      "posted_at": "2026-11-06T14:00:00Z",
+      "caption": "24 HOURS. ONE IDEA. Spring hackathon Feb 6-7 at ECSW. Open to all majors, beginners welcome. Free food. Apply by Jan 30.",
+      "images": ["f04-hackutd-24h.png"],
+      "note": "Date range: Feb 6-7 becomes one stage with start and end.",
+      "expected": {
+        "is_competition": true,
+        "kind": "competition",
+        "title": "HackUTD Spring 24h Hackathon",
+        "host": "HackUTD",
+        "categories": ["hackathon"],
+        "description": "A 24-hour hackathon open to all majors and skill levels.",
+        "stages": [
+          {
+            "name": "Applications close",
+            "starts_at": null,
+            "deadline_at": "2027-01-30T23:59:00-06:00"
+          },
+          {
+            "name": "Hacking",
+            "starts_at": "2027-02-06T12:00:00-06:00",
+            "deadline_at": "2027-02-07T12:00:00-06:00"
+          }
+        ],
+        "eligibility": {
+          "majors": [],
+          "class_years": [],
+          "team_min": null,
+          "team_max": null
+        },
+        "prize": "$5,000 in prizes",
+        "cost": "free",
+        "format": "in_person",
+        "location": "ECSW Atrium",
+        "register_url": "https://example.com/register/hackutd-spring",
+        "confidence": 0.92,
+        "missing_fields": []
+      }
+    },
+    {
+      "id": "f05-pitch-night",
+      "org_slug": "utd-entrepreneurship-club",
+      "ig_handle": "utd_entrepreneurs_sample",
+      "posted_at": "2026-11-07T20:00:00Z",
+      "caption": "PITCH NIGHT Dec 2. Win $3,000 in seed funding. Registration link coming soon, stay tuned!",
+      "images": ["f05-pitch-night.png"],
+      "note": "No register link yet: shows 'Registration opens soon'.",
+      "expected": {
+        "is_competition": true,
+        "kind": "competition",
+        "title": "Startup Pitch Night",
+        "host": "UTD Entrepreneurship Club",
+        "categories": ["pitch_competition"],
+        "description": "Pitch your startup to founders and investors.",
+        "stages": [
+          {
+            "name": "Pitch night",
+            "starts_at": "2026-12-02T18:00:00-06:00",
+            "deadline_at": "2026-12-02T19:00:00-06:00"
+          }
+        ],
+        "eligibility": {
+          "majors": [],
+          "class_years": [],
+          "team_min": null,
+          "team_max": null
+        },
+        "prize": "$3,000 seed funding",
+        "cost": "free",
+        "format": "in_person",
+        "location": "Visitor Center",
+        "register_url": null,
+        "confidence": 0.88,
+        "missing_fields": ["register_url"]
+      }
+    },
+    {
+      "id": "f06-no-year",
+      "org_slug": "hackutd",
+      "ig_handle": "hackutd_sample",
+      "posted_at": "2026-11-02T14:00:00Z",
+      "caption": "Hack for Good: Dec 4-5! Teams of up to 4. Sign up: example.com/hack-for-good",
+      "images": ["f06-no-year.png"],
+      "note": "Flyer shows 'Dec 4-5' with no year: year inferred from posted_at.",
+      "expected": {
+        "is_competition": true,
+        "kind": "competition",
+        "title": "Hack for Good",
+        "host": "HackUTD",
+        "categories": ["hackathon"],
+        "description": "A social-impact hackathon.",
+        "stages": [
+          {
+            "name": "Hack for Good",
+            "starts_at": "2026-12-04T18:00:00-06:00",
+            "deadline_at": "2026-12-05T17:00:00-06:00"
+          }
+        ],
+        "eligibility": {
+          "majors": [],
+          "class_years": [],
+          "team_min": 1,
+          "team_max": 4
+        },
+        "prize": null,
+        "cost": "free",
+        "format": "in_person",
+        "location": null,
+        "register_url": "https://example.com/hack-for-good",
+        "confidence": 0.9,
+        "missing_fields": []
+      }
+    },
+    {
+      "id": "f07-data-sprint",
+      "org_slug": "data-science-club",
+      "ig_handle": "datasci_utd_sample",
+      "posted_at": "2026-11-08T17:00:00Z",
+      "caption": "DATA SCIENCE SPRINT. Real dataset, live leaderboard, $1,000 prize. CS, DS and Stats majors. Teams of 1-3. Register by Nov 14. Submissions due Nov 28.",
+      "images": ["f07-data-sprint.png"],
+      "note": "Major and team-size eligibility.",
+      "expected": {
+        "is_competition": true,
+        "kind": "competition",
+        "title": "Data Science Sprint",
+        "host": "Data Science Club",
+        "categories": ["data_science", "hackathon"],
+        "description": "A two-week sprint on a real dataset with a live leaderboard.",
+        "stages": [
+          {
+            "name": "Registration closes",
+            "starts_at": null,
+            "deadline_at": "2026-11-14T23:59:00-06:00"
+          },
+          {
+            "name": "Submissions due",
+            "starts_at": null,
+            "deadline_at": "2026-11-28T23:59:00-06:00"
+          }
+        ],
+        "eligibility": {
+          "majors": ["Computer Science", "Data Science", "Statistics"],
+          "class_years": [],
+          "team_min": 1,
+          "team_max": 3
+        },
+        "prize": "$1,000",
+        "cost": "free",
+        "format": "hybrid",
+        "location": "ECSS 2.306 + Zoom",
+        "register_url": "https://example.com/register/data-sprint",
+        "confidence": 0.92,
+        "missing_fields": []
+      }
+    },
+    {
+      "id": "f08-three-minute-thesis",
+      "org_slug": "undergraduate-research-club",
+      "ig_handle": "ugresearch_sample",
+      "posted_at": "2026-11-08T19:00:00Z",
+      "caption": "Three Minute Thesis! Explain your research in 3 minutes. Juniors, seniors and grad students. Abstracts due Nov 21. Competition Dec 4.",
+      "images": ["f08-three-minute-thesis.png"],
+      "note": "Class-year eligibility, solo.",
+      "expected": {
+        "is_competition": true,
+        "kind": "competition",
+        "title": "Three Minute Thesis",
+        "host": "Undergraduate Research Club",
+        "categories": ["research", "speaking"],
+        "description": "Explain your research to a general audience in three minutes.",
+        "stages": [
+          {
+            "name": "Abstracts due",
+            "starts_at": null,
+            "deadline_at": "2026-11-21T23:59:00-06:00"
+          },
+          {
+            "name": "Competition",
+            "starts_at": "2026-12-04T15:00:00-06:00",
+            "deadline_at": "2026-12-04T16:00:00-06:00"
+          }
+        ],
+        "eligibility": {
+          "majors": [],
+          "class_years": ["junior", "senior", "graduate"],
+          "team_min": 1,
+          "team_max": 1
+        },
+        "prize": "$500",
+        "cost": "free",
+        "format": "in_person",
+        "location": "Library Auditorium",
+        "register_url": "https://example.com/register/3mt",
+        "confidence": 0.92,
+        "missing_fields": []
+      }
+    },
+    {
+      "id": "f09-design-jam",
+      "org_slug": "design-guild",
+      "ig_handle": "design_guild_sample",
+      "posted_at": "2026-11-09T13:00:00Z",
+      "caption": "48-HOUR DESIGN SPRINT. Redesign a campus service. Swipe for details. Sign up by Nov 25, showcase Dec 6.",
+      "images": ["f09-design-jam-1.png", "f09-design-jam-2.png"],
+      "note": "Carousel: details are on the second image.",
+      "expected": {
+        "is_competition": true,
+        "kind": "competition",
+        "title": "Design Sprint Showcase",
+        "host": "Design Guild",
+        "categories": ["design"],
+        "description": "Redesign a campus service in a 48-hour sprint.",
+        "stages": [
+          {
+            "name": "Sign-up closes",
+            "starts_at": null,
+            "deadline_at": "2026-11-25T23:59:00-06:00"
+          },
+          {
+            "name": "Showcase",
+            "starts_at": "2026-12-06T13:00:00-06:00",
+            "deadline_at": "2026-12-06T15:00:00-06:00"
+          }
+        ],
+        "eligibility": {
+          "majors": [],
+          "class_years": [],
+          "team_min": null,
+          "team_max": null
+        },
+        "prize": "$750",
+        "cost": "free",
+        "format": "in_person",
+        "location": "ATEC 1.102",
+        "register_url": "https://example.com/register/design-sprint",
+        "confidence": 0.92,
+        "missing_fields": []
+      }
+    },
+    {
+      "id": "f10-investment",
+      "org_slug": "investment-club",
+      "ig_handle": "invest_utd_sample",
+      "posted_at": "2026-11-09T15:00:00Z",
+      "caption": "Student Investment Challenge: manage a $100k paper portfolio all spring. $10 entry. Virtual. Sign up by Dec 1.",
+      "images": ["f10-investment.png"],
+      "note": "Paid, virtual.",
+      "expected": {
+        "is_competition": true,
+        "kind": "competition",
+        "title": "Student Investment Challenge",
+        "host": "Investment Club",
+        "categories": ["finance"],
+        "description": "Manage a paper portfolio for a semester.",
+        "stages": [
+          {
+            "name": "Sign-up closes",
+            "starts_at": null,
+            "deadline_at": "2026-12-01T23:59:00-06:00"
+          }
+        ],
+        "eligibility": {
+          "majors": [],
+          "class_years": [],
+          "team_min": null,
+          "team_max": null
+        },
+        "prize": "Scholarship",
+        "cost": "paid",
+        "format": "virtual",
+        "location": "Online",
+        "register_url": "https://example.com/register/investment-challenge",
+        "confidence": 0.92,
+        "missing_fields": []
+      }
+    },
+    {
+      "id": "f11-speech-contest",
+      "org_slug": "debate-society",
+      "ig_handle": "debate_utd_sample",
+      "posted_at": "2026-11-09T21:00:00Z",
+      "caption": "Table Topics speech contest! Open to everyone. Dec 3 at 7 PM, SSA 2.10. Sign up at the link in our bio by Nov 30.",
+      "images": ["f11-speech-contest.png"],
+      "note": "Speaking category.",
+      "expected": {
+        "is_competition": true,
+        "kind": "competition",
+        "title": "Table Topics Speech Contest",
+        "host": "Debate Society",
+        "categories": ["speaking"],
+        "description": "Impromptu speaking contest.",
+        "stages": [
+          {
+            "name": "Sign-up closes",
+            "starts_at": null,
+            "deadline_at": "2026-11-30T23:59:00-06:00"
+          },
+          {
+            "name": "Contest",
+            "starts_at": null,
+            "deadline_at": "2026-12-03T19:00:00-06:00"
+          }
+        ],
+        "eligibility": {
+          "majors": [],
+          "class_years": [],
+          "team_min": null,
+          "team_max": null
+        },
+        "prize": null,
+        "cost": "free",
+        "format": "in_person",
+        "location": "SSA 2.10",
+        "register_url": "https://example.com/register/table-topics",
+        "confidence": 0.92,
+        "missing_fields": []
+      }
+    },
+    {
+      "id": "f12-pre-health",
+      "org_slug": "pre-health-society",
+      "ig_handle": "prehealth_utd_sample",
+      "posted_at": "2026-11-09T22:00:00Z",
+      "caption": "Clinical ethics case night! Dec 8, 6:30 PM, BSB. Free. Pizza provided. Sign up by Dec 4.",
+      "images": ["f12-pre-health.png"],
+      "note": "Health category.",
+      "expected": {
+        "is_competition": true,
+        "kind": "competition",
+        "title": "Pre-Health Case Night",
+        "host": "Pre-Health Society",
+        "categories": ["health", "case_competition"],
+        "description": "Work through a clinical ethics case with peers.",
+        "stages": [
+          {
+            "name": "Sign-up closes",
+            "starts_at": null,
+            "deadline_at": "2026-12-04T23:59:00-06:00"
+          },
+          {
+            "name": "Case night",
+            "starts_at": null,
+            "deadline_at": "2026-12-08T18:30:00-06:00"
+          }
+        ],
+        "eligibility": {
+          "majors": [],
+          "class_years": [],
+          "team_min": null,
+          "team_max": null
+        },
+        "prize": null,
+        "cost": "free",
+        "format": "in_person",
+        "location": "BSB Lecture Hall",
+        "register_url": "https://example.com/register/prehealth-case",
+        "confidence": 0.92,
+        "missing_fields": []
+      }
+    },
+    {
+      "id": "f13-national",
+      "org_slug": "utd-consulting-club",
+      "ig_handle": "comet_consulting_sample",
+      "posted_at": "2026-11-01T12:00:00Z",
+      "caption": "Open to all UTD students: National Collegiate Case Open. $10,000 prize pool. Virtual. Early registration closes Dec 10, final submission Jan 20.",
+      "images": ["f13-national.png"],
+      "note": "External national competition (utd_only=false).",
+      "expected": {
+        "is_competition": true,
+        "kind": "competition",
+        "title": "National Collegiate Case Open",
+        "host": "National Case Series",
+        "categories": ["case_competition"],
+        "description": "A national case competition open to students at any school.",
+        "stages": [
+          {
+            "name": "Early registration closes",
+            "starts_at": null,
+            "deadline_at": "2026-12-10T23:59:00-06:00"
+          },
+          {
+            "name": "Final submission",
+            "starts_at": null,
+            "deadline_at": "2027-01-20T23:59:00-06:00"
+          }
+        ],
+        "eligibility": {
+          "majors": [],
+          "class_years": [],
+          "team_min": null,
+          "team_max": null
+        },
+        "prize": "$10,000",
+        "cost": "paid",
+        "format": "virtual",
+        "location": "Online",
+        "register_url": "https://example.com/register/national-case-open",
+        "confidence": 0.92,
+        "missing_fields": []
+      }
+    },
+    {
+      "id": "f14-messy",
+      "org_slug": "sustainability-club",
+      "ig_handle": "sustain_utd_sample",
+      "posted_at": "2026-11-09T09:00:00Z",
+      "caption": "big thing coming!!! stay tuned 👀 ........ sometime soon-ish? DM us",
+      "images": ["f14-messy.png"],
+      "note": "Messy flyer: low confidence, goes to the review queue.",
+      "expected": {
+        "is_competition": true,
+        "kind": "competition",
+        "title": "Sustainability Design Jam",
+        "host": "Sustainability Club",
+        "categories": ["design", "engineering"],
+        "description": null,
+        "stages": [],
+        "eligibility": {
+          "majors": [],
+          "class_years": [],
+          "team_min": null,
+          "team_max": null
+        },
+        "prize": null,
+        "cost": "unknown",
+        "format": "unknown",
+        "location": null,
+        "register_url": null,
+        "confidence": 0.45,
+        "missing_fields": ["stages", "register_url", "description"]
+      }
+    },
+    {
+      "id": "f15-results-ais",
+      "org_slug": "association-for-information-systems",
+      "ig_handle": "ais_utd_sample",
+      "posted_at": "2026-10-20T15:00:00Z",
+      "caption": "Congratulations to Team Orbit, winners of the AIS Spring Case Competition! Thanks to all 24 teams who competed.",
+      "images": ["f15-results-ais.png"],
+      "note": "Recap post: attach to the existing listing, never a new competition.",
+      "expected": {
+        "is_competition": false,
+        "kind": "results",
+        "title": "AIS Spring Case Competition",
+        "host": "AIS",
+        "categories": ["case_competition"],
+        "description": null,
+        "stages": [],
+        "eligibility": {
+          "majors": [],
+          "class_years": [],
+          "team_min": null,
+          "team_max": null
+        },
+        "prize": null,
+        "cost": "unknown",
+        "format": "unknown",
+        "location": null,
+        "register_url": null,
+        "confidence": 0.9,
+        "missing_fields": []
+      }
+    },
+    {
+      "id": "f16-results-hack",
+      "org_slug": "hackutd",
+      "ig_handle": "hackutd_sample",
+      "posted_at": "2026-10-12T15:00:00Z",
+      "caption": "That's a wrap on HackUTD Fall! Congrats to our top 3 teams. See you in the spring.",
+      "images": ["f16-results-hack.png"],
+      "note": "Results recap.",
+      "expected": {
+        "is_competition": false,
+        "kind": "results",
+        "title": "HackUTD Fall",
+        "host": "HackUTD",
+        "categories": ["hackathon"],
+        "description": null,
+        "stages": [],
+        "eligibility": {
+          "majors": [],
+          "class_years": [],
+          "team_min": null,
+          "team_max": null
+        },
+        "prize": null,
+        "cost": "unknown",
+        "format": "unknown",
+        "location": null,
+        "register_url": null,
+        "confidence": 0.9,
+        "missing_fields": []
+      }
+    },
+    {
+      "id": "f17-results-pitch",
+      "org_slug": "utd-entrepreneurship-club",
+      "ig_handle": "utd_entrepreneurs_sample",
+      "posted_at": "2026-10-05T15:00:00Z",
+      "caption": "Winners of Pitch Night! Huge thanks to our judges and sponsors.",
+      "images": ["f17-results-pitch.png"],
+      "note": "Results recap.",
+      "expected": {
+        "is_competition": false,
+        "kind": "results",
+        "title": "Pitch Night",
+        "host": "UTD Entrepreneurship Club",
+        "categories": ["pitch_competition"],
+        "description": null,
+        "stages": [],
+        "eligibility": {
+          "majors": [],
+          "class_years": [],
+          "team_min": null,
+          "team_max": null
+        },
+        "prize": null,
+        "cost": "unknown",
+        "format": "unknown",
+        "location": null,
+        "register_url": null,
+        "confidence": 0.88,
+        "missing_fields": []
+      }
+    },
+    {
+      "id": "f18-meeting",
+      "org_slug": "acm-utd",
+      "ig_handle": "acm_utd_sample",
+      "posted_at": "2026-11-09T10:00:00Z",
+      "caption": "General meeting this Tuesday at 6 PM in ECSS 2.102. Free pizza! Bring a friend.",
+      "images": ["f18-meeting.png"],
+      "note": "Not a competition.",
+      "expected": {
+        "is_competition": false,
+        "kind": "not_competition",
+        "title": null,
+        "host": null,
+        "categories": [],
+        "description": null,
+        "stages": [],
+        "eligibility": {
+          "majors": [],
+          "class_years": [],
+          "team_min": null,
+          "team_max": null
+        },
+        "prize": null,
+        "cost": "unknown",
+        "format": "unknown",
+        "location": null,
+        "register_url": null,
+        "confidence": 0.97,
+        "missing_fields": []
+      }
+    },
+    {
+      "id": "f19-officers",
+      "org_slug": "design-guild",
+      "ig_handle": "design_guild_sample",
+      "posted_at": "2026-11-08T10:00:00Z",
+      "caption": "Officer applications are OPEN! Apply by Friday to join our exec team next semester.",
+      "images": ["f19-officers.png"],
+      "note": "Not a competition.",
+      "expected": {
+        "is_competition": false,
+        "kind": "not_competition",
+        "title": null,
+        "host": null,
+        "categories": [],
+        "description": null,
+        "stages": [],
+        "eligibility": {
+          "majors": [],
+          "class_years": [],
+          "team_min": null,
+          "team_max": null
+        },
+        "prize": null,
+        "cost": "unknown",
+        "format": "unknown",
+        "location": null,
+        "register_url": null,
+        "confidence": 0.96,
+        "missing_fields": []
+      }
+    },
+    {
+      "id": "f20-social",
+      "org_slug": "comet-finance-society",
+      "ig_handle": "comet_finance_sample",
+      "posted_at": "2026-11-07T10:00:00Z",
+      "caption": "Social night at Dave & Buster's! Come hang with the club Thursday 7 PM.",
+      "images": ["f20-social.png"],
+      "note": "Not a competition.",
+      "expected": {
+        "is_competition": false,
+        "kind": "not_competition",
+        "title": null,
+        "host": null,
+        "categories": [],
+        "description": null,
+        "stages": [],
+        "eligibility": {
+          "majors": [],
+          "class_years": [],
+          "team_min": null,
+          "team_max": null
+        },
+        "prize": null,
+        "cost": "unknown",
+        "format": "unknown",
+        "location": null,
+        "register_url": null,
+        "confidence": 0.97,
+        "missing_fields": []
+      }
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "_note": "SAMPLE Devpost listings for mock mode.",
+  "listings": [
+    {
+      "source": "devpost",
+      "externalId": "sample-dfw-hacks",
+      "url": "https://example.com/devpost/dfw-hacks",
+      "title": "DFW Hacks (sample)",
+      "text": "DFW Hacks is a 36-hour hackathon for Dallas-Fort Worth college students. Register by January 12, 2027. Event runs January 23-24, 2027 at UT Dallas. Free. Prizes up to $3,000.",
+      "postedAt": "2026-11-01T00:00:00Z"
+    },
+    {
+      "source": "devpost",
+      "externalId": "sample-global-ai-jam",
+      "url": "https://example.com/devpost/global-ai-jam",
+      "title": "Global AI Jam (sample)",
+      "text": "A virtual 48-hour AI hackathon open to students worldwide. Registration closes December 15, 2026. Submissions due December 20, 2026. Prizes: $10,000.",
+      "postedAt": "2026-11-02T00:00:00Z"
+    }
+  ]
+}
