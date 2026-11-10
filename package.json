@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
+    "check": "prettier --check . && eslint && tsc --noEmit && vitest run && next build",
     "format": "prettier --write .",
     "test": "vitest run",
     "test:e2e": "playwright test",
