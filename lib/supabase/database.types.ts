@@ -764,6 +764,7 @@ export type Database = {
       officer_update_competition: { Args: Record<string, unknown>; Returns: unknown }
       officer_upload_results: { Args: Record<string, unknown>; Returns: unknown }
       publish_competition: { Args: Record<string, unknown>; Returns: unknown }
+      similarity_to: { Args: Record<string, unknown>; Returns: unknown }
       slugify: { Args: Record<string, unknown>; Returns: unknown }
       stages_due_between: { Args: Record<string, unknown>; Returns: unknown }
       unique_competition_slug: { Args: Record<string, unknown>; Returns: unknown }

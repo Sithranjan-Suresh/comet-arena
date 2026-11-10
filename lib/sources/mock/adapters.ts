@@ -3,7 +3,16 @@ import { type Club, snapshotSchema } from "@/lib/orgs/merge";
 import { readFileSync } from "node:fs";
 import path from "node:path";
 import { SourceError } from "../errors";
-import type { ClubsSource, FeedSource, IgPost, InstagramSource, VisionModel } from "../types";
+import { normalizeCourse } from "@/lib/courses";
+import { z } from "zod";
+import type {
+  ClubsSource,
+  CourseSource,
+  FeedSource,
+  IgPost,
+  InstagramSource,
+  VisionModel,
+} from "../types";
 import { Chaos, throwForOutcome } from "./chaos";
 import { REPAIR_MARKER, mockFlyerUrl } from "./constants";
 
@@ -80,6 +89,22 @@ export function mockClubs(chaos: Chaos = Chaos.fromEnv()): ClubsSource {
       if (!snapshot.success)
         throw new SourceError("utdclubs(mock)", "malformed", "snapshot fixture is invalid");
       return snapshot.data.clubs;
+    },
+  };
+}
+
+const coursesFileSchema = z.object({ courses: z.record(z.string(), z.array(z.string())) });
+
+/** Mock Nebula: prerequisites from fixtures/nebula-courses.json. Unknown codes return null like the real API. */
+export function mockNebula(chaos: Chaos = Chaos.fromEnv()): CourseSource {
+  return {
+    async fetchPrereqs(code) {
+      await chaos.guard("nebula(mock)");
+      const file = path.resolve(process.cwd(), "fixtures/nebula-courses.json");
+      const parsed = coursesFileSchema.safeParse(JSON.parse(readFileSync(file, "utf8")));
+      if (!parsed.success)
+        throw new SourceError("nebula(mock)", "malformed", "courses fixture is invalid");
+      return parsed.data.courses[normalizeCourse(code)] ?? null;
     },
   };
 }

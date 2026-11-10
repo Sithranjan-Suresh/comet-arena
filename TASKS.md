@@ -3,7 +3,7 @@
 > Derived from `full_context.md`, `product_spec.md`, `engineering_spec.md`.
 > Single global numbering. Work top to bottom; every task is sequenced after its dependencies.
 > **Rule:** one task = one commit (`Task N: <title>`), pushed to `claude/lucid-edison-8c7ns1`.
-> **Progress:** tasks 1-108 and 111-117 complete (109-110 wait for a live Supabase) (✅). Sections A-I done: foundation, database, design system, auth, mock layer, extraction/dedupe/publish pipeline, public discovery, save/schedule/calendar, and the warning/digest/change email jobs.
+> **Progress:** tasks 1-108 and 111-118 complete (109-110 wait for a live Supabase) (✅). Sections A-I done: foundation, database, design system, auth, mock layer, extraction/dedupe/publish pipeline, public discovery, save/schedule/calendar, and the warning/digest/change email jobs.
 > **Priority tags:** P0 = launch-blocking core loop · P1 = important · P2 = depth/later.
 > **Never cut:** ingestion → listing → save → warning.
 > Each task lists **Objective**, **Files/Where**, and **Done when** (verifiable).
@@ -517,7 +517,7 @@ Note on the skill's hackathon framing: these specs describe a real launch produc
      Objective: officer edits their listings (marks `live`/verified), uploads results (CSV or form) creating `entries` with `verified_by_host=true`.
      Done when: results appear on matching users' Player Cards labeled verified.
 
-118. **Scouting Report ranking v2 (Nebula courses).**
+118. ✅ **Scouting Report ranking v2 (Nebula courses).**
      Objective: Nebula API courses cached in `nebula_cache`; match `course_prereqs`; embeddings similarity boost from interests.
      Done when: ranking explains boosts; falls back to deadline sort if Nebula is down.
 

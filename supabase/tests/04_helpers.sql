@@ -52,6 +52,12 @@ begin
     now() + interval '5 days', 45, 0.9);
   if n <> 0 then raise exception 'dissimilar vector should not match, got %', n; end if;
 
+  -- interest similarity: identical vectors score ~1 for rows with embeddings, others are skipped
+  if (select count(*) from public.similarity_to(array_fill(0.1::real, array[768])::extensions.vector,
+        array(select id from public.competitions))) < 1 then raise exception 'similarity_to returned nothing'; end if;
+  if (select max(similarity) from public.similarity_to(array_fill(0.1::real, array[768])::extensions.vector,
+        array(select id from public.competitions))) < 0.99 then raise exception 'identical vectors should be ~1'; end if;
+
   -- warnings: only users with email_warnings on, only stages in the window
   select count(*) into n from public.stages_due_between(now() + interval '2 days', now() + interval '4 days');
   if n <> 1 then raise exception 'expected 1 warning candidate (bob has warnings off), got %', n; end if;

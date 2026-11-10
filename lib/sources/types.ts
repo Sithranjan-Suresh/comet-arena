@@ -33,6 +33,11 @@ export interface FeedSource {
   fetchListings(): Promise<FeedListing[]>;
 }
 
+/** Course catalog (Nebula Labs): direct prerequisite course codes, or null when the course is unknown. */
+export interface CourseSource {
+  fetchPrereqs(code: string): Promise<string[] | null>;
+}
+
 export interface ClubsSource {
   fetchClubs(): Promise<Club[]>;
 }
@@ -72,6 +77,7 @@ export interface Sources {
   devpost: FeedSource;
   mlh: FeedSource;
   utdclubs: ClubsSource;
+  nebula: CourseSource;
   vision: VisionModel;
   embedder: Embedder;
   mailer: Mailer;

@@ -1,0 +1,27 @@
+{
+  "_note": "SAMPLE course prerequisites for mock mode (shape simplified from the Nebula API). Not authoritative.",
+  "courses": {
+    "CS 1336": [],
+    "CS 1436": [],
+    "CS 1337": ["CS 1336"],
+    "CS 2305": ["CS 1336"],
+    "CS 2336": ["CS 1337"],
+    "CS 3305": ["CS 2305", "CS 2336"],
+    "CS 3345": ["CS 2336", "CS 2305"],
+    "CS 3341": ["MATH 2417", "MATH 2419"],
+    "CS 4348": ["CS 3345"],
+    "CS 4349": ["CS 3345"],
+    "CS 4375": ["CS 3345", "CS 3341"],
+    "CS 4395": ["CS 3345"],
+    "MATH 2417": ["MATH 2413"],
+    "MATH 2419": ["MATH 2417"],
+    "MATH 2413": [],
+    "STAT 3341": ["MATH 2419"],
+    "ACCT 2301": [],
+    "ACCT 2302": ["ACCT 2301"],
+    "FIN 3320": ["ACCT 2302"],
+    "MKT 3300": [],
+    "ITSS 4330": ["ITSS 3300"],
+    "ITSS 3300": []
+  }
+}

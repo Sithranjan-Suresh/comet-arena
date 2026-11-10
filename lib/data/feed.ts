@@ -1,5 +1,6 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
-import type { FeedCompetition, FeedItem, FeedProfile } from "@/lib/feed";
+import type { CourseGraph } from "@/lib/courses";
+import type { FeedCompetition, FeedItem, FeedProfile, FeedSignals } from "@/lib/feed";
 import { rankFeed } from "@/lib/feed";
 import type { GameCardDTO } from "@/lib/schemas";
 import { decodeCursor, encodeCursor } from "@/lib/schemas/competition-query";
@@ -57,11 +58,26 @@ export function toFeedCompetition(r: Row, now: Date): FeedCompetition {
 
 export const FEED_PAGE = 20;
 
+/** Outside services that sharpen the ranking. Each is optional and each failure only drops that boost. */
+export interface FeedEnrichment {
+  /** Prerequisite graph for the student's courses (Nebula), or null. */
+  courseGraph?: () => Promise<CourseGraph | null>;
+  /** Embeds the student's interests. */
+  embed?: (text: string) => Promise<number[]>;
+}
+
+/** Text describing what the student likes, embedded to find similar competitions. */
+export function interestText(profile: FeedProfile): string | null {
+  const parts = [...profile.interests.map((i) => i.replace(/_/g, " "))];
+  if (parts.length === 0) return null;
+  return `${parts.join(", ")}${profile.major ? ` | ${profile.major}` : ""}`;
+}
+
 /** Ranked page of the Scouting Report for one student. */
 export async function getFeed(
   supabase: SupabaseClient<Database>,
   profile: FeedProfile,
-  opts: { cursor?: string; now?: Date } = {},
+  opts: { cursor?: string; now?: Date; enrich?: FeedEnrichment } = {},
 ): Promise<{ items: FeedItem[]; next_cursor: string | null }> {
   const now = opts.now ?? new Date();
   const { data, error } = await supabase
@@ -72,11 +88,39 @@ export async function getFeed(
     .in("status", ["live", "unverified", "expected"]);
   if (error) throw error;
 
-  const ranked = rankFeed(
-    ((data ?? []) as unknown as Row[]).map((r) => toFeedCompetition(r, now)),
-    profile,
-    now,
-  );
+  const all = ((data ?? []) as unknown as Row[]).map((r) => toFeedCompetition(r, now));
+
+  // Both signals are best effort: Nebula or the embedding service being down never breaks the feed.
+  const signals: FeedSignals = {};
+  const needsCourses = profile.courses.length > 0 && opts.enrich?.courseGraph;
+  const text = interestText(profile);
+  const [graph, similarity] = await Promise.all([
+    needsCourses ? opts.enrich!.courseGraph!().catch(() => null) : Promise.resolve(null),
+    text && opts.enrich?.embed
+      ? (async () => {
+          try {
+            const embedding = await opts.enrich!.embed!(text);
+            const { data: rows, error: e2 } = await supabase.rpc("similarity_to", {
+              p_embedding: `[${embedding.join(",")}]`,
+              p_ids: all.map((c) => c.card.id),
+            });
+            if (e2) return null;
+            return new Map(
+              ((rows ?? []) as unknown as { id: string; similarity: number }[]).map((r) => [
+                r.id,
+                Number(r.similarity),
+              ]),
+            );
+          } catch {
+            return null;
+          }
+        })()
+      : Promise.resolve(null),
+  ]);
+  signals.courseGraph = graph;
+  signals.similarity = similarity;
+
+  const ranked = rankFeed(all, profile, now, signals);
   const offset = decodeCursor(opts.cursor);
   return {
     items: ranked.slice(offset, offset + FEED_PAGE),
