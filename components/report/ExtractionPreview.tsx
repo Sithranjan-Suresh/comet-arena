@@ -197,6 +197,16 @@ function PreviewForm({
           </p>
         )}
 
+        {errors.merge_into && (
+          <p
+            role="alert"
+            className="bg-critical/10 text-critical rounded-lg p-3 text-sm font-medium"
+          >
+            We could not link this to the existing listing. Go back and answer “No, it is a
+            different one”, or try again.
+          </p>
+        )}
+
         <Input
           label="Title"
           value={v.title}

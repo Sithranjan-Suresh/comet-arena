@@ -37,7 +37,12 @@ export default async function FieldPage({ searchParams }: { searchParams: Promis
   return (
     <>
       <h1 className="mb-1 text-4xl font-extrabold uppercase">The Field</h1>
-      <p className="text-ink-muted mb-6">Every UTD competition, sorted by what is due next.</p>
+      <p className="text-ink-muted mb-6">
+        Every UTD competition, sorted by what is due next.{" "}
+        <Link href="/report" className="text-ink font-semibold underline">
+          Missing one? Report a Game.
+        </Link>
+      </p>
 
       <Suspense fallback={null}>
         <FilterBar />

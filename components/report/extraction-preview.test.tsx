@@ -194,3 +194,14 @@ describe("server feedback and merge mode", () => {
     );
   });
 });
+
+describe("errors on fields without an input", () => {
+  it("never fails silently: a bad merge target is explained", async () => {
+    const { onConfirm } = mount(ready(), { mergeInto: "not-a-uuid" });
+    await userEvent.click(screen.getByRole("button", { name: "Confirm this competition" }));
+    expect(onConfirm).not.toHaveBeenCalled();
+    expect(screen.getByRole("alert")).toHaveTextContent(
+      /could not link this to the existing listing/,
+    );
+  });
+});
