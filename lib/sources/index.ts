@@ -1,6 +1,8 @@
+import { createOpenAICompatibleEmbedder } from "./live/embeddings";
 import { createGroqVision } from "./live/groq";
 import { Chaos } from "./mock/chaos";
 import { mockClubs, mockFeed, mockInstagram, mockVision } from "./mock/adapters";
+import { mockEmbedder } from "./mock/embedder";
 import { notImplemented } from "./stubs";
 import type { Sources } from "./types";
 
@@ -23,7 +25,7 @@ export const defaultFactories: SourceFactories = {
       mlh: mockFeed("mlh", chaos),
       utdclubs: mockClubs(chaos),
       vision: mockVision(chaos),
-      embedder: notImplemented("embedder(mock)", "Task 47"),
+      embedder: mockEmbedder(),
       mailer: notImplemented("mailer(mock)", "Task 66"),
     };
   },
@@ -37,7 +39,11 @@ export const defaultFactories: SourceFactories = {
       model: process.env.GROQ_VISION_MODEL || undefined,
       maxImages: process.env.GROQ_MAX_IMAGES ? Number(process.env.GROQ_MAX_IMAGES) : undefined,
     }),
-    embedder: notImplemented("embedder(live)", "Task 47"),
+    embedder: createOpenAICompatibleEmbedder({
+      apiKey: process.env.EMBEDDINGS_API_KEY ?? "",
+      baseUrl: process.env.EMBEDDINGS_BASE_URL || undefined,
+      model: process.env.EMBEDDINGS_MODEL || undefined,
+    }),
     mailer: notImplemented("mailer(live)", "Task 66"),
   }),
 };
