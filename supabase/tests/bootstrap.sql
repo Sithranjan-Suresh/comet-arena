@@ -1,6 +1,7 @@
 -- Minimal stand-in for the Supabase platform so migrations and RLS tests can run on plain
 -- Postgres (CI / cloud containers without Docker). NOT used on real Supabase projects.
-create extension if not exists pgcrypto;
+create schema if not exists extensions;
+create extension if not exists pgcrypto with schema extensions;
 
 do $$ begin
   if not exists (select 1 from pg_roles where rolname = 'anon') then create role anon nologin; end if;
