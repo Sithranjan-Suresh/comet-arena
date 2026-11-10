@@ -3,7 +3,7 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
 import ShellError from "@/app/(shell)/error";
-import Loading from "@/app/(shell)/loading";
+import Loading from "@/app/(shell)/field/loading";
 import { NotFoundView } from "@/components/shell/NotFoundView";
 
 describe("shell state pages", () => {

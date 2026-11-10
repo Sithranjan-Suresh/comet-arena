@@ -1,6 +1,10 @@
 import { GameCardSkeleton, Skeleton } from "@/components/ui";
 
-/** Shown while any shell route streams in. */
+/**
+ * Skeleton for The Field while results stream in. Deliberately NOT at the shell root: a root-level
+ * loading boundary makes Next flush a 200 before a page can call notFound(), so unknown Game Day
+ * URLs would return 200 instead of 404.
+ */
 export default function Loading() {
   return (
     <div role="status" aria-label="Loading">
