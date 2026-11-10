@@ -6,21 +6,17 @@ Generated 2026-11-10 over 20 labeled posts.
 
 ## Per-field results
 
-| Metric | Image + caption | Caption only (baseline) | Gate |
-|---|---:|---:|---:|
-| First deadline (exact) | 100.0% | 100.0% | ≥ 85.0% |
-| Title (normalized) | 100.0% | 100.0% | ≥ 85.0% |
-| Register URL (normalized) | 100.0% | 100.0% |  |
-| Is-competition precision | 100.0% | 100.0% | ≥ 90.0% |
-| Is-competition recall | 100.0% | 100.0% | ≥ 90.0% |
-| Is-competition F1 | 100.0% | 100.0% |  |
-| Category F1 (micro) | 100.0% | 100.0% |  |
-| Pipeline errors | 0 | 0 | |
+| Metric | Image + caption | Gate |
+|---|---:|---:|
+| First deadline (exact) | 100.0% | ≥ 85.0% |
+| Title (normalized) | 100.0% | ≥ 85.0% |
+| Register URL (normalized) | 100.0% |  |
+| Is-competition precision | 100.0% | ≥ 90.0% |
+| Is-competition recall | 100.0% | ≥ 90.0% |
+| Is-competition F1 | 100.0% |  |
+| Category F1 (micro) | 100.0% |  |
+| Pipeline errors | 0 | |
 
 ## Failures: image + caption (0)
-
-None.
-
-## Failures: caption only (0)
 
 None.

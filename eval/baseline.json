@@ -1,0 +1,9 @@
+{
+  "mode": "mock",
+  "gate": {
+    "first_deadline": 1,
+    "title": 1,
+    "is_competition_recall": 1,
+    "is_competition_precision": 1
+  }
+}

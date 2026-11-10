@@ -63,3 +63,26 @@ Schema lives in `supabase/migrations` (applied in filename order). Two ways to r
   migration and runs the SQL tests in `supabase/tests/NN_*.sql`. Use this for migration and RLS work.
 
 Seeds live in `supabase/seed` and are idempotent.
+
+## Eval gate (extraction and dedupe quality)
+
+The AI extraction decides what students see, so it is measured against hand-labeled posts
+(`eval/README.md` has the labeling rules).
+
+**Run it before turning on live ingestion, and again after every prompt, model or threshold change.**
+
+```bash
+npm run eval:validate -- --strict   # the real set needs 50+ posts (10 non-competitions, 5 results)
+SOURCES_MODE=live npm run eval      # writes eval/report.md and eval/results.json
+npm run eval:gate -- --absolute     # fails if first-deadline/title accuracy < 85% or is-competition precision/recall < 90%
+SOURCES_MODE=live npm run eval:dedupe   # tune the 0.92 / 0.80 dedupe thresholds, writes eval/dedupe-report.md
+```
+
+The report compares the image + caption pipeline with a caption-only baseline, lists every failing case
+field by field, and shows where the dedupe thresholds should sit. A wrong **merge** is the costly mistake
+(it hides a real competition), so the dedupe report must show zero false merges.
+
+CI runs the same harness on the fixture-seeded mock set (`eval/cases.jsonl`) and fails if any metric drops
+more than 2 points below `eval/baseline.json`. That protects the pipeline code, not the model: the mock
+model returns canned answers. After an intentional change, accept the new numbers with
+`npm run eval:gate -- --update-baseline`.

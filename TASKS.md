@@ -3,7 +3,7 @@
 > Derived from `full_context.md`, `product_spec.md`, `engineering_spec.md`.
 > Single global numbering. Work top to bottom; every task is sequenced after its dependencies.
 > **Rule:** one task = one commit (`Task N: <title>`), pushed to `claude/lucid-edison-8c7ns1`.
-> **Progress:** tasks 1-106 complete (✅). Sections A-I done: foundation, database, design system, auth, mock layer, extraction/dedupe/publish pipeline, public discovery, save/schedule/calendar, and the warning/digest/change email jobs.
+> **Progress:** tasks 1-107 complete (✅). Sections A-I done: foundation, database, design system, auth, mock layer, extraction/dedupe/publish pipeline, public discovery, save/schedule/calendar, and the warning/digest/change email jobs.
 > **Priority tags:** P0 = launch-blocking core loop · P1 = important · P2 = depth/later.
 > **Never cut:** ingestion → listing → save → warning.
 > Each task lists **Objective**, **Files/Where**, and **Done when** (verifiable).
@@ -468,7 +468,7 @@ Note on the skill's hackathon framing: these specs describe a real launch produc
      Objective: 15 duplicate pairs + 30 non-duplicates, sweep thresholds, report best 0.92/0.80 pair.
      Done when: report prints precision/recall per threshold.
 
-107. **Eval gate in CI/docs.**
+107. ✅ **Eval gate in CI/docs.**
      Objective: document "run before enabling live ingestion and after prompt changes"; optional CI job that fails if mock-eval regresses.
      Done when: README section + workflow step.
 
