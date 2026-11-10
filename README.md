@@ -13,6 +13,7 @@ never misses a stage.
 - [`full_context.md`](full_context.md): vision, users, feature map, launch demo
 - [`product_spec.md`](product_spec.md): requirements, user stories, edge cases, failure states
 - [`engineering_spec.md`](engineering_spec.md): architecture, data model, APIs, jobs
+- [`docs/auth-setup.md`](docs/auth-setup.md): Supabase Auth, Google OAuth and `@utdallas.edu` restriction setup
 - [`TASKS.md`](TASKS.md): the ordered implementation checklist (one commit per task)
 
 ## Quickstart

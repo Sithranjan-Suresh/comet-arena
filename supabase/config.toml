@@ -30,7 +30,13 @@ enable_signup = true
 
 [auth.email]
 enable_signup = true
+# Local only: skip confirmation so magic links work straight from Inbucket (http://127.0.0.1:54324).
 enable_confirmations = false
+otp_expiry = 3600
+
+[inbucket]
+enabled = true
+port = 54324
 
 [auth.external.google]
 enabled = true
