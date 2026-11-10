@@ -50,3 +50,15 @@ crons; they run as GitHub Actions workflows (see `.github/workflows`).
 5. Production deploys from `main`; every PR gets a preview URL.
 
 Images from Supabase Storage and the Instagram/Facebook CDNs are allowed in `next.config.ts`.
+
+## Database (Supabase)
+
+Schema lives in `supabase/migrations` (applied in filename order). Two ways to run it locally:
+
+- **Supabase CLI (full stack):** `supabase start` then `supabase db reset` (needs Docker).
+  Link the hosted project with `supabase link --project-ref <ref>` and push with `supabase db push`.
+- **Plain Postgres 16 + pgvector (no Docker):** `npm run db:test` starts a throwaway cluster, loads a
+  minimal stand-in for Supabase's `auth` schema (`supabase/tests/bootstrap.sql`), applies every
+  migration and runs the SQL tests in `supabase/tests/NN_*.sql`. Use this for migration and RLS work.
+
+Seeds live in `supabase/seed` and are idempotent.
