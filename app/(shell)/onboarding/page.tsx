@@ -4,6 +4,9 @@ import { safeNextPath } from "@/lib/auth/redirect";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import type { ProfileData } from "@/lib/schemas/profile";
 
+// Per-user page: must render on every request (never prerendered into a frozen redirect).
+export const dynamic = "force-dynamic";
+
 export const metadata = { title: "Welcome" };
 
 export default async function OnboardingPage({

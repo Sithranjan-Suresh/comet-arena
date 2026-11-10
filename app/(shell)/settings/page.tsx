@@ -4,6 +4,9 @@ import { ProfileForm } from "@/components/profile/ProfileForm";
 import { requireUser } from "@/lib/auth/session";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
+// Per-user page: must render on every request (never prerendered into a frozen redirect).
+export const dynamic = "force-dynamic";
+
 export const metadata = { title: "Settings" };
 
 export default async function SettingsPage() {
