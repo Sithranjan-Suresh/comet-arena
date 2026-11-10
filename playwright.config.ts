@@ -5,6 +5,9 @@ const port = Number(process.env.PORT ?? 3000);
 export default defineConfig({
   testDir: "./e2e",
   fullyParallel: true,
+  // Generous: the suite runs two projects in parallel against one production server, and the first render of a
+  // route (cold cache) can take a few seconds under that load.
+  expect: { timeout: 10_000 },
   retries: process.env.CI ? 1 : 0,
   reporter: process.env.CI ? "github" : "list",
   use: {

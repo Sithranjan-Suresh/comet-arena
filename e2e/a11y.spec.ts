@@ -15,6 +15,7 @@ const PAGES = [
   "/login",
   "/report",
   "/unsubscribe?t=invalid",
+  "/privacy",
 ];
 
 for (const path of PAGES) {

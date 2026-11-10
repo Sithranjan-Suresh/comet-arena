@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { authErrorMessage } from "@/lib/auth/errors";
 import { safeNextPath } from "@/lib/auth/redirect";
 import { LoginForm } from "./LoginForm";
@@ -24,6 +25,13 @@ export default async function LoginPage({
         </p>
       )}
       <LoginForm next={safeNextPath(next)} />
+      <p className="text-ink-muted mt-6 text-sm">
+        By signing in you agree to how we handle your data, described in our{" "}
+        <Link href="/privacy" className="underline">
+          privacy notice
+        </Link>
+        .
+      </p>
     </div>
   );
 }
