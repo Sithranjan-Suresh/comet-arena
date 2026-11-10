@@ -6,6 +6,9 @@ import {
   buildEmbeddingText,
   dedupeExtraction,
   decideBand,
+  hostsMatch,
+  isSameEvent,
+  titleSimilarity,
   fillNullFields,
   toPgVector,
 } from "@/lib/dedupe";
@@ -70,7 +73,14 @@ describe("buildEmbeddingText", () => {
 
 /** In-memory store mirroring match_competitions: cosine similarity over stored embeddings, window by first stage. */
 function memoryStore(
-  rows: { id: string; slug: string; title: string; embedding: number[]; deadlines: Date[] }[],
+  rows: {
+    id: string;
+    slug: string;
+    title: string;
+    host: string | null;
+    embedding: number[];
+    deadlines: Date[];
+  }[],
 ): DedupeStore & { calls: unknown[] } {
   const calls: unknown[] = [];
   return {
@@ -84,6 +94,7 @@ function memoryStore(
           id: r.id,
           slug: r.slug,
           title: r.title,
+          host_name: r.host,
           similarity: cosine(r.embedding, args.embedding),
         }))
         .filter((m) => m.similarity >= args.minSimilarity);
@@ -100,6 +111,7 @@ async function seeded(...ids: string[]) {
       id,
       slug: id,
       title: ex.title ?? "",
+      host: ex.host,
       embedding: await embedder.embed(buildEmbeddingText(ex)),
       deadlines: ex.stages.map((s) => new Date(s.deadline_at)),
     });
@@ -115,11 +127,46 @@ describe("dedupeExtraction over the fixture reposts", () => {
     if (r.action === "merge") expect(r.match.id).toBe("f01-ais-case");
   });
 
-  it("sends a repost with a spelled-out host to the review band", async () => {
+  it("merges a repost whose host is spelled out in full: the embedding alone says 'review' but title + host prove it is the same event", async () => {
     const { embedder, store } = await seeded("f01-ais-case");
-    const r = await dedupeExtraction(byId("f03-ais-case-repost2"), { embedder, store });
-    expect(r.action).toBe("review");
-    if (r.action === "review") expect(r.candidates[0].id).toBe("f01-ais-case");
+    const repost = byId("f03-ais-case-repost2");
+    const text = buildEmbeddingText(repost);
+    const sim = cosine(
+      await embedder.embed(buildEmbeddingText(byId("f01-ais-case"))),
+      await embedder.embed(text),
+    );
+    expect(decideBand(sim)).toBe("review"); // the raw similarity is in the ambiguous band...
+    const r = await dedupeExtraction(repost, { embedder, store });
+    expect(r.action).toBe("merge"); // ...but same title + equivalent host promotes it
+    if (r.action === "merge") expect(r.match.id).toBe("f01-ais-case");
+  });
+
+  it("merges a repost whose dates moved (the date in the embedding text pushes similarity under 0.92)", async () => {
+    const { embedder, store } = await seeded("f01-ais-case");
+    const moved = {
+      ...byId("f02-ais-case-repost"),
+      stages: [
+        { name: "Registration closes", starts_at: null, deadline_at: "2026-11-27T05:59:00.000Z" },
+      ],
+    };
+    const sim = cosine(
+      await embedder.embed(buildEmbeddingText(byId("f01-ais-case"))),
+      await embedder.embed(buildEmbeddingText(moved)),
+    );
+    expect(sim).toBeLessThan(MERGE_THRESHOLD);
+    expect((await dedupeExtraction(moved, { embedder, store })).action).toBe("merge");
+  });
+
+  it("does NOT promote a lookalike with a different title or a different host", async () => {
+    const { embedder, store } = await seeded("f01-ais-case");
+    const otherTitle = { ...byId("f01-ais-case"), title: "AIS Fall Case Challenge Series Finals" };
+    expect((await dedupeExtraction(otherTitle, { embedder, store })).action).toBe("review");
+    const otherHost = {
+      ...byId("f01-ais-case"),
+      host: "HackUTD Case Team",
+      title: "AIS Fall Case Competition!",
+    };
+    expect((await dedupeExtraction(otherHost, { embedder, store })).action).not.toBe("merge");
   });
 
   it("treats unrelated competitions as new", async () => {
@@ -239,4 +286,37 @@ describe("fillNullFields", () => {
 
 describe("toPgVector", () => {
   it("formats a pgvector literal", () => expect(toPgVector([0.5, -1, 0])).toBe("[0.5,-1,0]"));
+});
+
+describe("same-event helpers", () => {
+  it("titleSimilarity is 1 for identical (ignoring case/punctuation) and low for different titles", () => {
+    expect(titleSimilarity("AIS Fall Case Competition", "ais fall case competition!")).toBe(1);
+    expect(
+      titleSimilarity("AIS Fall Case Competition", "AIS Spring Case Competition"),
+    ).toBeLessThan(0.9);
+    expect(titleSimilarity("Hack for Good", "Startup Pitch Night")).toBeLessThan(0.3);
+    expect(titleSimilarity("", "x")).toBe(0);
+  });
+
+  it("hostsMatch accepts equal names and acronyms, never empty or different hosts", () => {
+    expect(hostsMatch("AIS", "ais")).toBe(true);
+    expect(hostsMatch("AIS", "Association for Information Systems")).toBe(true);
+    expect(hostsMatch("Association for Information Systems (AIS)", "AIS")).toBe(true);
+    expect(hostsMatch("HackUTD", "AIS")).toBe(false);
+    expect(hostsMatch(null, "AIS")).toBe(false);
+    expect(hostsMatch("", "")).toBe(false);
+  });
+
+  it("isSameEvent needs BOTH a near-identical title and an equivalent host", () => {
+    const match = { title: "AIS Fall Case Competition", host_name: "AIS" };
+    expect(
+      isSameEvent(
+        { title: "AIS Fall Case Competition", host: "Association for Information Systems" },
+        match,
+      ),
+    ).toBe(true);
+    expect(isSameEvent({ title: "AIS Fall Case Competition", host: "HackUTD" }, match)).toBe(false);
+    expect(isSameEvent({ title: "AIS Spring Case Competition", host: "AIS" }, match)).toBe(false);
+    expect(isSameEvent({ title: null, host: "AIS" }, match)).toBe(false);
+  });
 });

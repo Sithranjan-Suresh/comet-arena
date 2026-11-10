@@ -90,6 +90,24 @@ class MemoryStore implements PublishStore, DedupeStore {
   ) {
     this.rows.find((r) => r.id === id)!.sources.push(source);
   }
+  orgs: { id: string; name: string; slug: string }[] = [];
+  stageUpdates: { id: string; stages: { name: string; deadline_at: string }[] }[] = [];
+  datesChanged = false;
+  resultTargets: { title: string; id: string }[] = [];
+  async applyStages(
+    id: string,
+    stages: { name: string; starts_at: string | null; deadline_at: string }[],
+  ) {
+    this.stageUpdates.push({ id, stages });
+    return this.datesChanged;
+  }
+  async findResultTarget(title: string) {
+    const t = this.resultTargets.find((r) => r.title.toLowerCase() === title.toLowerCase());
+    return t ? { id: t.id, slug: t.id, title: t.title, similarity: 1 } : null;
+  }
+  async listOrgs() {
+    return this.orgs;
+  }
   async enqueueReview(item: {
     kind: string;
     candidate_competition_id: string | null;
@@ -116,6 +134,7 @@ class MemoryStore implements PublishStore, DedupeStore {
         id: r.id,
         slug: r.slug,
         title: r.title,
+        host_name: r.fields.host_name,
         similarity: cosine(r.embedding!, args.embedding),
       }))
       .filter((m) => m.similarity >= args.minSimilarity);
@@ -129,6 +148,8 @@ const src = (over: Partial<PostSource> = {}): PostSource => ({
   posted_at: "2026-11-03T15:00:00Z",
   ...over,
 });
+
+const exOfFixture = (id: string): Extraction => loadFlyerCases().find((c) => c.id === id)!.expected;
 
 async function process(store: MemoryStore, c: ReturnType<typeof loadFlyerCases>[number]) {
   const now = new Date("2026-11-10T15:00:00Z");
@@ -169,7 +190,7 @@ describe("end to end over the 20 fixture posts", () => {
     expect(outcomes).toEqual({
       "f01-ais-case": "published",
       "f02-ais-case-repost": "merged",
-      "f03-ais-case-repost2": "queued_duplicate",
+      "f03-ais-case-repost2": "merged",
       "f04-hackutd-24h": "published",
       "f05-pitch-night": "queued_low_confidence",
       "f06-no-year": "published",
@@ -190,17 +211,36 @@ describe("end to end over the 20 fixture posts", () => {
     });
   });
 
-  it("shows the same competition once, with its sources and a confirmation", async () => {
+  it("shows the same competition once however the host is spelled, with all sources and confirmations", async () => {
     const store = new MemoryStore();
     for (const c of loadFlyerCases().slice(0, 3)) await process(store, c);
     expect(store.rows).toHaveLength(1);
-    expect(store.rows[0].confirmations).toBe(1);
+    expect(store.rows[0].confirmations).toBe(2);
     expect(store.rows[0].sources.map((s) => s.external_id)).toEqual([
       "f01-ais-case",
       "f02-ais-case-repost",
+      "f03-ais-case-repost2",
     ]);
-    expect(store.reviews).toHaveLength(1);
+    expect(store.reviews).toHaveLength(0);
+  });
+
+  it("sends a genuinely ambiguous near-match (different title) to the review queue", async () => {
+    const store = new MemoryStore();
+    await process(store, loadFlyerCases()[0]);
+    // Same host and date, but a different event name: similar embedding, not provably the same event.
+    const lookalike = {
+      ...exOfFixture("f01-ais-case"),
+      title: "AIS Fall Case Challenge Series Finals",
+    };
+    const dedupe = await dedupeExtraction(lookalike, { embedder: mockEmbedder(), store });
+    expect(dedupe.action).toBe("review");
+    const r = await publishExtraction(
+      { extraction: lookalike, dedupe, source: src({ external_id: "lookalike" }) },
+      store,
+    );
+    expect(r.outcome).toBe("queued_duplicate");
     expect(store.reviews[0]).toMatchObject({ kind: "possible_duplicate", candidate: "c1" });
+    expect(store.rows).toHaveLength(1);
   });
 
   it("publishes new competitions as unverified with their stages", async () => {
@@ -364,5 +404,127 @@ describe("publishExtraction", () => {
   it("embedding text used for dedupe matches what was stored", async () => {
     const e = ex();
     expect(buildEmbeddingText(e)).toContain("AIS Fall Case Competition");
+  });
+});
+
+describe("edge cases (product_spec §4)", () => {
+  const fixture = (id: string) => loadFlyerCases().find((c) => c.id === id)!;
+  const exOf = (id: string): Extraction => fixture(id).expected;
+  const fresh = { action: "new" as const, embedding: [1, 0], deferred: false };
+
+  it("attaches a recap to the listing with the same title, as a source, not a new competition", async () => {
+    const store = new MemoryStore();
+    store.resultTargets.push({ title: "AIS Spring Case Competition", id: "c-spring" });
+    store.rows.push({
+      id: "c-spring",
+      slug: "s",
+      title: "AIS Spring Case Competition",
+      status: "past",
+      confirmations: 0,
+      embedding: null,
+      needs_dedupe: false,
+      deadlines: [],
+      fields: {} as ExistingCompetition,
+      sources: [],
+      stages: 0,
+    });
+    const r = await publishExtraction(
+      { extraction: exOf("f15-results-ais"), dedupe: fresh, source: src({ external_id: "recap" }) },
+      store,
+    );
+    expect(r).toEqual({ outcome: "results_attached", competition_id: "c-spring" });
+    expect(store.rows).toHaveLength(1);
+    expect(store.rows[0].sources).toHaveLength(1);
+  });
+
+  it("leaves a recap for an unknown event unmatched (and creates nothing)", async () => {
+    const store = new MemoryStore();
+    const r = await publishExtraction(
+      { extraction: exOf("f16-results-hack"), dedupe: fresh, source: src() },
+      store,
+    );
+    expect(r.outcome).toBe("results_unmatched");
+    expect(store.rows).toHaveLength(0);
+  });
+
+  it("reports changed dates on a merged repost and passes the new stages through in order", async () => {
+    const store = new MemoryStore();
+    await process(store, loadFlyerCases()[0]); // original
+    store.datesChanged = true;
+    const moved = {
+      ...exOf("f02-ais-case-repost"),
+      stages: [
+        { name: "Registration closes", starts_at: null, deadline_at: "2026-11-27T05:59:00.000Z" },
+      ],
+    };
+    const dedupe = await dedupeExtraction(moved, { embedder: mockEmbedder(), store });
+    const r = await publishExtraction(
+      { extraction: moved, dedupe, source: src({ external_id: "repost" }) },
+      store,
+    );
+    expect(r).toMatchObject({ outcome: "merged", dates_changed: true });
+    expect(store.stageUpdates.at(-1)).toMatchObject({
+      id: "c1",
+      stages: [{ name: "Registration closes" }],
+    });
+  });
+
+  it("does not claim a date change when the repost has the same dates", async () => {
+    const store = new MemoryStore();
+    await process(store, loadFlyerCases()[0]);
+    const r = await process(store, loadFlyerCases()[1]);
+    expect(r).toMatchObject({ outcome: "merged", dates_changed: false });
+  });
+
+  it("links the host org by name or acronym and sets beginner/external flags on the new row", async () => {
+    const store = new MemoryStore();
+    store.orgs = [
+      { id: "org-hack", name: "HackUTD", slug: "hackutd" },
+      { id: "org-ais", name: "Association for Information Systems (AIS)", slug: "ais" },
+    ];
+    await publishExtraction(
+      {
+        extraction: exOf("f04-hackutd-24h"),
+        dedupe: fresh,
+        source: src({ caption: fixture("f04-hackutd-24h").caption }),
+      },
+      store,
+    );
+    expect(store.lastPublish!.competition).toMatchObject({
+      host_org_id: "org-hack",
+      utd_only: true,
+      beginner_friendly: true,
+    });
+
+    await publishExtraction(
+      { extraction: exOf("f01-ais-case"), dedupe: fresh, source: src({ external_id: "x" }) },
+      store,
+    );
+    expect(store.lastPublish!.competition.host_org_id).toBe("org-ais"); // "AIS" -> org via acronym
+  });
+
+  it("marks a national competition from an unknown host as external (utd_only=false)", async () => {
+    const store = new MemoryStore();
+    await publishExtraction(
+      {
+        extraction: exOf("f13-national"),
+        dedupe: fresh,
+        source: src({ caption: fixture("f13-national").caption }),
+      },
+      store,
+    );
+    expect(store.lastPublish!.competition).toMatchObject({
+      host_org_id: null,
+      utd_only: false,
+      tier: "national",
+    });
+  });
+
+  it("lists an announced competition without dates as expected and keeps the missing link null", async () => {
+    const store = new MemoryStore();
+    const undated = { ...exOf("f01-ais-case"), stages: [], register_url: null, confidence: 0.9 };
+    await publishExtraction({ extraction: undated, dedupe: fresh, source: src() }, store);
+    expect(store.rows[0].status).toBe("expected");
+    expect(store.lastPublish!.competition.register_url).toBeNull();
   });
 });

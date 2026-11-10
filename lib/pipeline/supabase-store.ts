@@ -1,10 +1,14 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
-import { type ExistingCompetition, toPgVector } from "@/lib/dedupe";
+import { type DedupeMatch, type ExistingCompetition, toPgVector } from "@/lib/dedupe";
+import type { OrgRef } from "@/lib/orgs/resolve";
 import type { Database, Json } from "@/lib/supabase/database.types";
 import type { PublishStore } from "./publish";
 
 /** PublishStore on the service-role client; writes go through the atomic SQL functions. */
 export function supabasePublishStore(db: SupabaseClient<Database>): PublishStore {
+  // The org list is small (~600) and changes weekly: load once per store instance (one job run).
+  let orgCache: Promise<OrgRef[]> | undefined;
+
   return {
     async publishCompetition({ competition, stages, eligibility, sources }) {
       const { embedding, ...rest } = competition;
@@ -40,6 +44,36 @@ export function supabasePublishStore(db: SupabaseClient<Database>): PublishStore
         p_source: source as unknown as Json,
       });
       if (error) throw error;
+    },
+
+    async applyStages(id, stages) {
+      const { data, error } = await db.rpc("apply_stage_update", {
+        p_id: id,
+        p_stages: stages as unknown as Json,
+      });
+      if (error) throw error;
+      return data === true;
+    },
+
+    async findResultTarget(title) {
+      const { data, error } = await db.rpc("match_competition_by_title", {
+        p_title: title,
+        p_min: 0.75,
+      });
+      if (error) throw error;
+      const row = (data as unknown as DedupeMatch[] | null)?.[0];
+      return row
+        ? { id: row.id, slug: row.slug, title: row.title, similarity: Number(row.similarity) }
+        : null;
+    },
+
+    async listOrgs() {
+      orgCache ??= (async () => {
+        const { data, error } = await db.from("orgs").select("id,name,slug,utdclubs_slug");
+        if (error) throw error;
+        return data as OrgRef[];
+      })();
+      return orgCache;
     },
 
     async addSource(id, source) {

@@ -102,7 +102,7 @@
       "posted_at": "2026-11-05T16:00:00Z",
       "caption": "Calling all business majors: AIS Fall Case Competition. $2,500 prize pool, free to enter. Deadline to register: Nov 20.",
       "images": ["f03-ais-case-repost2.png"],
-      "note": "Third club spells the host out in full: lands in the possible-duplicate review band.",
+      "note": "Third club spells the host out in full: raw similarity is in the review band, but same title + equivalent host (AIS) merges it.",
       "expected": {
         "is_competition": true,
         "kind": "competition",

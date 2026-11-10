@@ -1,3 +1,4 @@
+import { acronym } from "@/lib/orgs/resolve";
 import type { Extraction } from "@/lib/schemas";
 import type { Embedder } from "@/lib/sources";
 
@@ -10,7 +11,64 @@ export interface DedupeMatch {
   id: string;
   slug: string;
   title: string;
+  /** Host of the existing listing (for the same-event check). */
+  host_name?: string | null;
   similarity: number;
+}
+
+/** Title match (normalized character-bigram Dice coefficient) needed to call two posts the same event. */
+export const SAME_TITLE_THRESHOLD = 0.9;
+
+const normText = (s: string) =>
+  s
+    .toLowerCase()
+    .normalize("NFKD")
+    .replace(/[^a-z0-9]+/g, " ")
+    .trim();
+
+/** Sorensen-Dice similarity on character bigrams: 1 for identical, ~0 for unrelated. */
+export function titleSimilarity(a: string, b: string): number {
+  const x = normText(a).replace(/ /g, "");
+  const y = normText(b).replace(/ /g, "");
+  if (!x || !y) return 0;
+  if (x === y) return 1;
+  if (x.length < 2 || y.length < 2) return 0;
+  const grams = (t: string) => {
+    const m = new Map<string, number>();
+    for (let i = 0; i < t.length - 1; i++)
+      m.set(t.slice(i, i + 2), (m.get(t.slice(i, i + 2)) ?? 0) + 1);
+    return m;
+  };
+  const gx = grams(x);
+  const gy = grams(y);
+  let overlap = 0;
+  for (const [g, n] of gx) overlap += Math.min(n, gy.get(g) ?? 0);
+  return (2 * overlap) / (x.length - 1 + (y.length - 1));
+}
+
+/** Same host: equal after normalization, or one is the acronym of the other ("AIS" vs "Association for Information Systems"). */
+export function hostsMatch(a: string | null | undefined, b: string | null | undefined): boolean {
+  if (!a || !b) return false;
+  const na = normText(a);
+  const nb = normText(b);
+  if (na === nb) return true;
+  return acronym(a) === nb || acronym(b) === na;
+}
+
+/**
+ * Strong same-event signal: near-identical title AND equivalent host. Used to promote a review-band
+ * candidate to a merge, because the first-deadline date inside the embedding text pulls similarity
+ * below 0.92 whenever a repost moves a date (an explicit product_spec §4 edge case).
+ */
+export function isSameEvent(
+  ex: Pick<Extraction, "title" | "host">,
+  match: Pick<DedupeMatch, "title" | "host_name">,
+): boolean {
+  if (!ex.title) return false;
+  return (
+    titleSimilarity(ex.title, match.title) >= SAME_TITLE_THRESHOLD &&
+    hostsMatch(ex.host, match.host_name)
+  );
 }
 
 export type DedupeDecision = "merge" | "review" | "new";
@@ -93,6 +151,8 @@ export async function dedupeExtraction(
   if (!best) return { action: "new", embedding, deferred: false };
   const band = decideBand(best.similarity);
   if (band === "merge") return { action: "merge", match: best, embedding };
+  if (band === "review" && isSameEvent(ex, best))
+    return { action: "merge", match: best, embedding };
   if (band === "review")
     return {
       action: "review",

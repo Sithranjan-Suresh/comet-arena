@@ -18,6 +18,7 @@ export function supabaseDedupeStore(db: SupabaseClient<Database>): DedupeStore {
         id: r.id,
         slug: r.slug,
         title: r.title,
+        host_name: r.host_name ?? null,
         similarity: Number(r.similarity),
       }));
     },
