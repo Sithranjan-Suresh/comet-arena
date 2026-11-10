@@ -13,6 +13,7 @@
     "test:e2e": "playwright test",
     "db:test": "scripts/db-test.sh test",
     "db:types": "node scripts/gen-db-types.mjs",
+    "seed:orgs": "tsx --env-file=.env.local supabase/seed/orgs.ts",
     "db:reset:local": "scripts/db-test.sh reset"
   },
   "dependencies": {
@@ -36,6 +37,7 @@
     "eslint-config-next": "15.5.29",
     "prettier": "^3.9.10",
     "tailwindcss": "^4",
+    "tsx": "^4.23.15",
     "typescript": "^5",
     "vitest": "^5.1.0"
   }

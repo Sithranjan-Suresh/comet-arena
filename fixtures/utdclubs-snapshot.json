@@ -1,0 +1,276 @@
+{
+  "_note": "PLACEHOLDER snapshot in the shape of UTD Clubs (Nebula Labs) data. Names are samples, Instagram handles are intentionally absent. Replace by running the sync-orgs job (Task 92) against the live endpoints, then fill handles via the admin handle editor (Task 103).",
+  "fetched_at": "2026-11-09T00:00:00Z",
+  "clubs": [
+    {
+      "slug": "association-for-information-systems",
+      "name": "Association for Information Systems (AIS)",
+      "description": null,
+      "tags": ["business", "technology", "case-competition"],
+      "instagram": null,
+      "discord": null,
+      "campusgroups_id": null
+    },
+    {
+      "slug": "hackutd",
+      "name": "HackUTD",
+      "description": null,
+      "tags": ["technology", "hackathon"],
+      "instagram": null,
+      "discord": null,
+      "campusgroups_id": null
+    },
+    {
+      "slug": "acm-utd",
+      "name": "ACM UTD",
+      "description": null,
+      "tags": ["technology", "programming"],
+      "instagram": null,
+      "discord": null,
+      "campusgroups_id": null
+    },
+    {
+      "slug": "comet-finance-society",
+      "name": "Comet Finance Society",
+      "description": null,
+      "tags": ["finance", "business"],
+      "instagram": null,
+      "discord": null,
+      "campusgroups_id": null
+    },
+    {
+      "slug": "utd-consulting-club",
+      "name": "UTD Consulting Club",
+      "description": null,
+      "tags": ["business", "case-competition"],
+      "instagram": null,
+      "discord": null,
+      "campusgroups_id": null
+    },
+    {
+      "slug": "utd-entrepreneurship-club",
+      "name": "UTD Entrepreneurship Club",
+      "description": null,
+      "tags": ["business", "pitch"],
+      "instagram": null,
+      "discord": null,
+      "campusgroups_id": null
+    },
+    {
+      "slug": "data-science-club",
+      "name": "Data Science Club",
+      "description": null,
+      "tags": ["technology", "data"],
+      "instagram": null,
+      "discord": null,
+      "campusgroups_id": null
+    },
+    {
+      "slug": "utd-ai-society",
+      "name": "UTD AI Society",
+      "description": null,
+      "tags": ["technology", "ai"],
+      "instagram": null,
+      "discord": null,
+      "campusgroups_id": null
+    },
+    {
+      "slug": "cybersecurity-club",
+      "name": "Cybersecurity Club",
+      "description": null,
+      "tags": ["technology", "security"],
+      "instagram": null,
+      "discord": null,
+      "campusgroups_id": null
+    },
+    {
+      "slug": "design-guild",
+      "name": "Design Guild",
+      "description": null,
+      "tags": ["design", "art"],
+      "instagram": null,
+      "discord": null,
+      "campusgroups_id": null
+    },
+    {
+      "slug": "pre-health-society",
+      "name": "Pre-Health Society",
+      "description": null,
+      "tags": ["health", "pre-health"],
+      "instagram": null,
+      "discord": null,
+      "campusgroups_id": null
+    },
+    {
+      "slug": "biomedical-engineering-society",
+      "name": "Biomedical Engineering Society",
+      "description": null,
+      "tags": ["engineering", "health"],
+      "instagram": null,
+      "discord": null,
+      "campusgroups_id": null
+    },
+    {
+      "slug": "toastmasters-utd",
+      "name": "Toastmasters UTD",
+      "description": null,
+      "tags": ["speaking", "leadership"],
+      "instagram": null,
+      "discord": null,
+      "campusgroups_id": null
+    },
+    {
+      "slug": "debate-society",
+      "name": "Debate Society",
+      "description": null,
+      "tags": ["speaking", "debate"],
+      "instagram": null,
+      "discord": null,
+      "campusgroups_id": null
+    },
+    {
+      "slug": "undergraduate-research-club",
+      "name": "Undergraduate Research Club",
+      "description": null,
+      "tags": ["research"],
+      "instagram": null,
+      "discord": null,
+      "campusgroups_id": null
+    },
+    {
+      "slug": "ieee-utd",
+      "name": "IEEE UTD",
+      "description": null,
+      "tags": ["engineering", "technology"],
+      "instagram": null,
+      "discord": null,
+      "campusgroups_id": null
+    },
+    {
+      "slug": "society-of-women-engineers",
+      "name": "Society of Women Engineers",
+      "description": null,
+      "tags": ["engineering"],
+      "instagram": null,
+      "discord": null,
+      "campusgroups_id": null
+    },
+    {
+      "slug": "marketing-association",
+      "name": "Marketing Association",
+      "description": null,
+      "tags": ["business", "marketing"],
+      "instagram": null,
+      "discord": null,
+      "campusgroups_id": null
+    },
+    {
+      "slug": "accounting-society",
+      "name": "Accounting Society",
+      "description": null,
+      "tags": ["finance", "business"],
+      "instagram": null,
+      "discord": null,
+      "campusgroups_id": null
+    },
+    {
+      "slug": "game-development-club",
+      "name": "Game Development Club",
+      "description": null,
+      "tags": ["technology", "games"],
+      "instagram": null,
+      "discord": null,
+      "campusgroups_id": null
+    },
+    {
+      "slug": "robotics-club",
+      "name": "Robotics Club",
+      "description": null,
+      "tags": ["engineering", "robotics"],
+      "instagram": null,
+      "discord": null,
+      "campusgroups_id": null
+    },
+    {
+      "slug": "product-management-club",
+      "name": "Product Management Club",
+      "description": null,
+      "tags": ["business", "product"],
+      "instagram": null,
+      "discord": null,
+      "campusgroups_id": null
+    },
+    {
+      "slug": "investment-club",
+      "name": "Investment Club",
+      "description": null,
+      "tags": ["finance"],
+      "instagram": null,
+      "discord": null,
+      "campusgroups_id": null
+    },
+    {
+      "slug": "ux-research-club",
+      "name": "UX Research Club",
+      "description": null,
+      "tags": ["design", "research"],
+      "instagram": null,
+      "discord": null,
+      "campusgroups_id": null
+    },
+    {
+      "slug": "sustainability-club",
+      "name": "Sustainability Club",
+      "description": null,
+      "tags": ["engineering", "environment"],
+      "instagram": null,
+      "discord": null,
+      "campusgroups_id": null
+    },
+    {
+      "slug": "quant-trading-club",
+      "name": "Quant Trading Club",
+      "description": null,
+      "tags": ["finance", "technology"],
+      "instagram": null,
+      "discord": null,
+      "campusgroups_id": null
+    },
+    {
+      "slug": "hult-prize-utd",
+      "name": "Hult Prize UTD",
+      "description": null,
+      "tags": ["business", "pitch", "social-impact"],
+      "instagram": null,
+      "discord": null,
+      "campusgroups_id": null
+    },
+    {
+      "slug": "mock-trial-team",
+      "name": "Mock Trial Team",
+      "description": null,
+      "tags": ["speaking", "law"],
+      "instagram": null,
+      "discord": null,
+      "campusgroups_id": null
+    },
+    {
+      "slug": "math-club",
+      "name": "Math Club",
+      "description": null,
+      "tags": ["math"],
+      "instagram": null,
+      "discord": null,
+      "campusgroups_id": null
+    },
+    {
+      "slug": "physics-society",
+      "name": "Physics Society",
+      "description": null,
+      "tags": ["research", "physics"],
+      "instagram": null,
+      "discord": null,
+      "campusgroups_id": null
+    }
+  ]
+}
