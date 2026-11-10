@@ -3,7 +3,7 @@
 > Derived from `full_context.md`, `product_spec.md`, `engineering_spec.md`.
 > Single global numbering. Work top to bottom; every task is sequenced after its dependencies.
 > **Rule:** one task = one commit (`Task N: <title>`), pushed to `claude/lucid-edison-8c7ns1`.
-> **Progress:** tasks 1-93 complete (✅). Sections A-I done: foundation, database, design system, auth, mock layer, extraction/dedupe/publish pipeline, public discovery, save/schedule/calendar, and the warning/digest/change email jobs.
+> **Progress:** tasks 1-94 complete (✅). Sections A-I done: foundation, database, design system, auth, mock layer, extraction/dedupe/publish pipeline, public discovery, save/schedule/calendar, and the warning/digest/change email jobs.
 > **Priority tags:** P0 = launch-blocking core loop · P1 = important · P2 = depth/later.
 > **Never cut:** ingestion → listing → save → warning.
 > Each task lists **Objective**, **Files/Where**, and **Done when** (verifiable).
@@ -412,7 +412,7 @@ Note on the skill's hackathon framing: these specs describe a real launch produc
     Objective: `lib/sources/instagram.ts` live impl: query `media{caption,media_url,permalink,timestamp,media_type,children{media_url}}` last 10 posts, 20 s timeout, usage-header parsing, exponential backoff, stop at 80% quota; no-account result → `personal_or_missing`.
     Done when: contract tests against recorded fixtures.
 
-94. **Instagram adapter — Apify fallback.**
+94. ✅ **Instagram adapter — Apify fallback.**
     Objective: batch personal-account fetch, 5-minute abort, monthly credit-exhaustion handling, admin alert.
     Done when: mocked failure paths tested.
 
