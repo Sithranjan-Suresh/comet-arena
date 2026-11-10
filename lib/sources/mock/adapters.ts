@@ -1,4 +1,4 @@
-import { loadCampusEvents, loadFeedListings, loadFlyerCases } from "@/lib/fixtures";
+import { loadCampusEvents, loadFeedListings, loadFlyerCases, loadTextCases } from "@/lib/fixtures";
 import { type Club, snapshotSchema } from "@/lib/orgs/merge";
 import { readFileSync } from "node:fs";
 import path from "node:path";
@@ -32,9 +32,10 @@ export function mockVision(chaos: Chaos = Chaos.fromEnv()): VisionModel {
       const match =
         cases.find((c) => c.images.some((f) => names.has(f))) ??
         cases.find((c) => c.caption.length > 20 && user.includes(c.caption.slice(0, 40)));
+      const textMatch = match ? undefined : loadTextCases().find((c) => user.includes(c.match));
       const json = JSON.stringify(
-        match
-          ? match.expected
+        match || textMatch
+          ? (match?.expected ?? textMatch!.expected)
           : {
               is_competition: false,
               kind: "not_competition",

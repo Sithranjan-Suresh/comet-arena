@@ -1,0 +1,18 @@
+{
+  "_note": "Department announcement pages we read daily, and the senders whose newsletters we accept at /api/inbound/email. Add real ones before launch.",
+  "pages": [
+    {
+      "id": "jsom-news",
+      "name": "Naveen Jindal School of Management announcements",
+      "url": "https://jsom.utdallas.edu/news/",
+      "host": "Naveen Jindal School of Management"
+    },
+    {
+      "id": "ecs-news",
+      "name": "Erik Jonsson School announcements",
+      "url": "https://ecs.utdallas.edu/news/",
+      "host": "Erik Jonsson School of Engineering"
+    }
+  ],
+  "senders": ["jsom.utdallas.edu", "ecs.utdallas.edu", "utdallas.edu"]
+}

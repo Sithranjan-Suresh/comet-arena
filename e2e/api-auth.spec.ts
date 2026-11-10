@@ -141,3 +141,11 @@ test("the Front Office sends signed-out visitors to sign in and returns them aft
   await page.goto("/office");
   await expect(page).toHaveURL(/\/login\?next=%2Foffice$/);
 });
+
+test("the inbound email webhook refuses callers without the shared secret", async ({ request }) => {
+  const res = await request.post("/api/inbound/email", {
+    data: { from: "a@utdallas.edu", text: "x", messageId: "1" },
+  });
+  expect(res.status()).toBe(401);
+  expect((await request.post("/api/inbound/email?secret=wrong", { data: {} })).status()).toBe(401);
+});

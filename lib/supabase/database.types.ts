@@ -314,6 +314,36 @@ export type Database = {
         }
         Relationships: []
       }
+      inbound_messages: {
+        Row: {
+          id: string
+          message_id: string
+          sender: string
+          subject: string
+          body: string
+          received_at: string
+          processed_at: string | null
+        }
+        Insert: {
+          id?: string
+          message_id: string
+          sender: string
+          subject?: string
+          body: string
+          received_at?: string
+          processed_at?: string | null
+        }
+        Update: {
+          id?: string
+          message_id?: string
+          sender?: string
+          subject?: string
+          body?: string
+          received_at?: string
+          processed_at?: string | null
+        }
+        Relationships: []
+      }
       ingest_posts: {
         Row: {
           ig_post_id: string

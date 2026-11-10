@@ -1,0 +1,7 @@
+{
+  "_note": "SAMPLE inbound newsletter, in the shape our webhook stores it.",
+  "from": "Career Center <news@jsom.utdallas.edu>",
+  "subject": "This week at JSOM",
+  "messageId": "<sample-newsletter-001@mail.example>",
+  "text": "Hello students,\n\nSAMPLE-DEPT-NEWSLETTER: The Analytics Showdown is a data analytics competition for undergraduates. Teams of 3 analyze a real data set; register by February 5, 2027 and compete on February 27, 2027 in ECSS 2.410. Prizes up to $3,000. Register at https://example.com/analytics-showdown.\n\nAlso: the library has extended hours during finals week.\n\n> quoted reply text that must be ignored: Hackathon!\n\n-- \nCareer Center\nUnsubscribe: https://example.com/unsub\n"
+}

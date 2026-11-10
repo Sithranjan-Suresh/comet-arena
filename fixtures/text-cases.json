@@ -1,0 +1,91 @@
+{
+  "_note": "What the mock model answers for known text-only announcements (department pages, newsletters). `match` is a substring of the text it is given.",
+  "cases": [
+    {
+      "match": "SAMPLE-DEPT-VENTURE",
+      "expected": {
+        "is_competition": true,
+        "kind": "competition",
+        "title": "JSOM Venture Challenge",
+        "host": "Naveen Jindal School of Management",
+        "categories": ["pitch_competition"],
+        "description": "Teams of 2-4 pitch a startup idea to judges.",
+        "stages": [
+          {
+            "name": "Registration closes",
+            "starts_at": null,
+            "deadline_at": "2027-02-12T23:59:00-06:00"
+          },
+          { "name": "Finals", "starts_at": null, "deadline_at": "2027-03-05T17:00:00-06:00" }
+        ],
+        "eligibility": { "majors": [], "class_years": [], "team_min": 2, "team_max": 4 },
+        "prize": "$10,000",
+        "cost": "free",
+        "format": "in_person",
+        "location": "JSOM Atrium",
+        "register_url": "https://example.com/venture-challenge",
+        "confidence": 0.9,
+        "missing_fields": []
+      }
+    },
+    {
+      "match": "SAMPLE-DEPT-SCM",
+      "expected": {
+        "is_competition": true,
+        "kind": "competition",
+        "title": "SCM Case Competition",
+        "host": "Naveen Jindal School of Management",
+        "categories": ["case_competition"],
+        "description": "Supply chain majors solve a case.",
+        "stages": [
+          {
+            "name": "Registration closes",
+            "starts_at": null,
+            "deadline_at": "2027-01-29T23:59:00-06:00"
+          },
+          { "name": "Competition", "starts_at": null, "deadline_at": "2027-02-20T17:00:00-06:00" }
+        ],
+        "eligibility": {
+          "majors": ["Supply Chain Management"],
+          "class_years": [],
+          "team_min": null,
+          "team_max": null
+        },
+        "prize": "Cash prizes",
+        "cost": "unknown",
+        "format": "in_person",
+        "location": null,
+        "register_url": "https://example.com/scm-case",
+        "confidence": 0.88,
+        "missing_fields": []
+      }
+    },
+    {
+      "match": "SAMPLE-DEPT-NEWSLETTER",
+      "expected": {
+        "is_competition": true,
+        "kind": "competition",
+        "title": "Analytics Showdown",
+        "host": "Naveen Jindal School of Management",
+        "categories": ["data_science"],
+        "description": "Teams of 3 analyze a real data set.",
+        "stages": [
+          {
+            "name": "Registration closes",
+            "starts_at": null,
+            "deadline_at": "2027-02-05T23:59:00-06:00"
+          },
+          { "name": "Competition", "starts_at": null, "deadline_at": "2027-02-27T17:00:00-06:00" }
+        ],
+        "eligibility": { "majors": [], "class_years": [], "team_min": 3, "team_max": 3 },
+        "prize": "$3,000",
+        "cost": "free",
+        "format": "in_person",
+        "location": "ECSS 2.410",
+        "register_url": "https://example.com/analytics-showdown",
+        "confidence": 0.9,
+        "missing_fields": []
+      }
+    }
+  ]
+}

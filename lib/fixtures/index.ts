@@ -79,3 +79,22 @@ export function loadCampusEvents() {
     JSON.parse(readFileSync(path.join(root, "campus-events.json"), "utf8")),
   ).events;
 }
+
+const textCasesSchema = z.object({
+  cases: z.array(z.object({ match: z.string().min(3), expected: extractionSchema })),
+});
+
+export function loadTextCases() {
+  return textCasesSchema.parse(JSON.parse(readFileSync(path.join(root, "text-cases.json"), "utf8")))
+    .cases;
+}
+
+export function loadDeptPageHtml(): string {
+  return readFileSync(path.join(root, "dept-page.html"), "utf8");
+}
+
+export function loadDeptEmail() {
+  return z
+    .object({ from: z.string(), subject: z.string(), messageId: z.string(), text: z.string() })
+    .parse(JSON.parse(readFileSync(path.join(root, "dept-email.json"), "utf8")));
+}
