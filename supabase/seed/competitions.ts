@@ -43,14 +43,12 @@ for (const seed of buildSeedCompetitions(fixtures, new Date())) {
     .delete()
     .eq("competition_id", comp.id)
     .eq("external_id", `seed:${seed.slug}`);
-  const { error: srcErr } = await db
-    .from("competition_sources")
-    .insert({
-      competition_id: comp.id,
-      source: "host",
-      source_url: seed.competition.register_url,
-      external_id: `seed:${seed.slug}`,
-    });
+  const { error: srcErr } = await db.from("competition_sources").insert({
+    competition_id: comp.id,
+    source: "host",
+    source_url: seed.competition.register_url,
+    external_id: `seed:${seed.slug}`,
+  });
   if (srcErr) throw srcErr;
   n++;
 }
