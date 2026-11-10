@@ -3,7 +3,7 @@
 > Derived from `full_context.md`, `product_spec.md`, `engineering_spec.md`.
 > Single global numbering. Work top to bottom; every task is sequenced after its dependencies.
 > **Rule:** one task = one commit (`Task N: <title>`), pushed to `claude/lucid-edison-8c7ns1`.
-> **Progress:** tasks 1-88 complete (✅). Sections A-I done: foundation, database, design system, auth, mock layer, extraction/dedupe/publish pipeline, public discovery, save/schedule/calendar, and the warning/digest/change email jobs.
+> **Progress:** tasks 1-90 complete (✅). Sections A-I done: foundation, database, design system, auth, mock layer, extraction/dedupe/publish pipeline, public discovery, save/schedule/calendar, and the warning/digest/change email jobs.
 > **Priority tags:** P0 = launch-blocking core loop · P1 = important · P2 = depth/later.
 > **Never cut:** ingestion → listing → save → warning.
 > Each task lists **Objective**, **Files/Where**, and **Done when** (verifiable).
@@ -390,11 +390,11 @@ Note on the skill's hackathon framing: these specs describe a real launch produc
 
 ## M. Scouting Report (P0 thin slice)
 
-89. **`GET /api/feed`.**
+89. ✅ **`GET /api/feed`.**
     Objective: filter to viewer eligibility, sort by next deadline, boost chosen interest categories (stable sort), cursor pagination.
     Done when: ranking tests with differing interests.
 
-90. **Scouting Report page (`/`).**
+90. ✅ **Scouting Report page (`/`).**
     Objective: signed-in ranked feed with reasons chips ("Matches your major"), signed-out hero + public Field preview + Weekly signup; redirect to onboarding if profile empty.
     Done when: both states render.
 

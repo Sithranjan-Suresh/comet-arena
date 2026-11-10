@@ -8,7 +8,7 @@ export async function GET(request: Request) {
   if (!auth.ok) return auth.response;
   const { data: profile } = await auth.supabase
     .from("users")
-    .select("major,class_year,interests,courses")
+    .select("major,class_year,interests,courses,onboarded")
     .eq("id", auth.user.id)
     .maybeSingle();
   try {
@@ -17,7 +17,10 @@ export async function GET(request: Request) {
       profile ?? { major: null, class_year: null, interests: [], courses: [] },
       { cursor: new URL(request.url).searchParams.get("cursor") ?? undefined },
     );
-    return NextResponse.json(feed, { headers: { "cache-control": "private, no-store" } });
+    return NextResponse.json(
+      { ...feed, needs_onboarding: profile ? !profile.onboarded : false },
+      { headers: { "cache-control": "private, no-store" } },
+    );
   } catch {
     return NextResponse.json({ error: "unavailable" }, { status: 503 });
   }
