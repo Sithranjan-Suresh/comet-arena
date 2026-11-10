@@ -35,6 +35,9 @@ import * as icsToken from "../../app/api/me/ics-token/route";
 import * as myEntries from "../../app/api/me/entries/route";
 import * as schedule from "../../app/api/schedule/route";
 import * as feed from "../../app/api/feed/route";
+import * as confirmRoute from "../../app/api/confirm/[competition_id]/route";
+import * as flagsRoute from "../../app/api/flags/route";
+import * as adminFlag from "../../app/api/admin/flags/[id]/route";
 import * as submit from "../../app/api/submit/route";
 import * as confirm from "../../app/api/submit/[id]/confirm/route";
 import * as adminReview from "../../app/api/admin/review/route";
@@ -98,11 +101,20 @@ const userRoutes: [string, () => Promise<Response>][] = [
   ["GET /api/me/entries", () => myEntries.GET()],
   ["GET /api/schedule", () => schedule.GET()],
   ["GET /api/feed", () => feed.GET(req("GET", "/api/feed"))],
+  [
+    "POST /api/confirm/:id",
+    () => confirmRoute.POST(req("POST", "/x"), params({ competition_id: UUID })),
+  ],
+  [
+    "POST /api/flags",
+    () => flagsRoute.POST(post("/api/flags", { competition_id: UUID, field: "dates" })),
+  ],
   ["POST /api/submit", () => submit.POST(post("/api/submit", { url: "https://example.com/p" }))],
   ["POST /api/submit/:id/confirm", () => confirm.POST(post("/x", {}), params({ id: UUID }))],
 ];
 
 const adminRoutes: [string, () => Promise<Response>][] = [
+  ["POST /api/admin/flags/:id", () => adminFlag.POST(req("POST", "/x"), params({ id: UUID }))],
   ["GET /api/admin/review", () => adminReview.GET()],
   [
     "POST /api/admin/review/:id",
@@ -147,6 +159,15 @@ describe("validation: malformed input is a 4xx with a JSON error, never a 500", 
     [
       "DELETE /api/saves/:id bad uuid",
       () => savesOne.DELETE(req("DELETE", "/x"), params({ competition_id: "nope" })),
+    ],
+    [
+      "POST /api/flags bad field",
+      () => flagsRoute.POST(post("/x", { competition_id: UUID, field: "bogus" })),
+    ],
+    ["POST /api/flags not json", () => flagsRoute.POST(post("/x", "{oops"))],
+    [
+      "POST /api/confirm/:id bad id",
+      () => confirmRoute.POST(req("POST", "/x"), params({ competition_id: "nope" })),
     ],
     ["POST /api/entries empty", () => entries.POST(post("/x", {}))],
     [

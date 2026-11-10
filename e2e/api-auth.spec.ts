@@ -16,6 +16,13 @@ const PROTECTED: [
   ["POST", "/api/submit", { url: "https://example.com/post" }],
   ["GET", "/api/schedule"],
   ["GET", "/api/feed"],
+  ["POST", "/api/confirm/00000000-0000-4000-8000-0000000000c1"],
+  [
+    "POST",
+    "/api/flags",
+    { competition_id: "00000000-0000-4000-8000-0000000000c1", field: "dates" },
+  ],
+  ["POST", "/api/admin/flags/00000000-0000-4000-8000-0000000000c1"],
   ["GET", "/api/admin/review"],
   ["PATCH", "/api/admin/orgs/00000000-0000-4000-8000-0000000000c1", { ig_handle: "x" }],
   ["POST", "/api/admin/orgs/import", { csv: "a,b" }],

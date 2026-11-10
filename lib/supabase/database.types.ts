@@ -28,6 +28,24 @@ export type Database = {
         }
         Relationships: []
       }
+      competition_confirmations: {
+        Row: {
+          competition_id: string
+          user_id: string
+          created_at: string
+        }
+        Insert: {
+          competition_id: string
+          user_id: string
+          created_at?: string
+        }
+        Update: {
+          competition_id?: string
+          user_id?: string
+          created_at?: string
+        }
+        Relationships: []
+      }
       competition_sources: {
         Row: {
           id: string
@@ -701,6 +719,7 @@ export type Database = {
     Functions: {
       apply_stage_update: { Args: Record<string, unknown>; Returns: unknown }
       competition_next_deadline: { Args: Record<string, unknown>; Returns: unknown }
+      confirm_competition: { Args: Record<string, unknown>; Returns: unknown }
       expire_past: { Args: Record<string, unknown>; Returns: unknown }
       is_admin: { Args: Record<string, unknown>; Returns: unknown }
       match_competition_by_title: { Args: Record<string, unknown>; Returns: unknown }

@@ -28,14 +28,16 @@ begin
   end loop;
   if bad <> '' then raise exception 'authenticated has privileges on service-only tables: %', bad; end if;
 
-  -- 4. Privileged (security definer) functions are not callable by visitors or students, except the allowlist.
+  -- 4. Privileged (security definer) functions: visitors can call none (except is_admin, which only reads the
+  --    caller's own flag), and students only the reviewed allowlist, each of which checks auth.uid() itself.
   bad := '';
   for r in select p.proname, p.oid from pg_proc p join pg_namespace n on n.oid = p.pronamespace
            where n.nspname = 'public' and p.prosecdef
              and p.prorettype <> 'pg_catalog.trigger'::regtype  -- trigger functions cannot be called as RPC
-             and p.proname not in ('is_admin') loop
-    if has_function_privilege('anon', r.oid, 'execute') or has_function_privilege('authenticated', r.oid, 'execute') then
-      bad := bad || r.proname || ' ';
+             and p.proname <> 'is_admin' loop
+    if has_function_privilege('anon', r.oid, 'execute') then bad := bad || r.proname || '(anon) '; end if;
+    if has_function_privilege('authenticated', r.oid, 'execute') and r.proname not in ('confirm_competition') then
+      bad := bad || r.proname || '(authenticated) ';
     end if;
   end loop;
   if bad <> '' then raise exception 'security definer functions callable by clients: %', bad; end if;

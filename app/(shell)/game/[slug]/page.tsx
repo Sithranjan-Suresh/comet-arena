@@ -4,6 +4,7 @@ import { AddEntryDialog } from "@/components/entries/AddEntryDialog";
 import { EligibilityCheck } from "@/components/game-day/EligibilityCheck";
 import { FreeAgencyBoard } from "@/components/free-agency/FreeAgencyBoard";
 import { GameHeader, InfoGrid, RegisterButton, SourceList } from "@/components/game-day/parts";
+import { ListingTrust } from "@/components/game-day/ListingTrust";
 import { SaveButton } from "@/components/SaveButton";
 import { StageTimeline } from "@/components/StageTimeline";
 import { getGameDayBySlug } from "@/lib/data/field";
@@ -95,7 +96,12 @@ export default async function GameDayPage({ params }: Props) {
       />
 
       <SourceList dto={dto} />
-      {/* "Report a problem" flag button slot: filled by Task 115. */}
+      <ListingTrust
+        competitionId={dto.id}
+        title={dto.title}
+        unverified={dto.status === "unverified"}
+        confirmations={dto.confirmations}
+      />
     </article>
   );
 }
