@@ -1,0 +1,42 @@
+{
+  "mode": "mock",
+  "cases": 20,
+  "image": {
+    "cases": 20,
+    "is_competition": {
+      "precision": 1,
+      "recall": 1,
+      "f1": 1
+    },
+    "title": 1,
+    "first_deadline": 1,
+    "register_url": 1,
+    "category_f1": 1,
+    "errors": 0,
+    "gate": {
+      "first_deadline": 1,
+      "title": 1,
+      "is_competition_recall": 1,
+      "is_competition_precision": 1
+    }
+  },
+  "caption": {
+    "cases": 20,
+    "is_competition": {
+      "precision": 1,
+      "recall": 1,
+      "f1": 1
+    },
+    "title": 1,
+    "first_deadline": 1,
+    "register_url": 1,
+    "category_f1": 1,
+    "errors": 0,
+    "gate": {
+      "first_deadline": 1,
+      "title": 1,
+      "is_competition_recall": 1,
+      "is_competition_precision": 1
+    }
+  }
+}
