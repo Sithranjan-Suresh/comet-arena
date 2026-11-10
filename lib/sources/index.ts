@@ -1,3 +1,4 @@
+import { createInstagramBusinessDiscovery } from "./live/instagram";
 import { createUtdClubs } from "./live/utdclubs";
 import { createOpenAICompatibleEmbedder } from "./live/embeddings";
 import { createResendMailer } from "./live/resend";
@@ -33,7 +34,10 @@ export const defaultFactories: SourceFactories = {
     };
   },
   live: () => ({
-    instagram: notImplemented("instagram(live)", "Task 93"),
+    instagram: createInstagramBusinessDiscovery({
+      userId: process.env.META_IG_USER_ID ?? "",
+      accessToken: process.env.META_LONG_LIVED_TOKEN ?? "",
+    }),
     devpost: notImplemented("devpost(live)", "Task 97"),
     mlh: notImplemented("mlh(live)", "Task 97"),
     utdclubs: createUtdClubs({

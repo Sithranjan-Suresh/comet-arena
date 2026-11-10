@@ -3,7 +3,7 @@
 > Derived from `full_context.md`, `product_spec.md`, `engineering_spec.md`.
 > Single global numbering. Work top to bottom; every task is sequenced after its dependencies.
 > **Rule:** one task = one commit (`Task N: <title>`), pushed to `claude/lucid-edison-8c7ns1`.
-> **Progress:** tasks 1-92 complete (✅). Sections A-I done: foundation, database, design system, auth, mock layer, extraction/dedupe/publish pipeline, public discovery, save/schedule/calendar, and the warning/digest/change email jobs.
+> **Progress:** tasks 1-93 complete (✅). Sections A-I done: foundation, database, design system, auth, mock layer, extraction/dedupe/publish pipeline, public discovery, save/schedule/calendar, and the warning/digest/change email jobs.
 > **Priority tags:** P0 = launch-blocking core loop · P1 = important · P2 = depth/later.
 > **Never cut:** ingestion → listing → save → warning.
 > Each task lists **Objective**, **Files/Where**, and **Done when** (verifiable).
@@ -408,7 +408,7 @@ Note on the skill's hackathon framing: these specs describe a real launch produc
     Objective: UTD Clubs `club.all` + `club.getDirectoryInfo` (6 concurrent, 200 ms delay), upsert orgs, preserve manual handles, cache snapshot to `nebula_cache`, keep last cache on empty/schema change and alert.
     Done when: mock run + schema-change test.
 
-93. **Instagram adapter — Business Discovery.**
+93. ✅ **Instagram adapter — Business Discovery.**
     Objective: `lib/sources/instagram.ts` live impl: query `media{caption,media_url,permalink,timestamp,media_type,children{media_url}}` last 10 posts, 20 s timeout, usage-header parsing, exponential backoff, stop at 80% quota; no-account result → `personal_or_missing`.
     Done when: contract tests against recorded fixtures.
 

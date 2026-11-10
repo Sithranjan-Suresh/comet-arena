@@ -1,0 +1,38 @@
+{
+  "business_discovery": {
+    "media": {
+      "data": [
+        {
+          "id": "17900000000000001",
+          "caption": "Hack Night! Register by Nov 20.",
+          "media_url": "https://scontent.cdninstagram.com/a.jpg",
+          "permalink": "https://www.instagram.com/p/AAA/",
+          "timestamp": "2026-11-05T18:30:00+0000",
+          "media_type": "IMAGE"
+        },
+        {
+          "id": "17900000000000002",
+          "caption": "Case comp info",
+          "media_url": "https://scontent.cdninstagram.com/b.jpg",
+          "permalink": "https://www.instagram.com/p/BBB/",
+          "timestamp": "2026-11-04T12:00:00+0000",
+          "media_type": "CAROUSEL_ALBUM",
+          "children": {
+            "data": [
+              { "media_url": "https://scontent.cdninstagram.com/b1.jpg" },
+              { "media_url": "https://scontent.cdninstagram.com/b2.jpg" }
+            ]
+          }
+        },
+        {
+          "id": "17900000000000003",
+          "permalink": "https://www.instagram.com/p/CCC/",
+          "timestamp": "2026-11-03T12:00:00+0000",
+          "media_type": "VIDEO",
+          "thumbnail_url": "https://scontent.cdninstagram.com/c.jpg"
+        },
+        { "caption": "malformed: no id" }
+      ]
+    }
+  }
+}
