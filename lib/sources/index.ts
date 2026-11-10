@@ -1,8 +1,10 @@
 import { createOpenAICompatibleEmbedder } from "./live/embeddings";
+import { createResendMailer } from "./live/resend";
 import { createGroqVision } from "./live/groq";
 import { Chaos } from "./mock/chaos";
 import { mockClubs, mockFeed, mockInstagram, mockVision } from "./mock/adapters";
 import { mockEmbedder } from "./mock/embedder";
+import { createMockMailer } from "./mock/mailer";
 import { notImplemented } from "./stubs";
 import type { Sources } from "./types";
 
@@ -26,7 +28,7 @@ export const defaultFactories: SourceFactories = {
       utdclubs: mockClubs(chaos),
       vision: mockVision(chaos),
       embedder: mockEmbedder(),
-      mailer: notImplemented("mailer(mock)", "Task 66"),
+      mailer: createMockMailer(),
     };
   },
   live: () => ({
@@ -44,7 +46,10 @@ export const defaultFactories: SourceFactories = {
       baseUrl: process.env.EMBEDDINGS_BASE_URL || undefined,
       model: process.env.EMBEDDINGS_MODEL || undefined,
     }),
-    mailer: notImplemented("mailer(live)", "Task 66"),
+    mailer: createResendMailer({
+      apiKey: process.env.RESEND_API_KEY ?? "",
+      from: process.env.EMAIL_FROM || "Comet Arena <alerts@example.com>",
+    }),
   }),
 };
 
