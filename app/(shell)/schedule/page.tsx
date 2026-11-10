@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { CalendarSubscribe } from "@/components/schedule/CalendarSubscribe";
 import { PastStages, WeekGroup } from "@/components/schedule/parts";
 import { EmptyState, buttonClasses } from "@/components/ui";
 import { requireUser } from "@/lib/auth/session";
@@ -13,7 +14,11 @@ export const metadata = { title: "Schedule" };
 export default async function SchedulePage() {
   const user = await requireUser("/schedule");
   const supabase = await createSupabaseServerClient();
-  const schedule = await getSchedule(supabase, user.id);
+  const [schedule, { data: profile }] = await Promise.all([
+    getSchedule(supabase, user.id),
+    supabase.from("users").select("ics_token").eq("id", user.id).maybeSingle(),
+  ]);
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
 
   return (
     <div className="space-y-8">
@@ -23,7 +28,7 @@ export default async function SchedulePage() {
           Every stage of every competition you saved, in order. Times are Central Time.
         </p>
       </div>
-      {/* Calendar subscribe button: filled by Task 65. */}
+      {profile?.ics_token && <CalendarSubscribe appUrl={appUrl} token={profile.ics_token} />}
 
       {schedule.weeks.length === 0 && schedule.past.length === 0 ? (
         <EmptyState
